@@ -71,3 +71,13 @@ singleBinary:
     enabled: true
     storageClass: local-path
     size: 10Gi
+
+# Disable scalable components for SingleBinary mode
+read:
+  replicas: 0
+
+write:
+  replicas: 0
+
+backend:
+  replicas: 0
