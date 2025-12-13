@@ -40,6 +40,8 @@ repoServer:
 
 server:
   replicas: 1
+  extraArgs:
+    - --insecure
   metrics:
     enabled: true
     serviceMonitor:
