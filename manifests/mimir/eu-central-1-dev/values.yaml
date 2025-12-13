@@ -1,6 +1,11 @@
+# Disable new Kafka-based ingest storage (use classic architecture)
 mimir:
   structuredConfig:
     multitenancy_enabled: false
+    ingest_storage:
+      enabled: false
+    ingester:
+      push_grpc_method_enabled: true
     blocks_storage:
       backend: filesystem
     ruler_storage:
@@ -8,16 +13,14 @@ mimir:
     alertmanager_storage:
       backend: filesystem
 
-distributor:
-  replicas: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      memory: 256Mi
+# Disable bundled Kafka
+kafka:
+  enabled: false
 
+# Disable zone-aware replication
 ingester:
+  zoneAwareReplication:
+    enabled: false
   replicas: 1
   resources:
     requests:
@@ -29,6 +32,15 @@ ingester:
     enabled: true
     size: 10Gi
     storageClass: standard
+
+distributor:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
 
 querier:
   replicas: 1
@@ -52,9 +64,19 @@ ruler:
   enabled: true
 
 alertmanager:
-  enabled: false
+  enabled: true
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
 
 minio:
+  enabled: false
+
+rollout_operator:
   enabled: false
 
 nginx:
