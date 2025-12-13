@@ -1,3 +1,7 @@
+configs:
+  secret:
+    argocdServerAdminPassword: "$2a$10$rRyBsGSHK6.uc8fntPwVIuLVHgsAhAX7TcdrqW/RADU0uh7CaChLa"
+
 redis-ha:
   enabled: false
 

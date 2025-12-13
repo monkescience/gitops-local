@@ -19,6 +19,9 @@ spec:
                 limits:
                   memory: 256Mi
   config:
+    security:
+      admin_user: admin
+      admin_password: admin
     auth:
       disable_login_form: 'false'
     auth.anonymous:
