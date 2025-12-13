@@ -12,6 +12,8 @@ mimir:
       backend: filesystem
     ruler_storage:
       backend: filesystem
+      filesystem:
+        dir: /data/rules
     alertmanager_storage:
       backend: filesystem
     limits:
@@ -72,10 +74,6 @@ store_gateway:
 
 ruler:
   enabled: true
-  persistentVolume:
-    enabled: true
-    size: 1Gi
-    storageClass: standard
 
 alertmanager:
   enabled: true
