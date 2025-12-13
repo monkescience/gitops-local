@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 ARGOCD_APP_FILE="$PROJECT_ROOT/apps/eu-central-1-dev/platform/argocd.yaml"
-ARGOCD_CHART_VERSION=$(yq '.spec.sources[0].targetRevision' "$ARGOCD_APP_FILE")
+ARGOCD_CHART_VERSION=$(yq 'select(document_index == 0) | .spec.sources[0].targetRevision' "$ARGOCD_APP_FILE")
 ARGOCD_REPO="https://argoproj.github.io/argo-helm"
 ARGOCD_VALUES="$PROJECT_ROOT/manifests/argocd/eu-central-1-dev/values.yaml"
 
