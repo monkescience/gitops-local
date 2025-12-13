@@ -6,7 +6,7 @@ gateway:
   enabled: false
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
 
 ports:
   web:
