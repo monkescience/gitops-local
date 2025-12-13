@@ -16,6 +16,8 @@ destinations:
 
 clusterMetrics:
   enabled: true
+  controlPlane:
+    enabled: true
 
 clusterEvents:
   enabled: true

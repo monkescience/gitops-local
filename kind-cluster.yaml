@@ -1,0 +1,23 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: gitops-local
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 9080
+        hostPort: 80
+        protocol: TCP
+      - containerPort: 9443
+        hostPort: 443
+        protocol: TCP
+    extraMounts:
+      - hostPath: /Users/monke/Projects/gitops-k3d
+        containerPath: /gitops
+  - role: worker
+    extraMounts:
+      - hostPath: /Users/monke/Projects/gitops-k3d
+        containerPath: /gitops
+  - role: worker
+    extraMounts:
+      - hostPath: /Users/monke/Projects/gitops-k3d
+        containerPath: /gitops
