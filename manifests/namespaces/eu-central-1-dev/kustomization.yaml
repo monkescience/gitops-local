@@ -14,5 +14,6 @@ resources:
   - mimir.yaml
   - monitoring.yaml
   - phasor.yaml
+  - sealed-secrets.yaml
   - tempo.yaml
   - traefik.yaml
