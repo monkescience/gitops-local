@@ -25,6 +25,8 @@ redis-ha:
 
 controller:
   replicas: 1
+  extraArgs:
+    - --app-resync=30
   metrics:
     enabled: true
     serviceMonitor:
