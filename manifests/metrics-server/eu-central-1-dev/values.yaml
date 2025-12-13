@@ -1,11 +1,6 @@
-# Metrics Server Helm values for k3d local development
-# https://github.com/kubernetes-sigs/metrics-server
-
-# Required for k3d - kubelet uses self-signed certs
 args:
   - --kubelet-insecure-tls
 
-# Resource limits for local dev
 resources:
   requests:
     cpu: 50m
@@ -13,10 +8,8 @@ resources:
   limits:
     memory: 128Mi
 
-# Metrics for Prometheus
 metrics:
   enabled: true
 
-# ServiceMonitor for Prometheus Operator
 serviceMonitor:
   enabled: true

@@ -1,7 +1,3 @@
-# Mimir Distributed Configuration
-# Small-scale deployment with minimal resources for initial setup
-
-# Disable ingress globally
 ingress:
   enabled: false
 
@@ -18,7 +14,6 @@ mimir:
     alertmanager_storage:
       backend: filesystem
 
-# Use minimal replicas for small deployment
 ingester:
   replicas: 2
   resources:
@@ -91,7 +86,6 @@ ruler:
 alertmanager:
   enabled: false
 
-# Disable features not needed initially
 minio:
   enabled: false
 

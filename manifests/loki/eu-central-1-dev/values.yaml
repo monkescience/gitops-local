@@ -2,8 +2,6 @@ deploymentMode: SimpleScalable
 
 serviceAccount:
   create: true
-  # annotations: # Removed AWS IAM role for local development
-  #   eks.amazonaws.com/role-arn: "arn:aws:iam::387105013966:role/monke-eu-central-1-dev-loki"
 
 loki:
   auth_enabled: false
@@ -15,14 +13,14 @@ loki:
     runAsUser: 10001
     seccompProfile:
       type: RuntimeDefault
-  
+
   containerSecurityContext:
     readOnlyRootFilesystem: true
     capabilities:
       drop:
         - ALL
     allowPrivilegeEscalation: false
-  
+
   storage:
     type: filesystem
     filesystem:
@@ -82,7 +80,6 @@ memcached:
         - ALL
     allowPrivilegeEscalation: false
 
-# Add persistent volumes for local storage
 write:
   persistence:
     enabled: true
