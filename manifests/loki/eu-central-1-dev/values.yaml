@@ -5,7 +5,7 @@ serviceAccount:
 
 loki:
   auth_enabled: false
-  ingester:
+  commonConfig:
     replication_factor: 1
 
   podSecurityContext:
