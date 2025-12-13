@@ -10,6 +10,10 @@ destinations:
     type: loki
     url: http://loki-gateway.loki.svc.cluster.local:80/loki/api/v1/push
 
+  - name: tempo
+    type: otlp
+    url: http://tempo.tempo.svc.cluster.local:4317
+
 clusterMetrics:
   enabled: true
 
@@ -41,6 +45,15 @@ alloy-logs:
 
 alloy-receiver:
   enabled: true
+
+applicationObservability:
+  enabled: true
+  receivers:
+    otlp:
+      grpc:
+        enabled: true
+      http:
+        enabled: true
 
 alloy-singleton:
   enabled: true
