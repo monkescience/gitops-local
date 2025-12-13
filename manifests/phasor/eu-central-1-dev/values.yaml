@@ -1,0 +1,14 @@
+backend:
+  replicaCount: 2
+
+frontend:
+  replicaCount: 1
+
+dapr:
+  enabled: true
+  config: "daprconfig"
+  logLevel: "info"
+  backend:
+    appId: "phasor-backend"
+  frontend:
+    appId: "phasor-frontend"

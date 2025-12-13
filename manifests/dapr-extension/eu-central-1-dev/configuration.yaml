@@ -1,0 +1,22 @@
+apiVersion: dapr.io/v1alpha1
+kind: Configuration
+metadata:
+  name: daprconfig
+  namespace: dapr-system
+spec:
+  mtls:
+    enabled: true
+    workloadCertTTL: "24h"
+    allowedClockSkew: "15m"
+
+  metrics:
+    enabled: true
+
+  accessControl:
+    defaultAction: allow
+    trustDomain: "cluster.local"
+
+  logging:
+    apiLogging:
+      enabled: true
+      obfuscateURLs: false
