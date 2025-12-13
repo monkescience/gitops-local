@@ -6,3 +6,6 @@
 
 # Generated files
 kind-cluster.yaml
+
+# Sealed Secrets master key backup
+.sealed-secrets-key.yaml
