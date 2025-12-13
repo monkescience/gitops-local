@@ -52,7 +52,13 @@ querier:
       memory: 256Mi
 
 query_frontend:
-  replicas: 0
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
 
 compactor:
   replicas: 0
