@@ -1,0 +1,24 @@
+mixins:
+  kubernetes:
+    enabled: true
+  nodeExporter:
+    enabled: true
+  resourceOptimization:
+    enabled: true
+  argocd:
+    enabled: true
+  windows:
+    enabled: false
+
+grafana:
+  enabled: true
+  namespace: grafana
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana
+
+prometheus:
+  enabled: true
+  namespace: monitoring
+  labels:
+    release: prometheus

@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-mixin
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "55"
+spec:
+  project: default
+  sources:
+    - repoURL: ghcr.io/monkescience/helm-charts
+      chart: gitops-mixin
+      targetRevision: 0.2.0-rc.1
+      helm:
+        valueFiles:
+          - $values/manifests/gitops-mixin/eu-central-1-dev/values.yaml
+    - repoURL: file:///gitops
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
