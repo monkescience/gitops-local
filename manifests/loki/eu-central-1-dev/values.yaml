@@ -69,7 +69,7 @@ singleBinary:
   replicas: 1
   persistence:
     enabled: true
-    storageClass: local-path
+    storageClass: standard
     size: 10Gi
 
 # Disable scalable components for SingleBinary mode
