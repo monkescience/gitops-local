@@ -2,10 +2,10 @@
 set -euo pipefail
 
 echo "========================================="
-echo "K3d GitOps Stack - Teardown"
+echo "Kind GitOps Stack - Teardown"
 echo "========================================="
 echo ""
-echo "This will delete the k3d cluster 'gitops-local'"
+echo "This will delete the kind cluster 'gitops-local'"
 echo "and all resources within it."
 echo ""
 
@@ -17,10 +17,10 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 echo ""
-echo "Deleting k3d cluster 'gitops-local'..."
+echo "Deleting kind cluster 'gitops-local'..."
 
-if k3d cluster list | grep -q gitops-local; then
-    k3d cluster delete gitops-local
+if kind get clusters 2>/dev/null | grep -q "^gitops-local$"; then
+    kind delete cluster --name gitops-local
     echo ""
     echo "✓ Cluster deleted successfully"
 else

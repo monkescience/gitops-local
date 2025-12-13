@@ -4,20 +4,20 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "========================================="
-echo "K3d GitOps Stack - Complete Setup"
+echo "Local GitOps Stack - Complete Setup"
 echo "========================================="
 echo ""
 
 # Check prerequisites
 echo "Checking prerequisites..."
-command -v k3d >/dev/null 2>&1 || { echo "Error: k3d not found. Install: brew install k3d"; exit 1; }
+command -v kind >/dev/null 2>&1 || { echo "Error: kind not found. Install: brew install kind"; exit 1; }
 command -v kubectl >/dev/null 2>&1 || { echo "Error: kubectl not found. Install: brew install kubectl"; exit 1; }
 command -v helm >/dev/null 2>&1 || { echo "Error: helm not found. Install: brew install helm"; exit 1; }
 
-K3D_VERSION=$(k3d version | head -1 | awk '{print $3}')
+KIND_VERSION=$(kind version | head -1 | awk '{print $3}')
 KUBECTL_VERSION=$(kubectl version --client -o yaml | grep gitVersion | awk '{print $2}')
 HELM_VERSION=$(helm version --short | cut -d'+' -f1)
-echo "✓ k3d $K3D_VERSION"
+echo "✓ kind $KIND_VERSION"
 echo "✓ kubectl $KUBECTL_VERSION"
 echo "✓ helm $HELM_VERSION"
 echo ""
@@ -45,7 +45,7 @@ echo ""
 
 # Step 1: Create cluster
 echo "========================================="
-echo "Step 1/3: Creating k3d cluster"
+echo "Step 1/3: Creating local cluster"
 echo "========================================="
 "$SCRIPT_DIR/create-cluster.sh"
 echo ""

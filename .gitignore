@@ -1,9 +1,5 @@
 # IntelliJ IDEA
 .idea
 
-# K3d local development
-scripts/*.log
-.kube/
-
 # macOS
 .DS_Store

@@ -18,7 +18,7 @@ ports:
 
 # Mount local repository into cluster for ArgoCD access
 volumes:
-  - volume: /Users/monke/Projects/gitops-k3d:/gitops
+  - volume: /Users/monke/Projects/gitops-local:/gitops
     nodeFilters:
       - all
 
