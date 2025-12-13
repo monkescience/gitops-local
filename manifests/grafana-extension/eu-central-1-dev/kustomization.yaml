@@ -7,6 +7,3 @@ resources:
   - datasource-loki.yaml
   - datasource-mimir.yaml
   - datasource-tempo.yaml
-  - custom-mixin
-  - kubernetes-mixin
-  - node-exporter-mixin

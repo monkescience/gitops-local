@@ -3,5 +3,4 @@ kind: Kustomization
 
 resources:
   - httproute.yaml
-  - argo-cd-mixin # https://github.com/adinhodovic/argo-cd-mixin
   - secret.yaml
