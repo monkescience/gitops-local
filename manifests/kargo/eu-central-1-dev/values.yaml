@@ -8,7 +8,7 @@ global:
 controller:
   globalCredentials:
     namespaces:
-      - kargo-global-creds
+      - kargo
   resources:
     requests:
       cpu: 50m
