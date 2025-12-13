@@ -21,6 +21,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
+      - ServerSideApply=true
       - ApplyOutOfSyncOnly=true
   ignoreDifferences:
     - group: admissionregistration.k8s.io
@@ -57,6 +58,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
+      - ServerSideApply=true
       - ApplyOutOfSyncOnly=true
   ignoreDifferences:
     - group: admissionregistration.k8s.io
@@ -93,6 +95,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
+      - ServerSideApply=true
       - ApplyOutOfSyncOnly=true
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -124,4 +127,5 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
+      - ServerSideApply=true
       - ApplyOutOfSyncOnly=true
