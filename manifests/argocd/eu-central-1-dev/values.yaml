@@ -51,6 +51,15 @@ repoServer:
       memory: 256Mi
     limits:
       memory: 256Mi
+  volumes:
+    - name: gitops
+      hostPath:
+        path: /gitops
+        type: Directory
+  volumeMounts:
+    - name: gitops
+      mountPath: /gitops
+      readOnly: true
 
 server:
   replicas: 1
