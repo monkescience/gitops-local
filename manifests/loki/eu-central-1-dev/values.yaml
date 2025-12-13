@@ -1,4 +1,4 @@
-deploymentMode: SimpleScalable
+deploymentMode: SingleBinary
 
 serviceAccount:
   create: true
@@ -65,34 +65,8 @@ gateway:
         - ALL
     allowPrivilegeEscalation: false
 
-memcached:
-  podSecurityContext:
-    runAsNonRoot: true
-    runAsUser: 11211
-    runAsGroup: 11211
-    fsGroup: 11211
-    seccompProfile:
-      type: RuntimeDefault
-  containerSecurityContext:
-    readOnlyRootFilesystem: true
-    capabilities:
-      drop:
-        - ALL
-    allowPrivilegeEscalation: false
-
-write:
-  persistence:
-    enabled: true
-    storageClass: local-path
-    size: 10Gi
-
-read:
-  persistence:
-    enabled: true
-    storageClass: local-path
-    size: 10Gi
-
-backend:
+singleBinary:
+  replicas: 1
   persistence:
     enabled: true
     storageClass: local-path
