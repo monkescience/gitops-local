@@ -10,10 +10,12 @@ mimir:
         replication_factor: 1
     blocks_storage:
       backend: filesystem
+    ruler:
+      rule_path: /tmp/rules
     ruler_storage:
       backend: filesystem
       filesystem:
-        dir: /data/rules
+        dir: /data/ruler-storage
     alertmanager_storage:
       backend: filesystem
     limits:
