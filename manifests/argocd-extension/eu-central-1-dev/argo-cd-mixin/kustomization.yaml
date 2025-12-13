@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - argo-cd-dashboards.yaml
+  - argocd-prometheus-rules.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: argo-cd-application-overview
+    files:
+      - argo-cd-application-overview.json
+  - name: argo-cd-notifications-overview
+    files:
+      - argo-cd-notifications-overview.json
+  - name: argo-cd-operational-overview
+    files:
+      - argo-cd-operational-overview.json

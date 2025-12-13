@@ -1,0 +1,237 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: apiserver
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: apiserver
+    key: apiserver.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: cluster-total
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: cluster-total
+    key: cluster-total.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: controller-manager
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: controller-manager
+    key: controller-manager.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-cluster
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: k8s-resources-cluster
+    key: k8s-resources-cluster.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-namespace
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: k8s-resources-namespace
+    key: k8s-resources-namespace.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-node
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: k8s-resources-node
+    key: k8s-resources-node.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-pod
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: k8s-resources-pod
+    key: k8s-resources-pod.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-workload
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: k8s-resources-workload
+    key: k8s-resources-workload.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: k8s-resources-workloads-namespace
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: k8s-resources-workloads-namespace
+    key: k8s-resources-workloads-namespace.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: kubelet
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: kubelet
+    key: kubelet.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: namespace-by-pod
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: namespace-by-pod
+    key: namespace-by-pod.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: namespace-by-workload
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: namespace-by-workload
+    key: namespace-by-workload.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: persistentvolumesusage
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: persistentvolumesusage
+    key: persistentvolumesusage.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: pod-total
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: pod-total
+    key: pod-total.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: proxy
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: proxy
+    key: proxy.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: scheduler
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: scheduler
+    key: scheduler.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: workload-total
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/name: grafana
+  allowCrossNamespaceImport: true
+  folder: Kubernetes
+  configMapRef:
+    name: workload-total
+    key: workload-total.json

@@ -1,0 +1,14 @@
+serviceMonitor:
+  enabled: true
+namespaceScope: false
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    memory: 32Mi
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  seccompProfile:
+    type: RuntimeDefault

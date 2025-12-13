@@ -1,0 +1,102 @@
+deploymentMode: SimpleScalable
+
+serviceAccount:
+  create: true
+  # annotations: # Removed AWS IAM role for local development
+  #   eks.amazonaws.com/role-arn: "arn:aws:iam::387105013966:role/monke-eu-central-1-dev-loki"
+
+loki:
+  auth_enabled: false
+
+  podSecurityContext:
+    fsGroup: 10001
+    runAsGroup: 10001
+    runAsNonRoot: true
+    runAsUser: 10001
+    seccompProfile:
+      type: RuntimeDefault
+  
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    allowPrivilegeEscalation: false
+  
+  storage:
+    type: filesystem
+    filesystem:
+      chunks_directory: /var/loki/chunks
+      rules_directory: /var/loki/rules
+
+  schemaConfig:
+    configs:
+      - from: 1970-01-01
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: index_
+          period: 24h
+
+  storageConfig:
+    tsdb_shipper:
+      active_index_directory: /var/loki/tsdb-index
+      cache_location: /var/loki/tsdb-cache
+    filesystem:
+      directory: /var/loki/chunks
+
+  query_scheduler:
+    max_outstanding_requests_per_tenant: 32768
+
+  querier:
+    max_concurrent: 16
+
+gateway:
+  podSecurityContext:
+    fsGroup: 101
+    runAsGroup: 101
+    runAsNonRoot: true
+    runAsUser: 101
+    seccompProfile:
+      type: RuntimeDefault
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    allowPrivilegeEscalation: false
+
+memcached:
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 11211
+    runAsGroup: 11211
+    fsGroup: 11211
+    seccompProfile:
+      type: RuntimeDefault
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    allowPrivilegeEscalation: false
+
+# Add persistent volumes for local storage
+write:
+  persistence:
+    enabled: true
+    storageClass: local-path
+    size: 10Gi
+
+read:
+  persistence:
+    enabled: true
+    storageClass: local-path
+    size: 10Gi
+
+backend:
+  persistence:
+    enabled: true
+    storageClass: local-path
+    size: 10Gi

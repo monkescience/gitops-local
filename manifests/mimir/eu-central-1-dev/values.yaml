@@ -1,0 +1,108 @@
+# Mimir Distributed Configuration
+# Small-scale deployment with minimal resources for initial setup
+
+# Disable ingress globally
+ingress:
+  enabled: false
+
+mimir:
+  structuredConfig:
+    multitenancy_enabled: false
+
+    blocks_storage:
+      backend: filesystem
+
+    ruler_storage:
+      backend: filesystem
+
+    alertmanager_storage:
+      backend: filesystem
+
+# Use minimal replicas for small deployment
+ingester:
+  replicas: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 512Mi
+  persistentVolume:
+    enabled: true
+    size: 10Gi
+    storageClass: local-path
+
+querier:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
+query_frontend:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+distributor:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
+compactor:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+  persistentVolume:
+    enabled: true
+    size: 10Gi
+    storageClass: local-path
+
+store_gateway:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+  persistentVolume:
+    enabled: true
+    size: 10Gi
+    storageClass: local-path
+
+ruler:
+  enabled: true
+
+alertmanager:
+  enabled: false
+
+# Disable features not needed initially
+minio:
+  enabled: false
+
+nginx:
+  enabled: true
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
+  ingress:
+    enabled: false

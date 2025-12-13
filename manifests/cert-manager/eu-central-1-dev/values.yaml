@@ -1,0 +1,8 @@
+crds:
+  enabled: true
+prometheus:
+  enabled: true
+serviceAccount:
+  create: true
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::387105013966:role/monke-eu-central-1-dev-cert-manager

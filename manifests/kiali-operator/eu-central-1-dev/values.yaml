@@ -1,0 +1,23 @@
+cr:
+  create: true
+  namespace: istio-system
+  spec:
+    auth:
+      strategy: anonymous
+    external_services:
+      prometheus:
+        url: http://prometheus-operated.prometheus.svc:9090
+      grafana:
+        internal_url: http://grafana-service.grafana.svc:3000
+      tracing:
+        internal_url: https://jaeger-query.jaeger.svc:16685/jaeger
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  seccompProfile:
+    type: RuntimeDefault
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL

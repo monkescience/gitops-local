@@ -1,0 +1,61 @@
+global:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    seccompProfile:
+      type: RuntimeDefault
+
+controller:
+  globalCredentials:
+    namespaces:
+      - kargo-global-creds
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+api:
+  adminAccount:
+    passwordHash: $2a$12$J3u7V0B2zYhsDsaxtaBXEOChOEbMcTJwhljitJOsQ3JTwRaaH4r.u # admin
+    tokenSigningKey: 98daba3e93922ec98232bbdd1836e3d51f994b62ba4e485a7c70b81094263cc1
+    tokenTTL: 24h
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+garbageCollector:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+externalWebhooksServer:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+managementController:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+webhooksServer:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi

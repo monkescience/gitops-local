@@ -1,0 +1,97 @@
+#global:
+#  image:
+#    repository: 387105013966.dkr.ecr.eu-central-1.amazonaws.com/quay/argoproj/argocd
+
+redis-ha:
+  enabled: false
+#  image:
+#    repository: 387105013966.dkr.ecr.eu-central-1.amazonaws.com/ecr-public/docker/library/redis
+#  redis:
+#    resources:
+#      requests:
+#        cpu: 100m
+#        memory: 64Mi
+#      limits:
+#        memory: 64Mi
+#  haproxy:
+#    image:
+#      repository: 387105013966.dkr.ecr.eu-central-1.amazonaws.com/ecr-public/docker/library/haproxy
+#    resources:
+#      requests:
+#        cpu: 50m
+#        memory: 128Mi
+#      limits:
+#        memory: 128Mi
+
+controller:
+  replicas: 1
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 400m
+      memory: 1024Mi
+    limits:
+      memory: 1024Mi
+
+repoServer:
+  replicas: 1
+#  autoscaling:
+#    enabled: true
+#    minReplicas: 1
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
+server:
+  replicas: 1
+#  autoscaling:
+#    enabled: true
+#    minReplicas: 1
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+dex:
+  enabled: false
+
+applicationSet:
+  replicas: 1
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
+
+notifications:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 64Mi

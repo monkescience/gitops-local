@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - grafana.yaml
+  - datasource-loki.yaml
+#  - datasource-mimir.yaml
+  - datasource-prometheus.yaml
+  - nodeport.yaml
+  - custom-mixin
+  - kubernetes-mixin # https://github.com/kubernetes-monitoring/kubernetes-mixin/releases/tag/version-1.4.0
+  # local kubernetes = import 'mixin.libsonnet';
+  #
+  # kubernetes {
+  #   _config+:: {
+  #     // Override job selectors to match k8s-monitoring 3.6.1
+  #     cadvisorSelector: 'job="integrations/kubernetes/cadvisor"',
+  #     kubeletSelector: 'job="integrations/kubernetes/kubelet"',
+  #     kubeStateMetricsSelector: 'job="integrations/kubernetes/kube-state-metrics"',
+  #     nodeExporterSelector: 'job="integrations/node_exporter"',
+  #     kubeSchedulerSelector: 'job="kube-scheduler"',
+  #     kubeControllerManagerSelector: 'job="kube-controller-manager"',
+  #     kubeApiserverSelector: 'job="integrations/kubernetes/kube-apiserver"',
+  #     kubeProxySelector: 'job="integrations/kubernetes/kube-proxy"',
+  # }
+  - node-exporter-mixin # https://github.com/prometheus/node_exporter/tree/master/docs/node-mixin
