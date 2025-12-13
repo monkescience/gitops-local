@@ -15,6 +15,13 @@ tempo:
         http:
           endpoint: "0.0.0.0:4318"
 
+  securityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+
 persistence:
   enabled: true
   storageClassName: local-path
@@ -34,10 +41,3 @@ securityContext:
   fsGroup: 10001
   seccompProfile:
     type: RuntimeDefault
-
-containerSecurityContext:
-  readOnlyRootFilesystem: true
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop:
-      - ALL
