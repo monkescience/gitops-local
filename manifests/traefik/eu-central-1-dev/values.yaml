@@ -1,0 +1,65 @@
+# Traefik Helm values for k3d local development
+# https://github.com/traefik/traefik-helm-chart
+
+# Gateway API provider (instead of Ingress)
+providers:
+  kubernetesGateway:
+    enabled: true
+
+# Disable built-in gateway (we'll create our own in the extension)
+gateway:
+  enabled: false
+
+# Service configuration
+service:
+  type: LoadBalancer
+
+# Ports configuration
+ports:
+  web:
+    port: 80
+    exposedPort: 80
+    protocol: TCP
+  websecure:
+    port: 443
+    exposedPort: 443
+    protocol: TCP
+    tls:
+      enabled: true
+
+# Resource limits for local dev
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    memory: 128Mi
+
+# Metrics for Prometheus
+metrics:
+  prometheus:
+    entryPoint: metrics
+    service:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+
+# Logs
+logs:
+  general:
+    level: INFO
+  access:
+    enabled: true
+
+# Single replica for local dev
+deployment:
+  replicas: 1
+
+# Disable ingressClass since we use Gateway API
+ingressClass:
+  enabled: false
+
+# Disable ingressRoute since we use Gateway API
+ingressRoute:
+  dashboard:
+    enabled: false

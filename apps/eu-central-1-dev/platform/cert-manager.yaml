@@ -1,51 +1,55 @@
-#apiVersion: argoproj.io/v1alpha1
-#kind: Application
-#metadata:
-#  name: cert-manager
-#  namespace: argocd
-#  finalizers:
-#    - resources-finalizer.argocd.argoproj.io
-#  annotations:
-#    argocd.argoproj.io/sync-wave: "-1"
-#spec:
-#  project: default
-#  sources:
-#    - repoURL: https://charts.jetstack.io
-#      chart: cert-manager
-#      targetRevision: v1.19.1
-#      helm:
-#        valueFiles:
-#          - $values/manifests/cert-manager/eu-central-1-dev/values.yaml
-#    - repoURL: file:///gitops
-#      targetRevision: HEAD
-#      ref: values
-#  destination:
-#    server: https://kubernetes.default.svc
-#    namespace: cert-manager
-##  syncPolicy:
-##    automated:
-##      prune: true
-##      selfHeal: true
-#---
-#apiVersion: argoproj.io/v1alpha1
-#kind: Application
-#metadata:
-#  name: cert-manager-extension
-#  namespace: argocd
-#  finalizers:
-#    - resources-finalizer.argocd.argoproj.io
-#  annotations:
-#    argocd.argoproj.io/sync-wave: "2"
-#spec:
-#  project: default
-#  source:
-#    repoURL: file:///gitops
-#    targetRevision: HEAD
-#    path: manifests/cert-manager-extension/eu-central-1-dev
-#  destination:
-#    server: https://kubernetes.default.svc
-#    namespace: cert-manager
-##  syncPolicy:
-##    automated:
-##      prune: true
-##      selfHeal: true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: default
+  sources:
+    - repoURL: https://charts.jetstack.io
+      chart: cert-manager
+      targetRevision: v1.19.1
+      helm:
+        valueFiles:
+          - $values/manifests/cert-manager/eu-central-1-dev/values.yaml
+    - repoURL: file:///gitops
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-extension
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: file:///gitops
+    targetRevision: HEAD
+    path: manifests/cert-manager-extension/eu-central-1-dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true

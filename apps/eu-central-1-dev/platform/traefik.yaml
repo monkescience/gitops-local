@@ -1,27 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kargo
+  name: traefik
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   project: default
   sources:
-    - repoURL: ghcr.io/akuity/kargo-charts
-      chart: kargo
-      targetRevision: 1.8.3
+    - repoURL: https://traefik.github.io/charts
+      chart: traefik
+      targetRevision: 37.4.0
       helm:
         valueFiles:
-          - $values/manifests/kargo/eu-central-1-dev/values.yaml
+          - $values/manifests/traefik/eu-central-1-dev/values.yaml
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: kargo
+    namespace: traefik
   syncPolicy:
     automated:
       prune: true
@@ -32,7 +32,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kargo-extension
+  name: traefik-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -43,10 +43,10 @@ spec:
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
-    path: manifests/kargo-extension/eu-central-1-dev
+    path: manifests/traefik-extension/eu-central-1-dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: kargo
+    namespace: traefik
   syncPolicy:
     automated:
       prune: true
