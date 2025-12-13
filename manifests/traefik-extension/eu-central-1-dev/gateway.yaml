@@ -8,14 +8,14 @@ spec:
   gatewayClassName: traefik
   listeners:
     - name: http
-      port: 80
+      port: 9080
       protocol: HTTP
       hostname: "*.localhost"
       allowedRoutes:
         namespaces:
           from: All
     - name: https
-      port: 443
+      port: 9443
       protocol: HTTPS
       hostname: "*.localhost"
       tls:

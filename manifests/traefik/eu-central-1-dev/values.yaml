@@ -14,15 +14,15 @@ gateway:
 service:
   type: LoadBalancer
 
-# Ports configuration
+# Ports configuration (non-standard for easier debugging)
 ports:
   web:
-    port: 80
-    exposedPort: 80
+    port: 9080
+    exposedPort: 9080
     protocol: TCP
   websecure:
-    port: 443
-    exposedPort: 443
+    port: 9443
+    exposedPort: 9443
     protocol: TCP
     tls:
       enabled: true
