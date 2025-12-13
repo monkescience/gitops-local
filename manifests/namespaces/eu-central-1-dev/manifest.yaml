@@ -13,14 +13,13 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: istio-system
+  name: dapr-system
   labels:
-    istio.io/dataplane-mode: ambient
-    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/enforce: baseline
     pod-security.kubernetes.io/enforce-version: latest
-    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/audit: baseline
     pod-security.kubernetes.io/audit-version: latest
-    pod-security.kubernetes.io/warn: privileged
+    pod-security.kubernetes.io/warn: baseline
     pod-security.kubernetes.io/warn-version: latest
 ---
 apiVersion: v1
@@ -28,7 +27,6 @@ kind: Namespace
 metadata:
   name: prometheus
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: privileged
@@ -41,7 +39,6 @@ kind: Namespace
 metadata:
   name: alloy
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: privileged
@@ -54,7 +51,6 @@ kind: Namespace
 metadata:
   name: monitoring
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: privileged
@@ -91,20 +87,6 @@ kind: Namespace
 metadata:
   name: grafana
   labels:
-    istio.io/dataplane-mode: ambient
-    pod-security.kubernetes.io/enforce: restricted
-    pod-security.kubernetes.io/enforce-version: latest
-    pod-security.kubernetes.io/audit: restricted
-    pod-security.kubernetes.io/audit-version: latest
-    pod-security.kubernetes.io/warn: restricted
-    pod-security.kubernetes.io/warn-version: latest
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: kiali-operator
-  labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -117,7 +99,6 @@ kind: Namespace
 metadata:
   name: loki
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -130,7 +111,6 @@ kind: Namespace
 metadata:
   name: mimir
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -143,7 +123,6 @@ kind: Namespace
 metadata:
   name: jaeger
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -156,7 +135,6 @@ kind: Namespace
 metadata:
   name: cert-manager
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -169,7 +147,6 @@ kind: Namespace
 metadata:
   name: default
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -182,7 +159,6 @@ kind: Namespace
 metadata:
   name: reference-service-go
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -197,7 +173,6 @@ kind: Namespace
 metadata:
   name: hydra
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -210,7 +185,6 @@ kind: Namespace
 metadata:
   name: kargo
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: baseline
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -223,7 +197,6 @@ kind: Namespace
 metadata:
   name: external-secrets
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: restricted
@@ -236,7 +209,6 @@ kind: Namespace
 metadata:
   name: traefik
   labels:
-    istio.io/dataplane-mode: ambient
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/enforce-version: latest
     pod-security.kubernetes.io/audit: privileged
