@@ -1,0 +1,39 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: gitops-local
+servers: 1
+agents: 2
+image: rancher/k3s:v1.34.2-k3s1
+network: k3d-gitops
+
+# Port mappings: Host 80/443 → Cluster 9080/9443
+ports:
+  - port: 80:9080
+    nodeFilters:
+      - loadbalancer
+  - port: 443:9443
+    nodeFilters:
+      - loadbalancer
+
+# Mount local repository into cluster for ArgoCD access
+volumes:
+  - volume: /Users/monke/Projects/gitops-k3d:/gitops
+    nodeFilters:
+      - all
+
+options:
+  k3d:
+    wait: true
+    timeout: "300s"
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      - arg: --disable=metrics-server
+        nodeFilters:
+          - server:*
+  kubeconfig:
+    updateDefaultKubeconfig: true
+    switchCurrentContext: true
