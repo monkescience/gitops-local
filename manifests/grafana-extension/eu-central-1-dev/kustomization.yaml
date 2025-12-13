@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
   - grafana.yaml
   - datasource-loki.yaml
-#  - datasource-mimir.yaml
-  - datasource-prometheus.yaml
+  - datasource-mimir.yaml
+#  - datasource-prometheus.yaml  # Disabled - using Mimir instead
   - custom-mixin
   - kubernetes-mixin # https://github.com/kubernetes-monitoring/kubernetes-mixin/releases/tag/version-1.4.0
   # local kubernetes = import 'mixin.libsonnet';

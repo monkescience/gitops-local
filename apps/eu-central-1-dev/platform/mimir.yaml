@@ -1,28 +1,31 @@
-#apiVersion: argoproj.io/v1alpha1
-#kind: Application
-#metadata:
-#  name: mimir
-#  namespace: argocd
-#  finalizers:
-#    - resources-finalizer.argocd.argoproj.io
-#  annotations:
-#    argocd.argoproj.io/sync-wave: "2"
-#spec:
-#  project: default
-#  sources:
-#    - repoURL: https://grafana.github.io/helm-charts
-#      chart: mimir-distributed
-#      targetRevision: 6.0.4
-#      helm:
-#        valueFiles:
-#          - $values/manifests/mimir/eu-central-1-dev/values.yaml
-#    - repoURL: file:///gitops
-#      targetRevision: HEAD
-#      ref: values
-#  destination:
-#    server: https://kubernetes.default.svc
-#    namespace: mimir
-#  syncPolicy:
-#    automated:
-#      prune: true
-#      selfHeal: true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mimir
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  sources:
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: mimir-distributed
+      targetRevision: 6.0.4
+      helm:
+        valueFiles:
+          - $values/manifests/mimir/eu-central-1-dev/values.yaml
+    - repoURL: file:///gitops
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mimir
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - ApplyOutOfSyncOnly=true

@@ -2,16 +2,16 @@ cluster:
   name: monke-eu-central-1-dev
 
 destinations:
-#  - name: mimir
-#    type: prometheus
-#    url: http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push
+  - name: mimir
+    type: prometheus
+    url: http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push
 
   - name: loki
     type: loki
     url: http://loki-gateway.loki.svc.cluster.local:80/loki/api/v1/push
 
 clusterMetrics:
-  enabled: false
+  enabled: true
 
 clusterEvents:
   enabled: true
@@ -26,10 +26,10 @@ annotationAutodiscovery:
   enabled: false
 
 prometheusOperatorObjects:
-  enabled: false
+  enabled: true
 
 alloy-metrics:
-  enabled: false
+  enabled: true
   alloy:
     mounts:
       varlog: true
@@ -44,7 +44,7 @@ alloy-receiver:
 
 alloy-singleton:
   enabled: true
-#  extraConfig: |-
-#    mimir.rules.kubernetes "default" {
-#      address = "http://mimir-ruler.mimir.svc.cluster.local:8080"
-#    }
+  extraConfig: |-
+    mimir.rules.kubernetes "default" {
+      address = "http://mimir-ruler.mimir.svc.cluster.local:8080"
+    }
