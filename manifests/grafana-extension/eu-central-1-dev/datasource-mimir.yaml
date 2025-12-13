@@ -8,6 +8,7 @@ spec:
       app.kubernetes.io/name: grafana
   datasource:
     name: Mimir
+    uid: mimir
     type: prometheus
     access: proxy
     url: http://mimir-gateway.mimir.svc.cluster.local:80/prometheus

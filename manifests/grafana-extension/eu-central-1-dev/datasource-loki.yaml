@@ -8,6 +8,7 @@ spec:
       app.kubernetes.io/name: grafana
   datasource:
     name: Loki
+    uid: loki
     type: loki
     access: proxy
     url: http://loki-gateway.loki.svc.cluster.local:80
