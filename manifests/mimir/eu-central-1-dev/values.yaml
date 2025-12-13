@@ -15,7 +15,7 @@ mimir:
     alertmanager_storage:
       backend: filesystem
     limits:
-      max_rules_per_rule_group: 30
+      ruler_max_rules_per_rule_group: 30
 
 # Disable bundled Kafka
 kafka:
