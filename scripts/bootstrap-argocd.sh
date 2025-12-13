@@ -4,17 +4,15 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# ArgoCD Helm chart configuration (must match apps/eu-central-1-dev/platform/argocd.yaml)
-ARGOCD_CHART_VERSION="9.1.3"
+ARGOCD_APP_FILE="$PROJECT_ROOT/apps/eu-central-1-dev/platform/argocd.yaml"
+ARGOCD_CHART_VERSION=$(yq '.spec.sources[0].targetRevision' "$ARGOCD_APP_FILE")
 ARGOCD_REPO="https://argoproj.github.io/argo-helm"
 ARGOCD_VALUES="$PROJECT_ROOT/manifests/argocd/eu-central-1-dev/values.yaml"
 
 echo "Bootstrapping ArgoCD..."
 
-# Create argocd namespace
 kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
 
-# Install ArgoCD using Helm
 echo "Installing ArgoCD via Helm (chart version: $ARGOCD_CHART_VERSION)..."
 helm upgrade --install argocd argo-cd \
   --repo "$ARGOCD_REPO" \

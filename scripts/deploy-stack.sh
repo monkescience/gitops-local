@@ -6,7 +6,6 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 echo "Deploying GitOps stack via ArgoCD..."
 
-# Apply root ArgoCD application
 kubectl apply -f "$PROJECT_ROOT/apps/eu-central-1-dev.yaml"
 
 echo ""

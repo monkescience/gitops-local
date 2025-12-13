@@ -8,13 +8,12 @@ echo "Local GitOps Stack - Complete Setup"
 echo "========================================="
 echo ""
 
-# Check prerequisites
 echo "Checking prerequisites..."
 command -v kind >/dev/null 2>&1 || { echo "Error: kind not found. Install: brew install kind"; exit 1; }
 command -v kubectl >/dev/null 2>&1 || { echo "Error: kubectl not found. Install: brew install kubectl"; exit 1; }
 command -v helm >/dev/null 2>&1 || { echo "Error: helm not found. Install: brew install helm"; exit 1; }
 
-KIND_VERSION=$(kind version | head -1 | awk '{print $3}')
+KIND_VERSION=$(kind version | head -1 | awk '{print $2}')
 KUBECTL_VERSION=$(kubectl version --client -o yaml | grep gitVersion | awk '{print $2}')
 HELM_VERSION=$(helm version --short | cut -d'+' -f1)
 echo "✓ kind $KIND_VERSION"
@@ -22,7 +21,6 @@ echo "✓ kubectl $KUBECTL_VERSION"
 echo "✓ helm $HELM_VERSION"
 echo ""
 
-# Warning about resources
 echo "========================================="
 echo "Resource Requirements:"
 echo "  - CPU: 4 cores recommended"
@@ -43,21 +41,18 @@ echo ""
 echo "Starting setup..."
 echo ""
 
-# Step 1: Create cluster
 echo "========================================="
 echo "Step 1/3: Creating local cluster"
 echo "========================================="
 "$SCRIPT_DIR/create-cluster.sh"
 echo ""
 
-# Step 2: Bootstrap ArgoCD
 echo "========================================="
 echo "Step 2/3: Bootstrapping ArgoCD"
 echo "========================================="
 "$SCRIPT_DIR/bootstrap-argocd.sh"
 echo ""
 
-# Step 3: Deploy stack
 echo "========================================="
 echo "Step 3/3: Deploy GitOps Stack"
 echo "========================================="

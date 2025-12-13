@@ -6,16 +6,16 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 echo "Creating kind cluster with GitOps configuration..."
 
-# Check if cluster already exists
 if kind get clusters 2>/dev/null | grep -q "^gitops-local$"; then
     echo "Cluster 'gitops-local' already exists. Delete it first with: kind delete cluster --name gitops-local"
     exit 1
 fi
 
-# Create cluster
+export PROJECT_ROOT
+envsubst < "$PROJECT_ROOT/kind-cluster.yaml.tmpl" > "$PROJECT_ROOT/kind-cluster.yaml"
+
 kind create cluster --config "$PROJECT_ROOT/kind-cluster.yaml"
 
-# Wait for cluster to be ready
 echo "Waiting for cluster to be ready..."
 kubectl wait --for=condition=Ready nodes --all --timeout=300s
 

@@ -11,13 +11,13 @@ nodes:
         hostPort: 443
         protocol: TCP
     extraMounts:
-      - hostPath: /Users/monke/Projects/gitops-local
+      - hostPath: ${PROJECT_ROOT}
         containerPath: /gitops
   - role: worker
     extraMounts:
-      - hostPath: /Users/monke/Projects/gitops-local
+      - hostPath: ${PROJECT_ROOT}
         containerPath: /gitops
   - role: worker
     extraMounts:
-      - hostPath: /Users/monke/Projects/gitops-local
+      - hostPath: ${PROJECT_ROOT}
         containerPath: /gitops
