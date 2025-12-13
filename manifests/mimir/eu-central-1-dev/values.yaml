@@ -1,21 +1,24 @@
-ingress:
-  enabled: false
-
 mimir:
   structuredConfig:
     multitenancy_enabled: false
-
     blocks_storage:
       backend: filesystem
-
     ruler_storage:
       backend: filesystem
-
     alertmanager_storage:
       backend: filesystem
 
+distributor:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
 ingester:
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 100m
@@ -37,48 +40,13 @@ querier:
       memory: 256Mi
 
 query_frontend:
-  replicas: 1
-  resources:
-    requests:
-      cpu: 50m
-      memory: 128Mi
-    limits:
-      memory: 128Mi
-
-distributor:
-  replicas: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      memory: 256Mi
+  replicas: 0
 
 compactor:
-  replicas: 1
-  resources:
-    requests:
-      cpu: 50m
-      memory: 256Mi
-    limits:
-      memory: 256Mi
-  persistentVolume:
-    enabled: true
-    size: 10Gi
-    storageClass: standard
+  replicas: 0
 
 store_gateway:
-  replicas: 1
-  resources:
-    requests:
-      cpu: 50m
-      memory: 256Mi
-    limits:
-      memory: 256Mi
-  persistentVolume:
-    enabled: true
-    size: 10Gi
-    storageClass: standard
+  replicas: 0
 
 ruler:
   enabled: true
@@ -98,5 +66,3 @@ nginx:
       memory: 64Mi
     limits:
       memory: 64Mi
-  ingress:
-    enabled: false
