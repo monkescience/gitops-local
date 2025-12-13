@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Resolve script location and project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+LIB_DIR="$SCRIPT_DIR/lib"
+
+# Source utilities and command libraries
+source "$LIB_DIR/utils.sh"
+source "$LIB_DIR/cluster.sh"
+source "$LIB_DIR/argocd.sh"
+source "$LIB_DIR/stack.sh"
+source "$LIB_DIR/secrets.sh"
+
+export PROJECT_ROOT
+
+usage() {
+  cat <<EOF
+Usage: gitops <command> [subcommand]
+
+Local GitOps development environment management.
+
+Commands:
+  setup                 Full setup (cluster + argocd + stack)
+  teardown              Delete the cluster and all resources
+
+  cluster create        Create Kind cluster only
+  argocd bootstrap      Bootstrap ArgoCD only
+  stack deploy          Deploy GitOps stack only
+
+  secrets backup        Backup sealed secrets key
+  secrets restore       Restore sealed secrets key from backup
+  secrets status        Show sealed secrets status
+
+  help                  Show this help message
+
+Examples:
+  gitops setup              # Complete setup from scratch
+  gitops teardown           # Delete everything
+  gitops secrets backup     # Backup sealed secrets after deployment
+EOF
+}
+
+cmd_setup() {
+  header "Local GitOps Stack - Complete Setup"
+
+  info "Checking prerequisites..."
+  require_command kind "brew install kind"
+  require_command kubectl "brew install kubectl"
+  require_command helm "brew install helm"
+
+  KIND_VERSION=$(kind version | head -1 | awk '{print $2}')
+  KUBECTL_VERSION=$(kubectl version --client -o yaml | grep gitVersion | awk '{print $2}')
+  HELM_VERSION=$(helm version --short | cut -d'+' -f1)
+  success "kind $KIND_VERSION"
+  success "kubectl $KUBECTL_VERSION"
+  success "helm $HELM_VERSION"
+
+  header "Resource Requirements"
+  echo "  - CPU: 4 cores recommended"
+  echo "  - RAM: 12 GB recommended"
+  echo "  - Disk: 20 GB free space"
+  echo "  - Time: 10-15 minutes"
+
+  read -p "Do you want to continue? (y/n) " -n 1 -r
+  echo ""
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    warn "Setup cancelled."
+    exit 0
+  fi
+
+  info "Starting setup..."
+
+  header "Step 1/3: Creating local cluster"
+  cluster_create
+
+  header "Step 2/3: Bootstrapping ArgoCD"
+  argocd_bootstrap
+
+  header "Step 3/3: Deploy GitOps Stack"
+  stack_deploy
+
+  header "Setup Complete!"
+  echo "The stack is deploying in the background."
+  echo ""
+  echo "Quick commands:"
+  echo "  Watch deployment:  kubectl get applications -n argocd -w"
+  echo "  Check pods:        kubectl get pods -A"
+
+  header "Service Access (after deployment completes)"
+  echo "ArgoCD:"
+  echo "  URL:      https://argocd.localhost"
+  echo "  Username: admin"
+  echo "  Password: admin"
+  echo ""
+  echo "Grafana:"
+  echo "  URL:      https://grafana.localhost"
+  echo "  Username: admin"
+  echo "  Password: admin"
+  echo ""
+  echo "Kargo:"
+  echo "  URL:      https://kargo.localhost"
+  echo "  Username: admin"
+  echo "  Password: admin"
+  echo ""
+  echo "Note: Browser will show certificate warning (self-signed)."
+  echo "      Click 'Advanced' -> 'Proceed' to continue."
+}
+
+# Main command dispatcher
+case "${1:-}" in
+  setup)
+    cmd_setup
+    ;;
+  teardown)
+    cluster_delete
+    ;;
+  cluster)
+    case "${2:-}" in
+      create) cluster_create ;;
+      *) error "Unknown cluster command: ${2:-}"; echo "Usage: gitops cluster create"; exit 1 ;;
+    esac
+    ;;
+  argocd)
+    case "${2:-}" in
+      bootstrap) argocd_bootstrap ;;
+      *) error "Unknown argocd command: ${2:-}"; echo "Usage: gitops argocd bootstrap"; exit 1 ;;
+    esac
+    ;;
+  stack)
+    case "${2:-}" in
+      deploy) stack_deploy ;;
+      *) error "Unknown stack command: ${2:-}"; echo "Usage: gitops stack deploy"; exit 1 ;;
+    esac
+    ;;
+  secrets)
+    case "${2:-}" in
+      backup) secrets_backup ;;
+      restore) secrets_restore ;;
+      status) secrets_status ;;
+      *) error "Unknown secrets command: ${2:-}"; echo "Usage: gitops secrets <backup|restore|status>"; exit 1 ;;
+    esac
+    ;;
+  help|-h|--help)
+    usage
+    ;;
+  "")
+    usage
+    exit 1
+    ;;
+  *)
+    error "Unknown command: $1"
+    usage
+    exit 1
+    ;;
+esac
