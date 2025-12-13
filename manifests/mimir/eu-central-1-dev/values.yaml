@@ -14,6 +14,8 @@ mimir:
       backend: filesystem
     alertmanager_storage:
       backend: filesystem
+    limits:
+      max_rules_per_rule_group: 30
 
 # Disable bundled Kafka
 kafka:
@@ -70,6 +72,10 @@ store_gateway:
 
 ruler:
   enabled: true
+  persistentVolume:
+    enabled: true
+    size: 1Gi
+    storageClass: standard
 
 alertmanager:
   enabled: true
