@@ -17,6 +17,8 @@ controller:
       memory: 128Mi
 
 api:
+  tls:
+    enabled: false
   adminAccount:
     passwordHash: $2a$12$J3u7V0B2zYhsDsaxtaBXEOChOEbMcTJwhljitJOsQ3JTwRaaH4r.u # admin
     tokenSigningKey: 98daba3e93922ec98232bbdd1836e3d51f994b62ba4e485a7c70b81094263cc1
