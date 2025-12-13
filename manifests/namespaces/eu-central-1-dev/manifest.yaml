@@ -157,7 +157,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: reference-service-go
+  name: phasor
   labels:
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/enforce-version: latest
