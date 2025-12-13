@@ -5,6 +5,8 @@ serviceAccount:
 
 loki:
   auth_enabled: false
+  ingester:
+    replication_factor: 1
 
   podSecurityContext:
     fsGroup: 10001
