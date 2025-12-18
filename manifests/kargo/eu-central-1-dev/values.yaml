@@ -9,6 +9,14 @@ controller:
   globalCredentials:
     namespaces:
       - kargo
+  extraVolumes:
+    - name: gitops
+      hostPath:
+        path: /gitops
+        type: Directory
+  extraVolumeMounts:
+    - name: gitops
+      mountPath: /gitops
   resources:
     requests:
       cpu: 50m
