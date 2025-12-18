@@ -5,17 +5,19 @@ metadata:
   namespace: phasor
 spec:
   vars:
+    - name: gitRepo
+      value: file:///gitops
     - name: chart
       value: oci://ghcr.io/monkescience/helm-charts/phasor
     - name: workDir
-      value: /gitops
+      value: ./repo
   steps:
-#    - uses: git-clone
-#      config:
-#        repoURL: ${{ vars.gitRepo }}
-#        checkout:
-#          - branch: main
-#            path: ${{ vars.workDir }}
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: main
+            path: ${{ vars.workDir }}
     - uses: yaml-update
       config:
         path: ${{ vars.workDir }}/apps/eu-central-1-dev/services/phasor-${{ ctx.stage }}.yaml
