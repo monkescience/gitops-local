@@ -1,0 +1,37 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: PromotionTask
+metadata:
+  name: promote-phasor
+  namespace: phasor
+spec:
+  vars:
+    - name: gitRepo
+      value: file:///gitops
+    - name: chart
+      value: oci://ghcr.io/monkescience/helm-charts/phasor
+    - name: workDir
+      value: ./repo
+  steps:
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: main
+            path: ${{ vars.workDir }}
+    - uses: yaml-update
+      config:
+        path: ${{ vars.workDir }}/apps/eu-central-1-dev/services/phasor-${{ ctx.stage }}.yaml
+        updates:
+          - key: spec.sources.0.targetRevision
+            value: ${{ chartFrom( vars.chart ).Version }}
+    - uses: git-commit
+      config:
+        message: "chore(kargo): promote phasor chart to ${{ chartFrom( vars.chart ).Version }} (${{ ctx.stage }})"
+        path: ${{ vars.workDir }}
+#    - uses: git-push
+#      config:
+#        path: ${{ vars.workDir }}
+    - uses: argocd-update
+      config:
+        apps:
+          - name: phasor-${{ ctx.stage }}

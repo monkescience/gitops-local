@@ -1,0 +1,10 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: phasor
+  namespace: phasor
+spec:
+  subscriptions:
+    - chart:
+        repoURL: oci://ghcr.io/monkescience/helm-charts/phasor
+        semverConstraint: '>= 0.0.0'

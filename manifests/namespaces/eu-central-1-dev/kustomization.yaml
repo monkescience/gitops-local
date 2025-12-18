@@ -14,6 +14,11 @@ resources:
   - mimir.yaml
   - monitoring.yaml
   - phasor.yaml
+  - phasor-eu-central-1-dev.yaml
+  - phasor-eu-central-1-int.yaml
+  - phasor-eu-central-1-prod.yaml
+  - phasor-us-east-1-int.yaml
+  - phasor-us-east-1-prod.yaml
   - sealed-secrets.yaml
   - tempo.yaml
   - traefik.yaml

@@ -1,21 +1,21 @@
 backend:
-  replicaCount: 1
+  replicaCount: 3
   config:
-    environment: "eu-central-1-dev"
+    environment: "eu-central-1-prod"
     log_config:
-      level: "debug"
+      level: "warn"
       format: "json"
-      add_source: true
+      add_source: false
 
 frontend:
-  replicaCount: 1
+  replicaCount: 2
   config:
-    environment: "eu-central-1-dev"
+    environment: "eu-central-1-prod"
     backend_url: "http://phasor-backend:8080/instance/info"
     log_config:
-      level: "debug"
+      level: "warn"
       format: "json"
-      add_source: true
+      add_source: false
     tile_colors:
       - "#667eea"
       - "#f093fb"
