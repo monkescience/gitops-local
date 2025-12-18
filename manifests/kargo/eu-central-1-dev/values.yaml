@@ -9,12 +9,12 @@ controller:
   globalCredentials:
     namespaces:
       - kargo
-  extraVolumes:
+  volumes:
     - name: gitops
       hostPath:
         path: /gitops
         type: Directory
-  extraVolumeMounts:
+  volumeMounts:
     - name: gitops
       mountPath: /gitops
   resources:
