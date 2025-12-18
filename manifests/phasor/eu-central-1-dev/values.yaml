@@ -23,10 +23,4 @@ frontend:
       - "#43e97b"
 
 dapr:
-  enabled: true
-  config: "daprconfig"
-  logLevel: "info"
-  backend:
-    appId: "phasor-backend"
-  frontend:
-    appId: "phasor-frontend"
+  enabled: false
