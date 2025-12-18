@@ -1,8 +1,26 @@
 backend:
   replicaCount: 2
+  config:
+    environment: "local"
+    log_config:
+      level: "info"
+      format: "json"
+      add_source: true
 
 frontend:
   replicaCount: 1
+  config:
+    environment: "local"
+    backend_url: "http://phasor-backend:8080/instance/info"
+    log_config:
+      level: "info"
+      format: "json"
+      add_source: true
+    tile_colors:
+      - "#667eea"
+      - "#f093fb"
+      - "#4facfe"
+      - "#43e97b"
 
 dapr:
   enabled: true
