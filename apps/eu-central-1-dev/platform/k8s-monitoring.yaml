@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: https://grafana.github.io/helm-charts
       chart: k8s-monitoring
-      targetRevision: 3.6.1
+      targetRevision: 3.6.2
       helm:
         valueFiles:
           - $values/manifests/k8s-monitoring/eu-central-1-dev/values.yaml
