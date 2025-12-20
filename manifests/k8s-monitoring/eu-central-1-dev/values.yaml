@@ -21,6 +21,8 @@ clusterMetrics:
   node-exporter:
     metricsTuning:
       useIntegrationAllowList: true
+      includeMetrics:
+        - node_time_seconds
 
 clusterEvents:
   enabled: true
