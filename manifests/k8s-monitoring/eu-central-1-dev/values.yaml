@@ -18,6 +18,9 @@ clusterMetrics:
   enabled: true
   controlPlane:
     enabled: true
+  node-exporter:
+    metricsTuning:
+      useIntegrationAllowList: true
 
 clusterEvents:
   enabled: true
