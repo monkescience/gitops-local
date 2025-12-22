@@ -28,17 +28,6 @@ alloy:
     - name: CLUSTER_NAME
       value: monke-eu-central-1-dev
 
-  extraVolumes:
-    - name: host-root
-      hostPath:
-        path: /
-    - name: host-sys
-      hostPath:
-        path: /sys
-    - name: host-proc
-      hostPath:
-        path: /proc
-
   resources:
     requests:
       cpu: 100m
@@ -59,6 +48,17 @@ alloy:
 controller:
   type: statefulset
   replicas: 1
+  volumes:
+    extra:
+      - name: host-root
+        hostPath:
+          path: /
+      - name: host-sys
+        hostPath:
+          path: /sys
+      - name: host-proc
+        hostPath:
+          path: /proc
 
 configReloader:
   enabled: true
