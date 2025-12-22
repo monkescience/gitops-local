@@ -49,9 +49,9 @@ alloy-metrics:
     resources:
       requests:
         cpu: 50m
-        memory: 128Mi
+        memory: 256Mi
       limits:
-        memory: 128Mi
+        memory: 256Mi
 
 alloy-logs:
   enabled: true
@@ -59,9 +59,9 @@ alloy-logs:
     resources:
       requests:
         cpu: 50m
-        memory: 128Mi
+        memory: 256Mi
       limits:
-        memory: 128Mi
+        memory: 256Mi
 
 alloy-receiver:
   enabled: true
@@ -69,9 +69,9 @@ alloy-receiver:
     resources:
       requests:
         cpu: 50m
-        memory: 128Mi
+        memory: 256Mi
       limits:
-        memory: 128Mi
+        memory: 256Mi
 
 applicationObservability:
   enabled: true

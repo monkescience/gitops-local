@@ -4,9 +4,9 @@ namespaceScope: false
 resources:
   requests:
     cpu: 50m
-    memory: 32Mi
+    memory: 256Mi
   limits:
-    memory: 32Mi
+    memory: 256Mi
 podSecurityContext:
   runAsNonRoot: true
   runAsUser: 1001
