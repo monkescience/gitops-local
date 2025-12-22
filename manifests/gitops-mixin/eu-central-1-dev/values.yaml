@@ -1,24 +1,8 @@
 mixins:
   kubernetes:
-    enabled: true
+    windows:
+      enabled: false
   nodeExporter:
-    enabled: true
-  resourceOptimization:
-    enabled: true
-  argocd:
-    enabled: true
-  windows:
-    enabled: false
-
-grafana:
-  enabled: true
-  namespace: grafana
-  instanceSelector:
-    matchLabels:
-      app.kubernetes.io/name: grafana
-
-prometheus:
-  enabled: true
-  namespace: monitoring
-  labels:
-    release: prometheus
+    platforms:
+      darwin: false
+      aix: false
