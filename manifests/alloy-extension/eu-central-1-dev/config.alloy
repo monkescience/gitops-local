@@ -424,12 +424,8 @@ discovery.relabel "pod_logs" {
     target_label  = "tmp_container_runtime"
   }
   rule {
-    action = "labelmap"
-    regex  = "__meta_kubernetes_pod_label_(.+)"
-  }
-  rule {
-    action = "labelmap"
-    regex  = "__meta_kubernetes_pod_annotation_(.+)"
+    source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+    target_label  = "app"
   }
   rule {
     source_labels = [
