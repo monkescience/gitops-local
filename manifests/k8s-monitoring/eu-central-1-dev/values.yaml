@@ -41,6 +41,8 @@ prometheusOperatorObjects:
 
 alloy-metrics:
   enabled: true
+  serviceMonitor:
+    enabled: true
   alloy:
     mounts:
       varlog: true
@@ -55,6 +57,8 @@ alloy-metrics:
 
 alloy-logs:
   enabled: true
+  serviceMonitor:
+    enabled: true
   alloy:
     resources:
       requests:
@@ -65,6 +69,8 @@ alloy-logs:
 
 alloy-receiver:
   enabled: true
+  serviceMonitor:
+    enabled: true
   alloy:
     resources:
       requests:
@@ -84,6 +90,8 @@ applicationObservability:
 
 alloy-singleton:
   enabled: true
+  serviceMonitor:
+    enabled: true
   alloy:
     resources:
       requests:
