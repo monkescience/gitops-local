@@ -46,12 +46,32 @@ alloy-metrics:
       varlog: true
     clustering:
       enabled: true
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 128Mi
 
 alloy-logs:
   enabled: true
+  alloy:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 128Mi
 
 alloy-receiver:
   enabled: true
+  alloy:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 128Mi
 
 applicationObservability:
   enabled: true
@@ -64,6 +84,13 @@ applicationObservability:
 
 alloy-singleton:
   enabled: true
+  alloy:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        memory: 64Mi
   extraConfig: |-
     mimir.rules.kubernetes "default" {
       address = "http://mimir-ruler.mimir.svc.cluster.local:8080"

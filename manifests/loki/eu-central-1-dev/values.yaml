@@ -66,9 +66,21 @@ gateway:
       drop:
         - ALL
     allowPrivilegeEscalation: false
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
 
 singleBinary:
   replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
   persistence:
     enabled: true
     storageClass: standard
