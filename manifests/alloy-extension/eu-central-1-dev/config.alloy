@@ -6,8 +6,8 @@ discovery.kubernetes "services" {
   role = "service"
 }
 
-discovery.kubernetes "endpoints" {
-  role = "endpoints"
+discovery.kubernetes "endpointslices" {
+  role = "endpointslice"
 }
 
 discovery.kubernetes "pods" {
@@ -335,15 +335,15 @@ prometheus.relabel "node_exporter" {
 }
 
 discovery.kubernetes "kube_apiserver" {
-  role = "endpoints"
+  role = "endpointslice"
 
   namespaces {
     names = ["default"]
   }
 
   selectors {
-    role  = "endpoints"
-    field = "metadata.name=kubernetes"
+    role  = "endpointslice"
+    label = "kubernetes.io/service-name=kubernetes"
   }
 }
 
