@@ -102,3 +102,7 @@ nginx:
       memory: 64Mi
     limits:
       memory: 64Mi
+
+metaMonitoring:
+  serviceMonitor:
+    enabled: true

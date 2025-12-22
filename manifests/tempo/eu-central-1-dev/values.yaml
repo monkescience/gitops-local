@@ -41,3 +41,6 @@ securityContext:
   fsGroup: 10001
   seccompProfile:
     type: RuntimeDefault
+
+serviceMonitor:
+  enabled: true

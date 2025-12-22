@@ -101,3 +101,7 @@ chunksCache:
 
 resultsCache:
   enabled: false
+
+monitoring:
+  serviceMonitor:
+    enabled: true
