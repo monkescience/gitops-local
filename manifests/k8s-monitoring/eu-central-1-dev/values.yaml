@@ -49,9 +49,9 @@ alloy-metrics:
     resources:
       requests:
         cpu: 50m
-        memory: 256Mi
+        memory: 512Mi
       limits:
-        memory: 256Mi
+        memory: 512Mi
 
 alloy-logs:
   enabled: true
