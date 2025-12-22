@@ -1,0 +1,60 @@
+discovery.kubernetes "nodes" {
+  role = "node"
+}
+
+discovery.kubernetes "services" {
+  role = "service"
+}
+
+discovery.kubernetes "endpoints" {
+  role = "endpoints"
+}
+
+discovery.kubernetes "pods" {
+  role = "pod"
+}
+
+prometheus.remote_write "mimir" {
+  endpoint {
+    url                    = "http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push"
+    name                   = "mimir"
+    send_native_histograms = true
+  }
+}
+
+loki.write "loki" {
+  endpoint {
+    url = "http://loki-gateway.loki.svc.cluster.local:80/loki/api/v1/push"
+  }
+  external_labels = {
+    cluster = env("CLUSTER_NAME"),
+  }
+}
+
+otelcol.exporter.otlp "tempo" {
+  client {
+    endpoint = "tempo.tempo.svc.cluster.local:4317"
+    tls {
+      insecure = true
+    }
+  }
+}
+
+prometheus.relabel "metrics_service" {
+  rule {
+    source_labels = ["cluster"]
+    regex         = ""
+    replacement   = env("CLUSTER_NAME")
+    target_label  = "cluster"
+  }
+  forward_to = [prometheus.remote_write.mimir.receiver]
+}
+
+mimir.rules.kubernetes "rules" {
+  address = "http://mimir-ruler.mimir.svc.cluster.local:8080"
+}
+
+logging {
+  level  = "info"
+  format = "logfmt"
+}

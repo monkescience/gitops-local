@@ -7,4 +7,7 @@ generatorOptions:
 configMapGenerator:
   - name: alloy-config
     files:
-      - config.alloy
+      - 00-common.alloy
+      - 10-metrics.alloy
+      - 20-logs.alloy
+      - 30-traces.alloy

@@ -2,7 +2,7 @@ alloy:
   configMap:
     create: false
     name: alloy-config
-    key: config.alloy
+    key: null  # Load all .alloy files from directory
 
   clustering:
     enabled: true
@@ -23,6 +23,10 @@ alloy:
   securityContext:
     privileged: true
     runAsUser: 0
+
+  extraEnv:
+    - name: CLUSTER_NAME
+      value: monke-eu-central-1-dev
 
   extraVolumes:
     - name: host-root
