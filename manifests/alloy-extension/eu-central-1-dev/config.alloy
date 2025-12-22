@@ -27,7 +27,7 @@ loki.write "loki" {
     url = "http://loki-gateway.loki.svc.cluster.local:80/loki/api/v1/push"
   }
   external_labels = {
-    cluster = env("CLUSTER_NAME"),
+    cluster = sys.env("CLUSTER_NAME"),
   }
 }
 
@@ -44,7 +44,7 @@ prometheus.relabel "metrics_service" {
   rule {
     source_labels = ["cluster"]
     regex         = ""
-    replacement   = env("CLUSTER_NAME")
+    replacement   = sys.env("CLUSTER_NAME")
     target_label  = "cluster"
   }
   forward_to = [prometheus.remote_write.mimir.receiver]
@@ -305,7 +305,7 @@ discovery.relabel "node_exporter" {
   }
   rule {
     target_label = "instance"
-    replacement  = env("HOSTNAME")
+    replacement  = sys.env("HOSTNAME")
   }
 }
 
@@ -652,7 +652,7 @@ otelcol.processor.transform "enrich" {
   metric_statements {
     context = "resource"
     statements = [
-      "set(attributes[\"k8s.cluster.name\"], \"" + env("CLUSTER_NAME") + "\") where attributes[\"k8s.cluster.name\"] == nil",
+      "set(attributes[\"k8s.cluster.name\"], \"" + sys.env("CLUSTER_NAME") + "\") where attributes[\"k8s.cluster.name\"] == nil",
       "set(attributes[\"service.instance.id\"], attributes[\"k8s.pod.uid\"]) where attributes[\"service.instance.id\"] == nil",
     ]
   }
@@ -662,14 +662,14 @@ otelcol.processor.transform "enrich" {
       "set(attributes[\"pod\"], attributes[\"k8s.pod.name\"])",
       "set(attributes[\"namespace\"], attributes[\"k8s.namespace.name\"])",
       "set(attributes[\"loki.resource.labels\"], \"cluster, namespace, job, pod\")",
-      "set(attributes[\"k8s.cluster.name\"], \"" + env("CLUSTER_NAME") + "\") where attributes[\"k8s.cluster.name\"] == nil",
+      "set(attributes[\"k8s.cluster.name\"], \"" + sys.env("CLUSTER_NAME") + "\") where attributes[\"k8s.cluster.name\"] == nil",
       "set(attributes[\"service.instance.id\"], attributes[\"k8s.pod.uid\"]) where attributes[\"service.instance.id\"] == nil",
     ]
   }
   trace_statements {
     context = "resource"
     statements = [
-      "set(attributes[\"k8s.cluster.name\"], \"" + env("CLUSTER_NAME") + "\") where attributes[\"k8s.cluster.name\"] == nil",
+      "set(attributes[\"k8s.cluster.name\"], \"" + sys.env("CLUSTER_NAME") + "\") where attributes[\"k8s.cluster.name\"] == nil",
       "set(attributes[\"service.instance.id\"], attributes[\"k8s.pod.uid\"]) where attributes[\"service.instance.id\"] == nil",
     ]
   }
