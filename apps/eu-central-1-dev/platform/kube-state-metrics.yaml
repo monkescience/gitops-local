@@ -21,7 +21,7 @@ spec:
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: monitoring
+    namespace: kube-state-metrics
   syncPolicy:
     automated:
       prune: true

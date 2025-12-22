@@ -13,7 +13,7 @@ resources:
   - kube-system.yaml
   - loki.yaml
   - mimir.yaml
-  - monitoring.yaml
+  - kube-state-metrics.yaml
   - phasor.yaml
   - phasor-eu-central-1-dev.yaml
   - phasor-eu-central-1-int.yaml
