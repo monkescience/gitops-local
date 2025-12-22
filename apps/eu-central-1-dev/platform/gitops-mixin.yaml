@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: ghcr.io/monkescience/helm-charts
       chart: gitops-mixin
-      targetRevision: 0.3.0-rc.2
+      targetRevision: 0.3.0-rc.3
       helm:
         valueFiles:
           - $values/manifests/gitops-mixin/eu-central-1-dev/values.yaml
