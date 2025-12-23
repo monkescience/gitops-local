@@ -5,7 +5,6 @@ resources:
   - alloy.yaml
   - argocd.yaml
   - cert-manager.yaml
-  - dapr-system.yaml
   - default.yaml
   - grafana.yaml
   - istio-system.yaml
