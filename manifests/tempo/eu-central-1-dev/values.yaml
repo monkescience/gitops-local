@@ -15,6 +15,18 @@ tempo:
         http:
           endpoint: "0.0.0.0:4318"
 
+  metricsGenerator:
+    enabled: true
+    remoteWriteUrl: "http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push"
+
+  overrides:
+    defaults:
+      metrics_generator:
+        processors:
+          - service-graphs
+          - span-metrics
+          - local-blocks
+
   securityContext:
     allowPrivilegeEscalation: false
     readOnlyRootFilesystem: true
@@ -30,9 +42,9 @@ persistence:
 resources:
   requests:
     cpu: 50m
-    memory: 128Mi
+    memory: 256Mi
   limits:
-    memory: 128Mi
+    memory: 256Mi
 
 securityContext:
   runAsNonRoot: true
