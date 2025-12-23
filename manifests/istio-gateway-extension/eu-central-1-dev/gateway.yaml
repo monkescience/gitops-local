@@ -5,6 +5,11 @@ metadata:
   namespace: istio-system
 spec:
   gatewayClassName: istio
+  infrastructure:
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: istio-gateway-config
   listeners:
     - name: http
       port: 9080

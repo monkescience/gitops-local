@@ -128,37 +128,6 @@ metadata:
     argocd.argoproj.io/sync-wave: "30"
 spec:
   project: default
-  sources:
-    - repoURL: https://istio-release.storage.googleapis.com/charts
-      chart: gateway
-      targetRevision: 1.28.2
-      helm:
-        valueFiles:
-          - $values/manifests/istio-gateway/eu-central-1-dev/values.yaml
-    - repoURL: file:///gitops
-      targetRevision: HEAD
-      ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: istio-system
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - ApplyOutOfSyncOnly=true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: istio-gateway-extension
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-  annotations:
-    argocd.argoproj.io/sync-wave: "31"
-spec:
-  project: default
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
