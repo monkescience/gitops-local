@@ -3,6 +3,7 @@ apiVersion: kind.x-k8s.io/v1alpha4
 name: gitops-local
 nodes:
   - role: control-plane
+    image: kindest/node:v1.35.0
     extraPortMappings:
       - containerPort: 9080
         hostPort: 80
@@ -14,10 +15,12 @@ nodes:
       - hostPath: ${PROJECT_ROOT}
         containerPath: /gitops
   - role: worker
+    image: kindest/node:v1.35.0
     extraMounts:
       - hostPath: ${PROJECT_ROOT}
         containerPath: /gitops
   - role: worker
+    image: kindest/node:v1.35.0
     extraMounts:
       - hostPath: ${PROJECT_ROOT}
         containerPath: /gitops
