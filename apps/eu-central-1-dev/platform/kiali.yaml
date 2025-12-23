@@ -1,27 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traefik
+  name: kiali
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "30"
+    argocd.argoproj.io/sync-wave: "72"
 spec:
   project: default
   sources:
-    - repoURL: https://traefik.github.io/charts
-      chart: traefik
-      targetRevision: 37.4.0
+    - repoURL: https://kiali.org/helm-charts
+      chart: kiali-server
+      targetRevision: 2.19.0
       helm:
         valueFiles:
-          - $values/manifests/traefik/eu-central-1-dev/values.yaml
+          - $values/manifests/kiali/eu-central-1-dev/values.yaml
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: traefik
+    namespace: kiali
   syncPolicy:
     automated:
       prune: true
@@ -32,21 +32,21 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traefik-extension
+  name: kiali-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "31"
+    argocd.argoproj.io/sync-wave: "73"
 spec:
   project: default
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
-    path: manifests/traefik-extension/eu-central-1-dev
+    path: manifests/kiali-extension/eu-central-1-dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: traefik
+    namespace: kiali
   syncPolicy:
     automated:
       prune: true

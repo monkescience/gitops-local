@@ -1,0 +1,30 @@
+auth:
+  strategy: anonymous
+
+deployment:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
+
+server:
+  web_fqdn: kiali.localhost
+
+external_services:
+  prometheus:
+    url: http://mimir-gateway.mimir.svc.cluster.local:80/prometheus
+  grafana:
+    enabled: true
+    in_cluster_url: http://grafana-service.grafana.svc.cluster.local:3000
+    url: https://grafana.localhost
+  tracing:
+    enabled: true
+    provider: tempo
+    in_cluster_url: http://tempo.tempo.svc.cluster.local:3200
+    url: https://grafana.localhost
+    use_grpc: false
+  istio:
+    root_namespace: istio-system

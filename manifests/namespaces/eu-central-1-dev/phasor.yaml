@@ -11,3 +11,4 @@ metadata:
     pod-security.kubernetes.io/warn-version: latest
     kargo.akuity.io/project: "true"
     kargo.akuity.io/keep-namespace: "true"
+    istio.io/dataplane-mode: ambient

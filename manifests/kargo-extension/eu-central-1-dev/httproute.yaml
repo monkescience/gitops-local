@@ -5,8 +5,8 @@ metadata:
   namespace: kargo
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: traefik
+    - name: istio-gateway
+      namespace: istio-system
       sectionName: https
   hostnames:
     - kargo.localhost

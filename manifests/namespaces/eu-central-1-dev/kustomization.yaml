@@ -8,7 +8,9 @@ resources:
   - dapr-system.yaml
   - default.yaml
   - grafana.yaml
+  - istio-system.yaml
   - kargo.yaml
+  - kiali.yaml
   - kube-public.yaml
   - kube-system.yaml
   - loki.yaml
@@ -22,4 +24,3 @@ resources:
   - phasor-us-east-1-prod.yaml
   - sealed-secrets.yaml
   - tempo.yaml
-  - traefik.yaml
