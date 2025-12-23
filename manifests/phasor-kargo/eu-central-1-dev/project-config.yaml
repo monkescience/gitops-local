@@ -8,3 +8,12 @@ spec:
     - stageSelector:
         name: eu-central-1-dev
       autoPromotionEnabled: true
+    - stageSelector:
+        name: eu-central-1-int
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: us-east-1-int
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: eu-central-1-prod
+      autoPromotionEnabled: true
