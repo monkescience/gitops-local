@@ -1,8 +1,22 @@
 mixins:
   kubernetes:
+    namespace: alloy
     windows:
       enabled: false
   nodeExporter:
+    namespace: alloy
     platforms:
       darwin: false
       aix: false
+  resourceOptimization:
+    namespace: alloy
+  argocd:
+    namespace: argocd
+  loki:
+    namespace: loki
+  alloy:
+    namespace: alloy
+  mimir:
+    namespace: mimir
+  tempo:
+    namespace: tempo
