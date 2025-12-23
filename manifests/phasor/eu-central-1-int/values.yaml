@@ -21,6 +21,3 @@ frontend:
       - "#f093fb"
       - "#4facfe"
       - "#43e97b"
-
-dapr:
-  enabled: false
