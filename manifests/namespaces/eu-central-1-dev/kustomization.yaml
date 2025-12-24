@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - alloy.yaml
   - argocd.yaml
+  - argo-rollouts.yaml
   - cert-manager.yaml
   - default.yaml
   - grafana.yaml
