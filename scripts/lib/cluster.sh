@@ -38,6 +38,9 @@ cluster_create_single() {
   # Connect to shared Docker network
   network_connect_cluster "$cluster_name"
 
+  # Connect to local registry
+  registry_connect_cluster "$cluster_name"
+
   success "Kind cluster '$cluster_name' created successfully"
 }
 
@@ -45,8 +48,9 @@ cluster_create() {
   local target=${1:-all}
 
   if [[ "$target" == "all" ]]; then
-    # Create network first
+    # Create network and registry first
     network_create
+    registry_create
 
     for cluster in "${CLUSTERS[@]}"; do
       cluster_create_single "$cluster"
@@ -73,8 +77,9 @@ cluster_create() {
       exit 1
     fi
 
-    # Ensure network exists
+    # Ensure network and registry exist
     network_create
+    registry_create
 
     cluster_create_single "$target"
   fi
