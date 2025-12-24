@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "30"
 spec:
-  project: default
+  project: eu-central-1-management
   sources:
     - repoURL: ghcr.io/akuity/kargo-charts
       chart: kargo
@@ -39,7 +39,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "31"
 spec:
-  project: default
+  project: eu-central-1-management
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

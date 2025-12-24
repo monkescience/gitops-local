@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "25"
 spec:
-  project: default
+  project: eu-central-1-management
   source:
     repoURL: https://istio-release.storage.googleapis.com/charts
     chart: base
@@ -34,7 +34,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "26"
 spec:
-  project: default
+  project: eu-central-1-management
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       chart: cni
@@ -65,7 +65,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "27"
 spec:
-  project: default
+  project: eu-central-1-management
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       chart: istiod
@@ -96,7 +96,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "28"
 spec:
-  project: default
+  project: eu-central-1-management
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
       chart: ztunnel
@@ -127,7 +127,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "30"
 spec:
-  project: default
+  project: eu-central-1-management
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
@@ -152,7 +152,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "31"
 spec:
-  project: default
+  project: eu-central-1-management
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

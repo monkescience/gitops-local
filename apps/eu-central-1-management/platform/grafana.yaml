@@ -8,7 +8,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: eu-central-1-management
   sources:
     - repoURL: https://grafana.github.io/helm-charts
       chart: grafana-operator
@@ -40,7 +40,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "71"
 spec:
-  project: default
+  project: eu-central-1-management
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

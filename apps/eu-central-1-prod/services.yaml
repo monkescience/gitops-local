@@ -8,7 +8,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: eu-central-1-prod
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

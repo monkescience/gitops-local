@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "55"
 spec:
-  project: default
+  project: eu-central-1-management
   sources:
     - repoURL: ghcr.io/monkescience/helm-charts
       chart: gitops-mixin

@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - httproute.yaml
   - secret.yaml
+  - projects.yaml

@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "72"
 spec:
-  project: default
+  project: eu-central-1-dev
   sources:
     - repoURL: https://kiali.org/helm-charts
       chart: kiali-server
@@ -39,7 +39,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "73"
 spec:
-  project: default
+  project: eu-central-1-dev
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "62"
 spec:
-  project: default
+  project: eu-central-1-management
   sources:
     - repoURL: https://grafana.github.io/helm-charts
       chart: tempo
