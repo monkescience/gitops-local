@@ -113,8 +113,7 @@ stringData:
     {
       "bearerToken": "${token}",
       "tlsClientConfig": {
-        "insecure": false,
-        "caData": "${ca_cert}"
+        "insecure": true
       }
     }
 EOF

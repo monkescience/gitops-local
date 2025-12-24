@@ -29,6 +29,10 @@ argocd_bootstrap() {
 
   success "ArgoCD installed successfully on management cluster"
 
+  info "Creating ArgoCD AppProjects..."
+  kubectl apply -f "$PROJECT_ROOT/manifests/argocd-extension/eu-central-1-management/projects.yaml"
+  success "ArgoCD AppProjects created"
+
   header "ArgoCD Credentials"
   echo "  Username: admin"
   echo "  Password: admin"
