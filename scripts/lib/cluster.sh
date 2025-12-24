@@ -1,36 +1,113 @@
 #!/usr/bin/env bash
-# Cluster management commands
+# Cluster management commands for multi-cluster setup
 
-cluster_create() {
-  info "Creating Kind cluster with GitOps configuration..."
+CLUSTERS=("eu-central-1-management" "eu-central-1-dev" "eu-central-1-prod")
 
-  if kind get clusters 2>/dev/null | grep -q "^gitops-local$"; then
-    error "Cluster 'gitops-local' already exists"
-    echo "  Delete it first with: gitops teardown"
-    exit 1
+cluster_exists() {
+  local cluster_name=$1
+  kind get clusters 2>/dev/null | grep -q "^${cluster_name}$"
+}
+
+cluster_create_single() {
+  local cluster_name=$1
+
+  info "Creating Kind cluster '$cluster_name'..."
+
+  if cluster_exists "$cluster_name"; then
+    warn "Cluster '$cluster_name' already exists, skipping"
+    return 0
+  fi
+
+  local template="$PROJECT_ROOT/kind-cluster-${cluster_name}.yaml.tmpl"
+  local config="$PROJECT_ROOT/kind-cluster-${cluster_name}.yaml"
+
+  if [[ ! -f "$template" ]]; then
+    error "Cluster template not found: $template"
+    return 1
   fi
 
   export PROJECT_ROOT
-  envsubst < "$PROJECT_ROOT/kind-cluster.yaml.tmpl" > "$PROJECT_ROOT/kind-cluster.yaml"
+  envsubst < "$template" > "$config"
 
-  kind create cluster --config "$PROJECT_ROOT/kind-cluster.yaml"
+  kind create cluster --config "$config"
 
-  info "Waiting for cluster to be ready..."
+  info "Waiting for cluster '$cluster_name' to be ready..."
+  kubectl config use-context "kind-${cluster_name}"
   kubectl wait --for=condition=Ready nodes --all --timeout=300s
 
-  success "Kind cluster 'gitops-local' created successfully"
-  echo ""
-  echo "Cluster info:"
-  kubectl cluster-info
-  echo ""
-  echo "Nodes:"
-  kubectl get nodes
+  # Connect to shared Docker network
+  network_connect_cluster "$cluster_name"
+
+  success "Kind cluster '$cluster_name' created successfully"
+}
+
+cluster_create() {
+  local target=${1:-all}
+
+  if [[ "$target" == "all" ]]; then
+    # Create network first
+    network_create
+
+    for cluster in "${CLUSTERS[@]}"; do
+      cluster_create_single "$cluster"
+    done
+
+    echo ""
+    info "All clusters created. Summary:"
+    for cluster in "${CLUSTERS[@]}"; do
+      echo "  - $cluster: $(get_cluster_ip_on_network "$cluster")"
+    done
+  else
+    # Validate cluster name
+    local valid=false
+    for cluster in "${CLUSTERS[@]}"; do
+      if [[ "$cluster" == "$target" ]]; then
+        valid=true
+        break
+      fi
+    done
+
+    if [[ "$valid" != "true" ]]; then
+      error "Invalid cluster name: $target"
+      echo "  Valid clusters: ${CLUSTERS[*]}"
+      exit 1
+    fi
+
+    # Ensure network exists
+    network_create
+
+    cluster_create_single "$target"
+  fi
+}
+
+cluster_delete_single() {
+  local cluster_name=$1
+
+  info "Deleting Kind cluster '$cluster_name'..."
+
+  if cluster_exists "$cluster_name"; then
+    kind delete cluster --name "$cluster_name"
+    success "Cluster '$cluster_name' deleted successfully"
+  else
+    warn "Cluster '$cluster_name' not found. Nothing to delete."
+  fi
 }
 
 cluster_delete() {
+  local target=${1:-all}
+
   header "Kind GitOps Stack - Teardown"
-  echo "This will delete the Kind cluster 'gitops-local'"
-  echo "and all resources within it."
+
+  if [[ "$target" == "all" ]]; then
+    echo "This will delete ALL Kind clusters:"
+    for cluster in "${CLUSTERS[@]}"; do
+      echo "  - $cluster"
+    done
+    echo ""
+    echo "and the Docker network '$NETWORK_NAME'."
+  else
+    echo "This will delete the Kind cluster '$target'"
+  fi
   echo ""
 
   read -p "Are you sure? (y/n) " -n 1 -r
@@ -41,12 +118,46 @@ cluster_delete() {
   fi
 
   echo ""
-  info "Deleting Kind cluster 'gitops-local'..."
 
-  if kind get clusters 2>/dev/null | grep -q "^gitops-local$"; then
-    kind delete cluster --name gitops-local
-    success "Cluster deleted successfully"
+  if [[ "$target" == "all" ]]; then
+    for cluster in "${CLUSTERS[@]}"; do
+      cluster_delete_single "$cluster"
+    done
+    network_delete
   else
-    warn "Cluster 'gitops-local' not found. Nothing to delete."
+    cluster_delete_single "$target"
   fi
+}
+
+cluster_status() {
+  header "Cluster Status"
+
+  for cluster in "${CLUSTERS[@]}"; do
+    if cluster_exists "$cluster"; then
+      local ip
+      ip=$(get_cluster_ip_on_network "$cluster")
+      echo -e "${GREEN}✓${NC} $cluster (IP: ${ip:-unknown})"
+    else
+      echo -e "${RED}✗${NC} $cluster (not running)"
+    fi
+  done
+}
+
+switch_context() {
+  local cluster_name=$1
+
+  if [[ -z "$cluster_name" ]]; then
+    error "Cluster name required"
+    echo "  Usage: gitops context <cluster-name>"
+    echo "  Available: ${CLUSTERS[*]}"
+    exit 1
+  fi
+
+  if ! cluster_exists "$cluster_name"; then
+    error "Cluster '$cluster_name' does not exist"
+    exit 1
+  fi
+
+  kubectl config use-context "kind-${cluster_name}"
+  success "Switched to context 'kind-${cluster_name}'"
 }

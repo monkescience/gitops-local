@@ -17,11 +17,11 @@ data:
           containers:
             - name: istio-proxy
               ports:
-                - containerPort: 9080
-                  hostPort: 9080
+                - containerPort: 8080
+                  hostPort: 8080
                   protocol: TCP
-                - containerPort: 9443
-                  hostPort: 9443
+                - containerPort: 8443
+                  hostPort: 8443
                   protocol: TCP
   service: |
     spec:

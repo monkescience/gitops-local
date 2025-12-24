@@ -11,7 +11,7 @@ frontend:
   replicaCount: 2
   config:
     environment: "eu-central-1-prod"
-    backend_url: "http://phasor-eu-central-1-prod-backend/instance/info"
+    backend_url: "http://phasor-prod-backend/instance/info"
     log_config:
       level: "warn"
       format: "json"
@@ -29,4 +29,4 @@ httpRoute:
       namespace: istio-system
       sectionName: https
   hostnames:
-    - phasor.eu-central-1.prod.localhost
+    - phasor.prod.localhost

@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - argocd.yaml
+  - cert-manager.yaml
+  - default.yaml
+  - grafana.yaml
+  - istio-system.yaml
+  - kargo.yaml
+  - kube-public.yaml
+  - kube-state-metrics.yaml
+  - kube-system.yaml
+  - loki.yaml
+  - mimir.yaml
+  - phasor.yaml
+  - sealed-secrets.yaml
+  - tempo.yaml

@@ -1,0 +1,36 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: eu-central-1-management
+networking:
+  podSubnet: "10.240.0.0/16"
+  serviceSubnet: "10.241.0.0/16"
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.35.0
+    extraPortMappings:
+      # Istio Gateway (main ingress)
+      - containerPort: 80
+        hostPort: 80
+        protocol: TCP
+      - containerPort: 443
+        hostPort: 443
+        protocol: TCP
+      # NodePort for observability (direct access if needed)
+      - containerPort: 30080
+        hostPort: 30080
+        protocol: TCP
+      - containerPort: 30081
+        hostPort: 30081
+        protocol: TCP
+      - containerPort: 30317
+        hostPort: 30317
+        protocol: TCP
+    extraMounts:
+      - hostPath: ${PROJECT_ROOT}
+        containerPath: /gitops
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "topology.kubernetes.io/region=eu-central-1,topology.kubernetes.io/zone=eu-central-1a"

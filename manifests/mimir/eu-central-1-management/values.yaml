@@ -1,0 +1,108 @@
+# Disable new Kafka-based ingest storage (use classic architecture)
+mimir:
+  structuredConfig:
+    multitenancy_enabled: false
+    ingest_storage:
+      enabled: false
+    ingester:
+      push_grpc_method_enabled: true
+      ring:
+        replication_factor: 1
+    blocks_storage:
+      backend: filesystem
+    ruler:
+      rule_path: /data/ruler-tmp
+    ruler_storage:
+      backend: filesystem
+      filesystem:
+        dir: /data/ruler-storage
+    alertmanager_storage:
+      backend: filesystem
+    limits:
+      ruler_max_rules_per_rule_group: 30
+
+# Disable bundled Kafka
+kafka:
+  enabled: false
+
+# Disable zone-aware replication
+ingester:
+  zoneAwareReplication:
+    enabled: false
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 512Mi
+  persistentVolume:
+    enabled: true
+    size: 10Gi
+    storageClass: standard
+
+distributor:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
+querier:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
+query_frontend:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+compactor:
+  replicas: 0
+
+store_gateway:
+  replicas: 0
+
+ruler:
+  enabled: true
+
+alertmanager:
+  enabled: true
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+minio:
+  enabled: false
+
+rollout_operator:
+  enabled: false
+
+nginx:
+  enabled: true
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
+
+metaMonitoring:
+  serviceMonitor:
+    enabled: true

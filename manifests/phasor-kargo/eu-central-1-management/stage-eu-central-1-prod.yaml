@@ -1,0 +1,21 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: eu-central-1-prod
+  namespace: phasor
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: phasor
+      sources:
+        stages:
+          - eu-central-1-dev
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: promote-phasor
+            inputs:
+              appSuffix: prod
+  verification: {}

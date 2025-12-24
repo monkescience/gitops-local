@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kiali
+  name: kiali-dev
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -20,7 +20,7 @@ spec:
       targetRevision: HEAD
       ref: values
   destination:
-    server: https://kubernetes.default.svc
+    name: eu-central-1-dev
     namespace: kiali
   syncPolicy:
     automated:
@@ -32,7 +32,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kiali-extension
+  name: kiali-extension-dev
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -45,7 +45,7 @@ spec:
     targetRevision: HEAD
     path: manifests/kiali-extension/eu-central-1-dev
   destination:
-    server: https://kubernetes.default.svc
+    name: eu-central-1-dev
     namespace: kiali
   syncPolicy:
     automated:

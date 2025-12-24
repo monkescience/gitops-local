@@ -1,0 +1,78 @@
+global:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    seccompProfile:
+      type: RuntimeDefault
+
+controller:
+  globalCredentials:
+    namespaces:
+      - kargo
+  env:
+    - name: GIT_CONFIG_COUNT
+      value: "1"
+    - name: GIT_CONFIG_KEY_0
+      value: safe.directory
+    - name: GIT_CONFIG_VALUE_0
+      value: /gitops
+  volumes:
+    - name: gitops
+      hostPath:
+        path: /gitops
+        type: Directory
+  volumeMounts:
+    - name: gitops
+      mountPath: /gitops
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+api:
+  tls:
+    enabled: false
+  adminAccount:
+    passwordHash: $2a$12$J3u7V0B2zYhsDsaxtaBXEOChOEbMcTJwhljitJOsQ3JTwRaaH4r.u # admin
+    tokenSigningKey: 98daba3e93922ec98232bbdd1836e3d51f994b62ba4e485a7c70b81094263cc1
+    tokenTTL: 24h
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+garbageCollector:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+externalWebhooksServer:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+managementController:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+webhooksServer:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi

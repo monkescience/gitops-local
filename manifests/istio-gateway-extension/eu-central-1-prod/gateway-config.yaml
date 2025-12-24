@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-gateway-config
+  namespace: istio-system
+data:
+  deployment: |
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            node-role.kubernetes.io/control-plane: ""
+          tolerations:
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+          containers:
+            - name: istio-proxy
+              ports:
+                - containerPort: 9080
+                  hostPort: 9080
+                  protocol: TCP
+                - containerPort: 9443
+                  hostPort: 9443
+                  protocol: TCP
+  service: |
+    spec:
+      type: ClusterIP

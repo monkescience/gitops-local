@@ -1,5 +1,11 @@
 profile: ambient
 
+global:
+  meshID: mesh1
+  multiCluster:
+    clusterName: eu-central-1-dev
+  network: network1
+
 pilot:
   autoscaleEnabled: false
   replicaCount: 1

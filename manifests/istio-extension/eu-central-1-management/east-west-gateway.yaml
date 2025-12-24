@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: cross-cluster
+  namespace: istio-system
+  labels:
+    istio.io/rev: default
+    topology.istio.io/network: network1
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: tls-passthrough
+      port: 15443
+      protocol: TLS
+      tls:
+        mode: Passthrough
+      allowedRoutes:
+        namespaces:
+          from: All
