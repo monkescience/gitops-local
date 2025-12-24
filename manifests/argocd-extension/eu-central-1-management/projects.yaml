@@ -10,7 +10,6 @@ spec:
   destinations:
     - namespace: "*"
       server: https://kubernetes.default.svc
-      name: in-cluster
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
@@ -28,6 +27,8 @@ spec:
   sourceRepos:
     - "*"
   destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
     - namespace: "*"
       name: eu-central-1-dev
   clusterResourceWhitelist:
@@ -47,6 +48,8 @@ spec:
   sourceRepos:
     - "*"
   destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
     - namespace: "*"
       name: eu-central-1-prod
   clusterResourceWhitelist:
