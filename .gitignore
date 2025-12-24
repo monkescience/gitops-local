@@ -6,6 +6,7 @@
 
 # Generated files
 kind-cluster-*.yaml
+.istio-certs/
 
 # Sealed Secrets master key backup
 .sealed-secrets-key.yaml
