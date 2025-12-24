@@ -48,27 +48,9 @@ cluster_create() {
     # Create network first
     network_create
 
-    info "Creating all clusters in parallel..."
-
-    # Create clusters in parallel
-    local pids=()
     for cluster in "${CLUSTERS[@]}"; do
-      cluster_create_single "$cluster" &
-      pids+=($!)
+      cluster_create_single "$cluster"
     done
-
-    # Wait for all clusters to be created
-    local failed=0
-    for pid in "${pids[@]}"; do
-      if ! wait "$pid"; then
-        ((failed++))
-      fi
-    done
-
-    if [[ $failed -gt 0 ]]; then
-      error "$failed cluster(s) failed to create"
-      exit 1
-    fi
 
     echo ""
     info "All clusters created. Summary:"
@@ -138,20 +120,9 @@ cluster_delete() {
   echo ""
 
   if [[ "$target" == "all" ]]; then
-    info "Deleting all clusters in parallel..."
-
-    # Delete clusters in parallel
-    local pids=()
     for cluster in "${CLUSTERS[@]}"; do
-      cluster_delete_single "$cluster" &
-      pids+=($!)
+      cluster_delete_single "$cluster"
     done
-
-    # Wait for all deletions to complete
-    for pid in "${pids[@]}"; do
-      wait "$pid"
-    done
-
     network_delete
   else
     cluster_delete_single "$target"
