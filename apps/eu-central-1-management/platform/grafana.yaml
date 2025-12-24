@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: grafana-operator
+  name: eu-central-1-management-grafana-operator
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "70"
@@ -33,7 +33,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: grafana-extension
+  name: eu-central-1-management-grafana-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io

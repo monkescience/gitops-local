@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gitops-mixin
+  name: eu-central-1-management-gitops-mixin
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io

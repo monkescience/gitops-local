@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: phasor-kargo
+  name: eu-central-1-management-phasor-kargo
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io

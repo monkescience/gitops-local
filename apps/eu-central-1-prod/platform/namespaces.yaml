@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: namespaces-prod
+  name: eu-central-1-prod-namespaces
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,7 +14,7 @@ spec:
     targetRevision: HEAD
     path: manifests/namespaces/eu-central-1-prod
   destination:
-    name: eu-central-1-prod
+    name: eu-central-1-prod-eu-central-1
     namespace: argocd
   syncPolicy:
     automated:

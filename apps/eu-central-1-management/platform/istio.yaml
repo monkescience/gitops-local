@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-base
+  name: eu-central-1-management-istio-base
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -27,7 +27,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-cni
+  name: eu-central-1-management-istio-cni
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -58,7 +58,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istiod
+  name: eu-central-1-management-istiod
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -89,7 +89,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ztunnel
+  name: eu-central-1-management-ztunnel
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -120,7 +120,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-gateway
+  name: eu-central-1-management-istio-gateway
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -145,7 +145,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-cross-cluster
+  name: eu-central-1-management-istio-cross-cluster
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io

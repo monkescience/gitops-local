@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: namespaces-management
+  name: eu-central-1-management-namespaces
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io

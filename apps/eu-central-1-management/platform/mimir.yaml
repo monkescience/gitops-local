@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mimir
+  name: eu-central-1-management-mimir
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io

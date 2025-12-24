@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argo-rollouts-dev
+  name: eu-central-1-dev-argo-rollouts
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -20,7 +20,7 @@ spec:
       targetRevision: HEAD
       ref: values
   destination:
-    name: eu-central-1-dev
+    name: eu-central-1-dev-eu-central-1
     namespace: argo-rollouts
   syncPolicy:
     automated:

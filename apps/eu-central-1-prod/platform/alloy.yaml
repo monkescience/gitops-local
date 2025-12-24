@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: alloy-prod
+  name: eu-central-1-prod-alloy
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -20,7 +20,7 @@ spec:
       targetRevision: HEAD
       ref: values
   destination:
-    name: eu-central-1-prod
+    name: eu-central-1-prod-eu-central-1
     namespace: alloy
   syncPolicy:
     automated:
@@ -33,7 +33,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: alloy-extension-prod
+  name: eu-central-1-prod-alloy-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -46,7 +46,7 @@ spec:
     targetRevision: HEAD
     path: manifests/alloy-extension/eu-central-1-prod
   destination:
-    name: eu-central-1-prod
+    name: eu-central-1-prod-eu-central-1
     namespace: alloy
   syncPolicy:
     automated:

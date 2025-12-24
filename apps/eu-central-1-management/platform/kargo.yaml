@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kargo
+  name: eu-central-1-management-kargo
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -32,7 +32,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kargo-extension
+  name: eu-central-1-management-kargo-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
