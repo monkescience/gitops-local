@@ -121,6 +121,9 @@ cmd_setup() {
 
     header "Step 6/6: Deploying GitOps Stack"
     stack_deploy all
+
+    header "Waiting for services to become ready"
+    wait_for_url "https://argocd.localhost" 300 5
   else
     header "Step 1/2: Creating cluster"
     cluster_create "$target"
@@ -129,6 +132,9 @@ cmd_setup() {
       header "Step 2/2: Bootstrapping ArgoCD"
       argocd_bootstrap
       stack_deploy management
+
+      header "Waiting for services to become ready"
+      wait_for_url "https://argocd.localhost" 300 5
     else
       info "Workload cluster '$target' created."
       echo "Run 'gitops argocd register-clusters' after management is ready."

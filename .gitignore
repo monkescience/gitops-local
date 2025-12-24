@@ -5,7 +5,7 @@
 .DS_Store
 
 # Generated files
-kind-cluster.yaml
+kind-cluster-*.yaml
 
 # Sealed Secrets master key backup
 .sealed-secrets-key.yaml

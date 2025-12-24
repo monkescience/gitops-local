@@ -60,3 +60,28 @@ header() {
   echo "========================================="
   echo ""
 }
+
+# Wait for a URL to become reachable
+wait_for_url() {
+  local url=$1
+  local timeout=${2:-300}
+  local interval=${3:-5}
+  local elapsed=0
+
+  info "Waiting for $url to become reachable..."
+
+  while [[ $elapsed -lt $timeout ]]; do
+    if curl -sk --max-time 5 "$url" >/dev/null 2>&1; then
+      success "$url is reachable"
+      return 0
+    fi
+
+    printf "."
+    sleep "$interval"
+    elapsed=$((elapsed + interval))
+  done
+
+  echo ""
+  error "Timeout waiting for $url after ${timeout}s"
+  return 1
+}

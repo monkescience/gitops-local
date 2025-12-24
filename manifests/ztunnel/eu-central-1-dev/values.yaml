@@ -1,3 +1,6 @@
+multiCluster:
+  clusterName: eu-central-1-dev
+
 resources:
   requests:
     cpu: 10m
