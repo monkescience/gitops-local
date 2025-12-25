@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Stack deployment commands for multi-cluster setup
 
-# Deploy root app for a single cluster
 stack_deploy_single() {
   local cluster=$1
 
