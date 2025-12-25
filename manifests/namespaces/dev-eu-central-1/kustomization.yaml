@@ -5,6 +5,7 @@ resources:
   - alloy.yaml
   - argo-rollouts.yaml
   - argocd.yaml
+  - cert-manager.yaml
   - default.yaml
   - istio-system.yaml
   - kargo.yaml
