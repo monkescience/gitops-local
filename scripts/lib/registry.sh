@@ -55,21 +55,3 @@ EOF
 
   success "Registry connected to cluster '$cluster_name'"
 }
-
-registry_delete() {
-  if registry_running; then
-    info "Stopping local registry..."
-    docker rm -f "$REGISTRY_NAME"
-    success "Local registry stopped"
-  else
-    warn "Local registry not running"
-  fi
-}
-
-registry_status() {
-  if registry_running; then
-    echo -e "${GREEN}✓${NC} Registry running at localhost:${REGISTRY_PORT}"
-  else
-    echo -e "${RED}✗${NC} Registry not running"
-  fi
-}

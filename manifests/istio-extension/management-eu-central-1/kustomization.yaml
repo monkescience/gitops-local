@@ -3,3 +3,4 @@ kind: Kustomization
 
 resources:
   - east-west-gateway.yaml
+  - rbac.yaml

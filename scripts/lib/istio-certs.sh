@@ -3,6 +3,41 @@
 CERTS_DIR="$PROJECT_ROOT/.istio-certs"
 ROOT_CA_DAYS=3650
 INTERMEDIATE_CA_DAYS=730
+ISTIO_SA_NAME="istio-manager"
+ISTIO_NAMESPACE="istio-system"
+
+wait_for_istio_sa() {
+  local cluster=$1
+  local timeout=${2:-120}
+  local interval=5
+  local elapsed=0
+
+  info "Waiting for Istio ServiceAccount token in '$cluster'..."
+
+  kubectl config use-context "kind-${cluster}" >/dev/null 2>&1
+
+  while [[ $elapsed -lt $timeout ]]; do
+    if kubectl get secret "${ISTIO_SA_NAME}-token" -n "${ISTIO_NAMESPACE}" >/dev/null 2>&1; then
+      success "Istio ServiceAccount ready in '$cluster'"
+      return 0
+    fi
+
+    printf "."
+    sleep "$interval"
+    elapsed=$((elapsed + interval))
+  done
+
+  echo ""
+  error "Timeout waiting for Istio ServiceAccount in '$cluster'"
+  return 1
+}
+
+get_cluster_token() {
+  local cluster=$1
+
+  kubectl config use-context "kind-${cluster}" >/dev/null 2>&1
+  kubectl get secret "${ISTIO_SA_NAME}-token" -n "${ISTIO_NAMESPACE}" -o jsonpath='{.data.token}' | base64 -d
+}
 
 generate_root_ca() {
   info "Generating Istio root CA..."
@@ -168,6 +203,13 @@ EOF
 
 istio_setup_remote_secrets() {
   header "Setting up Istio Remote Secrets for Multi-Cluster Discovery"
+
+  info "Waiting for Istio ServiceAccounts (synced by ArgoCD)..."
+  for cluster in "${CLUSTERS[@]}"; do
+    if cluster_exists "$cluster"; then
+      wait_for_istio_sa "$cluster"
+    fi
+  done
 
   if cluster_exists "management-eu-central-1"; then
     for target in "dev-eu-central-1" "prod-eu-central-1"; do
