@@ -1,52 +1,53 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kiali-prod-eu-central-1
+  name: cert-manager-prod-eu-central-1
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "72"
+    argocd.argoproj.io/sync-wave: "10"
 spec:
   project: prod-eu-central-1
   sources:
-    - repoURL: https://kiali.org/helm-charts
-      chart: kiali-server
-      targetRevision: 2.19.0
+    - repoURL: https://charts.jetstack.io
+      chart: cert-manager
+      targetRevision: v1.19.1
       helm:
         valueFiles:
-          - $values/manifests/kiali/prod-eu-central-1/values.yaml
+          - $values/manifests/cert-manager/prod-eu-central-1/values.yaml
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
   destination:
     name: prod-eu-central-1
-    namespace: kiali
+    namespace: cert-manager
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
+      - ServerSideApply=true
       - ApplyOutOfSyncOnly=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kiali-extension-prod-eu-central-1
+  name: cert-manager-extension-prod-eu-central-1
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "73"
+    argocd.argoproj.io/sync-wave: "11"
 spec:
   project: prod-eu-central-1
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
-    path: manifests/kiali-extension/prod-eu-central-1
+    path: manifests/cert-manager-extension/prod-eu-central-1
   destination:
     name: prod-eu-central-1
-    namespace: kiali
+    namespace: cert-manager
   syncPolicy:
     automated:
       prune: true

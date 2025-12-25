@@ -6,7 +6,6 @@ resources:
   - argo-rollouts.yaml
   - default.yaml
   - istio-system.yaml
-  - kiali.yaml
   - kube-public.yaml
   - kube-system.yaml
   - phasor.yaml

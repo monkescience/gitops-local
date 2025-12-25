@@ -8,6 +8,7 @@ resources:
   - grafana.yaml
   - istio-system.yaml
   - kargo.yaml
+  - kiali.yaml
   - kube-public.yaml
   - kube-state-metrics.yaml
   - kube-system.yaml
