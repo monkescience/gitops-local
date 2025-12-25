@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-operator-management-eu-central-1
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "70"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: management-eu-central-1
+  sources:
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: grafana-operator
+      targetRevision: v5.20.0
+      helm:
+        valueFiles:
+          - $values/manifests/grafana-operator/management-eu-central-1/values.yaml
+    - repoURL: file:///gitops
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: grafana
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - ApplyOutOfSyncOnly=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-extension-management-eu-central-1
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "71"
+spec:
+  project: management-eu-central-1
+  source:
+    repoURL: file:///gitops
+    targetRevision: HEAD
+    path: manifests/grafana-extension/management-eu-central-1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: grafana
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true

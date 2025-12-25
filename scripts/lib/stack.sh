@@ -9,26 +9,26 @@ stack_deploy() {
   case "$target" in
     all)
       # Deploy all stacks: management first, then workload clusters
-      kubectl config use-context "kind-eu-central-1-management"
-      kubectl apply -f "$PROJECT_ROOT/apps/eu-central-1-management.yaml"
-      kubectl apply -f "$PROJECT_ROOT/apps/eu-central-1-dev.yaml"
-      kubectl apply -f "$PROJECT_ROOT/apps/eu-central-1-prod.yaml"
+      kubectl config use-context "kind-management-eu-central-1"
+      kubectl apply -f "$PROJECT_ROOT/apps/management-eu-central-1.yaml"
+      kubectl apply -f "$PROJECT_ROOT/apps/dev-eu-central-1.yaml"
+      kubectl apply -f "$PROJECT_ROOT/apps/prod-eu-central-1.yaml"
       success "Root ArgoCD applications created for all clusters"
       ;;
     management)
-      kubectl config use-context "kind-eu-central-1-management"
-      kubectl apply -f "$PROJECT_ROOT/apps/eu-central-1-management.yaml"
-      success "Root ArgoCD application 'eu-central-1-management' created"
+      kubectl config use-context "kind-management-eu-central-1"
+      kubectl apply -f "$PROJECT_ROOT/apps/management-eu-central-1.yaml"
+      success "Root ArgoCD application 'management-eu-central-1' created"
       ;;
     dev)
-      kubectl config use-context "kind-eu-central-1-management"
-      kubectl apply -f "$PROJECT_ROOT/apps/eu-central-1-dev.yaml"
-      success "Root ArgoCD application 'eu-central-1-dev' created"
+      kubectl config use-context "kind-management-eu-central-1"
+      kubectl apply -f "$PROJECT_ROOT/apps/dev-eu-central-1.yaml"
+      success "Root ArgoCD application 'dev-eu-central-1' created"
       ;;
     prod)
-      kubectl config use-context "kind-eu-central-1-management"
-      kubectl apply -f "$PROJECT_ROOT/apps/eu-central-1-prod.yaml"
-      success "Root ArgoCD application 'eu-central-1-prod' created"
+      kubectl config use-context "kind-management-eu-central-1"
+      kubectl apply -f "$PROJECT_ROOT/apps/prod-eu-central-1.yaml"
+      success "Root ArgoCD application 'prod-eu-central-1' created"
       ;;
     *)
       error "Unknown target: $target"

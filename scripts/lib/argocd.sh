@@ -2,16 +2,16 @@
 # ArgoCD management commands for multi-cluster setup
 
 argocd_bootstrap() {
-  local ARGOCD_APP_FILE="$PROJECT_ROOT/apps/eu-central-1-management/platform/argocd.yaml"
+  local ARGOCD_APP_FILE="$PROJECT_ROOT/apps/management-eu-central-1/platform/argocd.yaml"
   local ARGOCD_CHART_VERSION
   ARGOCD_CHART_VERSION=$(yq 'select(document_index == 0) | .spec.sources[0].targetRevision' "$ARGOCD_APP_FILE")
   local ARGOCD_REPO="https://argoproj.github.io/argo-helm"
-  local ARGOCD_VALUES="$PROJECT_ROOT/manifests/argocd/eu-central-1-management/values.yaml"
+  local ARGOCD_VALUES="$PROJECT_ROOT/manifests/argocd/management-eu-central-1/values.yaml"
 
   info "Bootstrapping ArgoCD on management cluster..."
 
   # Ensure we're on management cluster
-  kubectl config use-context "kind-eu-central-1-management"
+  kubectl config use-context "kind-management-eu-central-1"
 
   # Restore sealed secrets key if backup exists
   secrets_restore
@@ -30,7 +30,7 @@ argocd_bootstrap() {
   success "ArgoCD installed successfully on management cluster"
 
   info "Creating ArgoCD AppProjects..."
-  kubectl apply -f "$PROJECT_ROOT/manifests/argocd-extension/eu-central-1-management/projects.yaml"
+  kubectl apply -f "$PROJECT_ROOT/manifests/argocd-extension/management-eu-central-1/projects.yaml"
   success "ArgoCD AppProjects created"
 
   header "ArgoCD Credentials"

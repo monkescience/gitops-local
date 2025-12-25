@@ -26,9 +26,9 @@ Usage: gitops <command> [subcommand] [target]
 Multi-cluster GitOps local development environment.
 
 Clusters:
-  eu-central-1-management   Management cluster (ArgoCD, Kargo, Observability)
-  eu-central-1-dev          Development workload cluster
-  eu-central-1-prod         Production workload cluster
+  management-eu-central-1   Management cluster (ArgoCD, Kargo, Observability)
+  dev-eu-central-1          Development workload cluster
+  prod-eu-central-1         Production workload cluster
 
 Commands:
   setup [target]            Full setup (clusters + argocd + register + stack)

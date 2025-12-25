@@ -1,0 +1,16 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: phasor
+  namespace: phasor
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: dev-eu-central-1
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: int-eu-central-1
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: prod-eu-central-1
+      autoPromotionEnabled: true

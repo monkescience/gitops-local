@@ -94,7 +94,7 @@ register_cluster_with_argocd() {
   ca_cert=$(get_cluster_ca "$cluster_name")
 
   # Switch to management cluster
-  kubectl config use-context "kind-eu-central-1-management"
+  kubectl config use-context "kind-management-eu-central-1"
 
   # Create cluster secret in ArgoCD namespace
   kubectl apply -f - <<EOF
@@ -126,7 +126,7 @@ argocd_register_clusters() {
   header "Registering Workload Clusters with ArgoCD"
 
   # Ensure we're on management cluster and ArgoCD is running
-  kubectl config use-context "kind-eu-central-1-management"
+  kubectl config use-context "kind-management-eu-central-1"
 
   if ! kubectl get namespace "$ARGOCD_NAMESPACE" >/dev/null 2>&1; then
     error "ArgoCD namespace not found. Bootstrap ArgoCD first."
@@ -134,7 +134,7 @@ argocd_register_clusters() {
   fi
 
   # Register dev and prod clusters
-  for cluster in "eu-central-1-dev" "eu-central-1-prod"; do
+  for cluster in "dev-eu-central-1" "prod-eu-central-1"; do
     if cluster_exists "$cluster"; then
       register_cluster_with_argocd "$cluster"
     else
@@ -143,7 +143,7 @@ argocd_register_clusters() {
   done
 
   # Switch back to management context
-  kubectl config use-context "kind-eu-central-1-management"
+  kubectl config use-context "kind-management-eu-central-1"
 
   success "All workload clusters registered with ArgoCD"
 

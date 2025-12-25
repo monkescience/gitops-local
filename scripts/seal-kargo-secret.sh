@@ -10,8 +10,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-TEMPLATE="$PROJECT_ROOT/manifests/kargo-extension/eu-central-1-dev/secret.template.yaml"
-OUTPUT="$PROJECT_ROOT/manifests/kargo-extension/eu-central-1-dev/secret.yaml"
+TEMPLATE="$PROJECT_ROOT/manifests/kargo-extension/dev-eu-central-1/secret.template.yaml"
+OUTPUT="$PROJECT_ROOT/manifests/kargo-extension/dev-eu-central-1/secret.yaml"
 TEMP_FILE=$(mktemp)
 
 trap "rm -f $TEMP_FILE" EXIT

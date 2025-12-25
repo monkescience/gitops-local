@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespaces-dev-eu-central-1
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: dev-eu-central-1
+  source:
+    repoURL: file:///gitops
+    targetRevision: HEAD
+    path: manifests/namespaces/dev-eu-central-1
+  destination:
+    name: dev-eu-central-1
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true

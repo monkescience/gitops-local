@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: phasor-prod-eu-central-1
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+    kargo.akuity.io/authorized-stage: phasor:prod-eu-central-1
+spec:
+  project: prod-eu-central-1
+  sources:
+    - repoURL: ghcr.io/monkescience/helm-charts
+      chart: phasor
+      targetRevision: 0.3.0
+      helm:
+        valueFiles:
+          - $values/manifests/phasor/prod-eu-central-1/values.yaml
+    - repoURL: file:///gitops
+      targetRevision: HEAD
+      ref: values
+  destination:
+    name: prod-eu-central-1
+    namespace: phasor
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true

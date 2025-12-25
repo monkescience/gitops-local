@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Cluster management commands for multi-cluster setup
 
-CLUSTERS=("eu-central-1-management" "eu-central-1-dev" "eu-central-1-prod")
+CLUSTERS=("management-eu-central-1" "dev-eu-central-1" "prod-eu-central-1")
 
 cluster_exists() {
   local cluster_name=$1

@@ -130,7 +130,7 @@ istio_setup_certs() {
   done
 
   # Switch back to management context
-  kubectl config use-context "kind-eu-central-1-management"
+  kubectl config use-context "kind-management-eu-central-1"
 
   success "Istio certificates configured for all clusters"
 }
@@ -193,23 +193,23 @@ istio_setup_remote_secrets() {
   header "Setting up Istio Remote Secrets for Multi-Cluster Discovery"
 
   # Management discovers dev and prod
-  if cluster_exists "eu-central-1-management"; then
-    for target in "eu-central-1-dev" "eu-central-1-prod"; do
+  if cluster_exists "management-eu-central-1"; then
+    for target in "dev-eu-central-1" "prod-eu-central-1"; do
       if cluster_exists "$target"; then
-        create_istio_remote_secret "eu-central-1-management" "$target"
+        create_istio_remote_secret "management-eu-central-1" "$target"
       fi
     done
   fi
 
   # Dev and prod discover management (for cross-cluster service access)
-  for source in "eu-central-1-dev" "eu-central-1-prod"; do
-    if cluster_exists "$source" && cluster_exists "eu-central-1-management"; then
-      create_istio_remote_secret "$source" "eu-central-1-management"
+  for source in "dev-eu-central-1" "prod-eu-central-1"; do
+    if cluster_exists "$source" && cluster_exists "management-eu-central-1"; then
+      create_istio_remote_secret "$source" "management-eu-central-1"
     fi
   done
 
   # Switch back to management context
-  kubectl config use-context "kind-eu-central-1-management"
+  kubectl config use-context "kind-management-eu-central-1"
 
   success "Istio remote secrets configured for all clusters"
 }
