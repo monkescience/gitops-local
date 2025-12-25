@@ -1,10 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: prod-eu-central-1
+  name: platform
   namespace: argocd
 spec:
-  description: Platform and service components for the prod cluster
+  description: Platform components for the prod cluster
+  sourceRepos:
+    - "*"
+  destinations:
+    - namespace: "*"
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: services
+  namespace: argocd
+spec:
+  description: Service components for the prod cluster
   sourceRepos:
     - "*"
   destinations:

@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kiali-management-eu-central-1
+  name: kiali
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "72"
 spec:
-  project: management-eu-central-1
+  project: platform
   sources:
     - repoURL: https://kiali.org/helm-charts
       chart: kiali-server
@@ -32,14 +32,14 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kiali-extension-management-eu-central-1
+  name: kiali-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "73"
 spec:
-  project: management-eu-central-1
+  project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

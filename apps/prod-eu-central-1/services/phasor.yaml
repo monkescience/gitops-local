@@ -9,7 +9,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
     kargo.akuity.io/authorized-stage: phasor:prod-eu-central-1
 spec:
-  project: prod-eu-central-1
+  project: services
   sources:
     - repoURL: ghcr.io/monkescience/helm-charts
       chart: phasor

@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus-operator-crds-management-eu-central-1
+  name: prometheus-operator-crds
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "0"
 spec:
-  project: management-eu-central-1
+  project: platform
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: prometheus-operator-crds

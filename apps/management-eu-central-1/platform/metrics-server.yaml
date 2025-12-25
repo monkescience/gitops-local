@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metrics-server-management-eu-central-1
+  name: metrics-server
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "10"
 spec:
-  project: management-eu-central-1
+  project: platform
   sources:
     - repoURL: https://kubernetes-sigs.github.io/metrics-server
       chart: metrics-server

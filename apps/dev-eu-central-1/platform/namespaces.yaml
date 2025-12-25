@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
 spec:
-  project: dev-eu-central-1
+  project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

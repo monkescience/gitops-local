@@ -1,0 +1,39 @@
+global:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    seccompProfile:
+      type: RuntimeDefault
+
+# Shard controller configuration - connects to management cluster for Kargo data
+controller:
+  shardName: dev-eu-central-1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+# Kubeconfig secret to access management cluster for Kargo CRDs
+kubeconfigSecrets:
+  kargo:
+    name: kargo-management-kubeconfig
+    key: kubeconfig
+
+# Disable API - only management has the API
+api:
+  enabled: false
+
+# Disable other management-only components
+garbageCollector:
+  enabled: false
+
+managementController:
+  enabled: false
+
+webhooksServer:
+  enabled: false
+
+externalWebhooksServer:
+  enabled: false

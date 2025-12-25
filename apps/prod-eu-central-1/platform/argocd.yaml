@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "20"
 spec:
-  project: prod-eu-central-1
+  project: platform
   sources:
     - repoURL: https://argoproj.github.io/argo-helm
       chart: argo-cd
@@ -39,7 +39,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "21"
 spec:
-  project: prod-eu-central-1
+  project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

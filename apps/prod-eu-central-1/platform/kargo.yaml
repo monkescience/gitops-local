@@ -1,28 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: phasor
+  name: kargo
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
-    kargo.akuity.io/authorized-stage: phasor:dev-eu-central-1
+    argocd.argoproj.io/sync-wave: "30"
 spec:
-  project: services
+  project: platform
   sources:
-    - repoURL: ghcr.io/monkescience/helm-charts
-      chart: phasor
-      targetRevision: 0.3.0
+    - repoURL: ghcr.io/akuity/kargo-charts
+      chart: kargo
+      targetRevision: 1.4.4
       helm:
         valueFiles:
-          - $values/manifests/phasor/dev-eu-central-1/values.yaml
+          - $values/manifests/kargo/prod-eu-central-1/values.yaml
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: phasor
+    namespace: kargo
   syncPolicy:
     automated:
       prune: true

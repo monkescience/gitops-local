@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: grafana-operator-management-eu-central-1
+  name: grafana-operator
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "70"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: management-eu-central-1
+  project: platform
   sources:
     - repoURL: https://grafana.github.io/helm-charts
       chart: grafana-operator
@@ -33,14 +33,14 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: grafana-extension-management-eu-central-1
+  name: grafana-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "71"
 spec:
-  project: management-eu-central-1
+  project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

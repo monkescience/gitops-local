@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-management-eu-central-1
+  name: argocd
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "20"
 spec:
-  project: management-eu-central-1
+  project: platform
   sources:
     - repoURL: https://argoproj.github.io/argo-helm
       chart: argo-cd
@@ -32,14 +32,14 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-extension-management-eu-central-1
+  name: argocd-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "21"
 spec:
-  project: management-eu-central-1
+  project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD

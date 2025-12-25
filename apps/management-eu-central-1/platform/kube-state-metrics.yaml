@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-state-metrics-management-eu-central-1
+  name: kube-state-metrics
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "51"
 spec:
-  project: management-eu-central-1
+  project: platform
   sources:
     - repoURL: https://prometheus-community.github.io/helm-charts
       chart: kube-state-metrics

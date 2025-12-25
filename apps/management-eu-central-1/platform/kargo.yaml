@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kargo-management-eu-central-1
+  name: kargo
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "30"
 spec:
-  project: management-eu-central-1
+  project: platform
   sources:
     - repoURL: ghcr.io/akuity/kargo-charts
       chart: kargo
@@ -32,14 +32,14 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kargo-extension-management-eu-central-1
+  name: kargo-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "31"
 spec:
-  project: management-eu-central-1
+  project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
