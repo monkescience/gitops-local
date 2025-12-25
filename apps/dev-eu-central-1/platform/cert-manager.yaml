@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager-dev-eu-central-1
+  name: cert-manager
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -20,7 +20,7 @@ spec:
       targetRevision: HEAD
       ref: values
   destination:
-    name: dev-eu-central-1
+    server: https://kubernetes.default.svc
     namespace: cert-manager
   syncPolicy:
     automated:
@@ -33,7 +33,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager-extension-dev-eu-central-1
+  name: cert-manager-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -46,7 +46,7 @@ spec:
     targetRevision: HEAD
     path: manifests/cert-manager-extension/dev-eu-central-1
   destination:
-    name: dev-eu-central-1
+    server: https://kubernetes.default.svc
     namespace: cert-manager
   syncPolicy:
     automated:

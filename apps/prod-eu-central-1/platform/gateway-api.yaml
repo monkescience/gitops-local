@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gateway-api-prod-eu-central-1
+  name: gateway-api
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,7 +14,7 @@ spec:
     targetRevision: v1.4.0
     path: config/crd/standard
   destination:
-    name: prod-eu-central-1
+    server: https://kubernetes.default.svc
     namespace: kube-system
   syncPolicy:
     automated:

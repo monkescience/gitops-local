@@ -38,8 +38,8 @@ Commands:
   cluster delete [target]   Delete Kind cluster(s)
   cluster status            Show cluster status
 
-  argocd bootstrap          Bootstrap ArgoCD on management cluster
-  argocd register-clusters  Register workload clusters with ArgoCD
+  argocd bootstrap [target] Bootstrap ArgoCD on cluster(s)
+  argocd register-clusters  Register workload clusters with management ArgoCD (for Kargo)
 
   istio setup-certs         Generate and install Istio multi-cluster certs
   istio setup-remote        Setup Istio remote secrets for discovery
@@ -105,25 +105,25 @@ cmd_setup() {
   info "Starting setup..."
 
   if [[ "$target" == "all" ]]; then
-    header "Step 1/6: Creating clusters"
+    header "Step 1/7: Creating clusters"
     cluster_create all
 
-    header "Step 2/6: Setting up Istio certificates"
+    header "Step 2/7: Setting up Istio certificates"
     istio_setup_certs
 
-    header "Step 3/6: Bootstrapping ArgoCD on management cluster"
-    argocd_bootstrap
+    header "Step 3/7: Bootstrapping ArgoCD on all clusters"
+    argocd_bootstrap_all
 
-    header "Step 4/6: Registering workload clusters with ArgoCD"
+    header "Step 4/7: Registering workload clusters with management ArgoCD (for Kargo)"
     argocd_register_clusters
 
-    header "Step 5/6: Setting up Istio remote secrets"
+    header "Step 5/7: Setting up Istio remote secrets"
     istio_setup_remote_secrets
 
-    header "Step 6/6: Deploying GitOps Stack"
+    header "Step 6/7: Deploying GitOps Stack"
     stack_deploy all
 
-    header "Waiting for services to become ready"
+    header "Step 7/7: Waiting for services to become ready"
     wait_for_url "https://argocd.localhost" 300 5
   else
     header "Step 1/2: Creating cluster"
@@ -151,8 +151,18 @@ cmd_setup() {
   echo "  Cluster status:    gitops cluster status"
 
   header "Service Access (after deployment completes)"
-  echo "ArgoCD:"
+  echo "ArgoCD (Management):"
   echo "  URL:      https://argocd.localhost"
+  echo "  Username: admin"
+  echo "  Password: admin"
+  echo ""
+  echo "ArgoCD (Dev):"
+  echo "  URL:      https://argocd-dev.localhost"
+  echo "  Username: admin"
+  echo "  Password: admin"
+  echo ""
+  echo "ArgoCD (Prod):"
+  echo "  URL:      https://argocd-prod.localhost"
   echo "  Username: admin"
   echo "  Password: admin"
   echo ""
@@ -188,9 +198,15 @@ case "${1:-}" in
     ;;
   argocd)
     case "${2:-}" in
-      bootstrap) argocd_bootstrap ;;
+      bootstrap)
+        if [[ "${3:-}" == "all" ]]; then
+          argocd_bootstrap_all
+        else
+          argocd_bootstrap "${3:-management-eu-central-1}"
+        fi
+        ;;
       register-clusters) argocd_register_clusters ;;
-      *) error "Unknown argocd command: ${2:-}"; echo "Usage: gitops argocd <bootstrap|register-clusters>"; exit 1 ;;
+      *) error "Unknown argocd command: ${2:-}"; echo "Usage: gitops argocd <bootstrap [target]|register-clusters>"; exit 1 ;;
     esac
     ;;
   istio)

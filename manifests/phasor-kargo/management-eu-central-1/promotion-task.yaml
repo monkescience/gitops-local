@@ -4,8 +4,6 @@ metadata:
   name: promote-phasor
   namespace: phasor
 spec:
-  inputs:
-    - name: appSuffix
   vars:
     - name: gitRepo
       value: file:///gitops
@@ -33,4 +31,4 @@ spec:
     - uses: argocd-update
       config:
         apps:
-          - name: phasor-${{ inputs.appSuffix }}
+          - name: phasor

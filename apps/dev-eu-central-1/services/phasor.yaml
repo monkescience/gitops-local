@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: phasor-dev-eu-central-1
+  name: phasor
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -21,7 +21,7 @@ spec:
       targetRevision: HEAD
       ref: values
   destination:
-    name: dev-eu-central-1
+    server: https://kubernetes.default.svc
     namespace: phasor
   syncPolicy:
     automated:

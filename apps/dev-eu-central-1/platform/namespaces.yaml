@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: namespaces-dev-eu-central-1
+  name: namespaces
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,7 +14,7 @@ spec:
     targetRevision: HEAD
     path: manifests/namespaces/dev-eu-central-1
   destination:
-    name: dev-eu-central-1
+    server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
     automated:

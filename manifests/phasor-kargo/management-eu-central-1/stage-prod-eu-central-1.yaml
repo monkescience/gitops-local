@@ -16,6 +16,4 @@ spec:
       steps:
         - task:
             name: promote-phasor
-            inputs:
-              appSuffix: prod
   verification: {}

@@ -1,0 +1,85 @@
+configs:
+  secret:
+    argocdServerAdminPassword: "$2a$10$5SjtJUemOejBX6VVAOCcluIooZCbN5sWoViXdG2CBot1Mu96NwXSS"
+    argocdServerAdminPasswordMtime: "1970-01-01T00:00:00Z"
+
+redis-ha:
+  enabled: false
+
+controller:
+  replicas: 1
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 400m
+      memory: 1024Mi
+    limits:
+      memory: 1024Mi
+
+repoServer:
+  replicas: 1
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+  volumes:
+    - name: gitops
+      hostPath:
+        path: /gitops
+        type: Directory
+  volumeMounts:
+    - name: gitops
+      mountPath: /gitops
+      readOnly: true
+
+server:
+  replicas: 1
+  extraArgs:
+    - --insecure
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
+dex:
+  enabled: false
+
+applicationSet:
+  replicas: 1
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
+
+notifications:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 64Mi

@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: management-eu-central-1
+  name: dev-eu-central-1
   namespace: argocd
 spec:
-  description: Platform and service components for the management cluster
+  description: Platform and service components for the dev cluster
   sourceRepos:
     - "*"
   destinations:

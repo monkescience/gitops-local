@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - alloy.yaml
   - argo-rollouts.yaml
+  - argocd.yaml
   - default.yaml
   - istio-system.yaml
   - kube-public.yaml

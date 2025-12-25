@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-state-metrics-dev-eu-central-1
+  name: kube-state-metrics
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -20,7 +20,7 @@ spec:
       targetRevision: HEAD
       ref: values
   destination:
-    name: dev-eu-central-1
+    server: https://kubernetes.default.svc
     namespace: kube-state-metrics
   syncPolicy:
     automated:
