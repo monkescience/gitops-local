@@ -12,7 +12,6 @@ source "$LIB_DIR/network.sh"
 source "$LIB_DIR/registry.sh"
 source "$LIB_DIR/cluster.sh"
 source "$LIB_DIR/argocd.sh"
-source "$LIB_DIR/argocd-clusters.sh"
 source "$LIB_DIR/kargo-shards.sh"
 source "$LIB_DIR/istio-certs.sh"
 source "$LIB_DIR/stack.sh"
@@ -40,7 +39,6 @@ Commands:
   cluster status            Show cluster status
 
   argocd bootstrap [target] Bootstrap ArgoCD on cluster(s)
-  argocd register-clusters  Register workload clusters with management ArgoCD (for Kargo)
 
   istio setup-certs         Generate and install Istio multi-cluster certs
   istio setup-remote        Setup Istio remote secrets for discovery
@@ -108,27 +106,22 @@ cmd_setup() {
   info "Starting setup..."
 
   if [[ "$target" == "all" ]]; then
-    header "Step 1/7: Creating clusters"
+    header "Step 1/6: Creating clusters"
     cluster_create all
 
-    header "Step 2/7: Setting up Istio certificates"
+    header "Step 2/6: Setting up Istio certificates"
     istio_setup_certs
 
-    header "Step 3/7: Bootstrapping ArgoCD and deploying root apps"
-    # Optimized: deploys root app immediately after each ArgoCD bootstrap
-    # so apps start syncing in background while next cluster is bootstrapped
+    header "Step 3/6: Bootstrapping ArgoCD and deploying root apps"
     argocd_bootstrap_all
 
-    header "Step 4/7: Registering workload clusters with management ArgoCD (for Kargo)"
-    argocd_register_clusters
-
-    header "Step 5/7: Setting up Istio remote secrets"
+    header "Step 4/6: Setting up Istio remote secrets"
     istio_setup_remote_secrets
 
-    header "Step 6/7: Waiting for services to become ready"
+    header "Step 5/6: Waiting for services to become ready"
     wait_for_url "https://argocd.localhost" 300 5
 
-    header "Step 7/7: Setting up Kargo controller shards"
+    header "Step 6/6: Setting up Kargo controller shards"
     kargo_setup_shards
   else
     header "Step 1/2: Creating cluster"
@@ -210,8 +203,7 @@ case "${1:-}" in
           argocd_bootstrap "${3:-management-eu-central-1}"
         fi
         ;;
-      register-clusters) argocd_register_clusters ;;
-      *) error "Unknown argocd command: ${2:-}"; echo "Usage: gitops argocd <bootstrap [target]|register-clusters>"; exit 1 ;;
+      *) error "Unknown argocd command: ${2:-}"; echo "Usage: gitops argocd bootstrap [target]"; exit 1 ;;
     esac
     ;;
   istio)

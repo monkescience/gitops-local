@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# ArgoCD management commands for multi-cluster setup
 
 argocd_bootstrap() {
   local cluster=${1:-management-eu-central-1}
@@ -31,7 +30,9 @@ argocd_bootstrap() {
 
   success "ArgoCD installed successfully on $cluster cluster"
 
-  info "Creating ArgoCD AppProjects..."
+  # Bootstrap: AppProjects must exist before platform apps can sync.
+  # ArgoCD will continue managing this via argocd-extension after initial sync.
+  info "Creating ArgoCD AppProjects (bootstrap)..."
   kubectl apply -f "$PROJECT_ROOT/manifests/argocd-extension/$cluster/projects.yaml"
   success "ArgoCD AppProjects created"
 

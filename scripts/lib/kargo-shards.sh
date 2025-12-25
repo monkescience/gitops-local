@@ -3,70 +3,29 @@
 KARGO_SA_NAME="kargo-controller-shard"
 KARGO_NAMESPACE="kargo"
 
-create_kargo_shard_sa() {
-  info "Creating Kargo shard ServiceAccount in management cluster..."
+wait_for_kargo_shard_sa() {
+  local timeout=${1:-120}
+  local interval=5
+  local elapsed=0
 
-  kubectl config use-context "kind-management-eu-central-1"
+  info "Waiting for Kargo shard ServiceAccount token..."
 
-  kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: ${KARGO_SA_NAME}
-  namespace: ${KARGO_NAMESPACE}
-EOF
+  kubectl config use-context "kind-management-eu-central-1" >/dev/null 2>&1
 
-  kubectl apply -f - <<EOF
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: ${KARGO_SA_NAME}
-rules:
-  # Full access to Kargo resources
-  - apiGroups: ["kargo.akuity.io"]
-    resources: ["*"]
-    verbs: ["*"]
-  # Read access to secrets for credentials
-  - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["get", "list", "watch"]
-  # Read access to namespaces
-  - apiGroups: [""]
-    resources: ["namespaces"]
-    verbs: ["get", "list", "watch"]
-  # Events for status updates
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["create", "patch"]
-EOF
+  while [[ $elapsed -lt $timeout ]]; do
+    if kubectl get secret "${KARGO_SA_NAME}-token" -n "${KARGO_NAMESPACE}" >/dev/null 2>&1; then
+      success "Kargo shard ServiceAccount ready"
+      return 0
+    fi
 
-  kubectl apply -f - <<EOF
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: ${KARGO_SA_NAME}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: ${KARGO_SA_NAME}
-subjects:
-  - kind: ServiceAccount
-    name: ${KARGO_SA_NAME}
-    namespace: ${KARGO_NAMESPACE}
-EOF
+    printf "."
+    sleep "$interval"
+    elapsed=$((elapsed + interval))
+  done
 
-  kubectl apply -f - <<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-  name: ${KARGO_SA_NAME}-token
-  namespace: ${KARGO_NAMESPACE}
-  annotations:
-    kubernetes.io/service-account.name: ${KARGO_SA_NAME}
-type: kubernetes.io/service-account-token
-EOF
-
-  success "Kargo shard ServiceAccount created in management cluster"
+  echo ""
+  error "Timeout waiting for Kargo shard ServiceAccount"
+  return 1
 }
 
 get_kargo_shard_token() {
@@ -139,10 +98,7 @@ kargo_setup_shards() {
     exit 1
   fi
 
-  create_kargo_shard_sa
-
-  info "Waiting for ServiceAccount token..."
-  sleep 3
+  wait_for_kargo_shard_sa
 
   for cluster in "dev-eu-central-1" "prod-eu-central-1"; do
     if cluster_exists "$cluster"; then
