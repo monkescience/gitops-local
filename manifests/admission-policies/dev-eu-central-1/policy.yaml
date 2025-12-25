@@ -1,0 +1,61 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: require-resource-constraints
+spec:
+  failurePolicy: Ignore
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+  validations:
+    - expression: >-
+        object.spec.containers.all(c,
+          has(c.resources) &&
+          has(c.resources.requests) &&
+          has(c.resources.requests.cpu))
+      message: "All containers must have cpu requests defined"
+      reason: Invalid
+    - expression: >-
+        object.spec.containers.all(c,
+          !has(c.resources) ||
+          !has(c.resources.limits) ||
+          !has(c.resources.limits.cpu))
+      message: "Containers must not have cpu limits defined"
+      reason: Invalid
+    - expression: >-
+        object.spec.containers.all(c,
+          has(c.resources) &&
+          has(c.resources.requests) &&
+          has(c.resources.requests.memory))
+      message: "All containers must have memory requests defined"
+      reason: Invalid
+    - expression: >-
+        object.spec.containers.all(c,
+          has(c.resources) &&
+          has(c.resources.limits) &&
+          has(c.resources.limits.memory))
+      message: "All containers must have memory limits defined"
+      reason: Invalid
+    - expression: >-
+        object.spec.containers.all(c,
+          has(c.resources) &&
+          has(c.resources.requests) &&
+          has(c.resources.limits) &&
+          has(c.resources.requests.memory) &&
+          has(c.resources.limits.memory) &&
+          c.resources.requests.memory == c.resources.limits.memory)
+      message: "Memory request must equal memory limit"
+      reason: Invalid
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: require-resource-constraints-binding
+spec:
+  policyName: require-resource-constraints
+  validationActions:
+    - Audit
+  matchResources: {}
