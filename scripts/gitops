@@ -108,28 +108,27 @@ cmd_setup() {
   info "Starting setup..."
 
   if [[ "$target" == "all" ]]; then
-    header "Step 1/8: Creating clusters"
+    header "Step 1/7: Creating clusters"
     cluster_create all
 
-    header "Step 2/8: Setting up Istio certificates"
+    header "Step 2/7: Setting up Istio certificates"
     istio_setup_certs
 
-    header "Step 3/8: Bootstrapping ArgoCD on all clusters"
+    header "Step 3/7: Bootstrapping ArgoCD and deploying root apps"
+    # Optimized: deploys root app immediately after each ArgoCD bootstrap
+    # so apps start syncing in background while next cluster is bootstrapped
     argocd_bootstrap_all
 
-    header "Step 4/8: Registering workload clusters with management ArgoCD (for Kargo)"
+    header "Step 4/7: Registering workload clusters with management ArgoCD (for Kargo)"
     argocd_register_clusters
 
-    header "Step 5/8: Setting up Istio remote secrets"
+    header "Step 5/7: Setting up Istio remote secrets"
     istio_setup_remote_secrets
 
-    header "Step 6/8: Deploying GitOps Stack"
-    stack_deploy all
-
-    header "Step 7/8: Waiting for services to become ready"
+    header "Step 6/7: Waiting for services to become ready"
     wait_for_url "https://argocd.localhost" 300 5
 
-    header "Step 8/8: Setting up Kargo controller shards"
+    header "Step 7/7: Setting up Kargo controller shards"
     kargo_setup_shards
   else
     header "Step 1/2: Creating cluster"

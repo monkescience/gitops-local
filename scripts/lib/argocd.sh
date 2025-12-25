@@ -70,11 +70,24 @@ argocd_bootstrap() {
 }
 
 argocd_bootstrap_all() {
-  info "Bootstrapping ArgoCD on all clusters..."
+  info "Bootstrapping ArgoCD on all clusters with immediate root app deployment..."
 
+  # Management: bootstrap ArgoCD + deploy root app immediately
+  # This allows management apps to start syncing while we bootstrap dev
   argocd_bootstrap management-eu-central-1
-  argocd_bootstrap dev-eu-central-1
-  argocd_bootstrap prod-eu-central-1
+  info "Deploying root app on management cluster (apps will sync in background)..."
+  stack_deploy_single management-eu-central-1
 
-  success "ArgoCD bootstrapped on all clusters"
+  # Dev: bootstrap ArgoCD + deploy root app immediately
+  # This allows dev apps to start syncing while we bootstrap prod
+  argocd_bootstrap dev-eu-central-1
+  info "Deploying root app on dev cluster (apps will sync in background)..."
+  stack_deploy_single dev-eu-central-1
+
+  # Prod: bootstrap ArgoCD + deploy root app
+  argocd_bootstrap prod-eu-central-1
+  info "Deploying root app on prod cluster (apps will sync in background)..."
+  stack_deploy_single prod-eu-central-1
+
+  success "ArgoCD bootstrapped and root apps deployed on all clusters"
 }
