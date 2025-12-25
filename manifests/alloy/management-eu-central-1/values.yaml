@@ -1,0 +1,79 @@
+alloy:
+  configMap:
+    create: false
+    name: alloy-config
+    key: config.alloy
+
+  clustering:
+    enabled: true
+
+  mounts:
+    varlog: true
+    extra:
+      - name: host-root
+        mountPath: /host/root
+        readOnly: true
+      - name: host-sys
+        mountPath: /host/sys
+        readOnly: true
+      - name: host-proc
+        mountPath: /host/proc
+        readOnly: true
+
+  securityContext:
+    privileged: true
+    runAsUser: 0
+
+  extraEnv:
+    - name: CLUSTER_NAME
+      value: monke-management-eu-central-1
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 512Mi
+
+  extraPorts:
+    - name: otlp-grpc
+      port: 4317
+      targetPort: 4317
+      protocol: TCP
+    - name: otlp-http
+      port: 4318
+      targetPort: 4318
+      protocol: TCP
+
+controller:
+  type: statefulset
+  replicas: 1
+  volumes:
+    extra:
+      - name: host-root
+        hostPath:
+          path: /
+      - name: host-sys
+        hostPath:
+          path: /sys
+      - name: host-proc
+        hostPath:
+          path: /proc
+
+configReloader:
+  enabled: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      memory: 64Mi
+
+global:
+  podSecurityContext:
+    runAsNonRoot: false
+    seccompProfile:
+      type: RuntimeDefault
+
+serviceMonitor:
+  enabled: true
