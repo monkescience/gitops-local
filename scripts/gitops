@@ -9,7 +9,6 @@ LIB_DIR="$SCRIPT_DIR/lib"
 # Source utilities and command libraries
 source "$LIB_DIR/utils.sh"
 source "$LIB_DIR/network.sh"
-source "$LIB_DIR/registry.sh"
 source "$LIB_DIR/cluster.sh"
 source "$LIB_DIR/argocd.sh"
 source "$LIB_DIR/kargo-shards.sh"
