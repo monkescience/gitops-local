@@ -20,7 +20,7 @@ spec:
       targetRevision: HEAD
       ref: values
   destination:
-    name: eu-central-1-prod-eu-central-1
+    name: eu-central-1-prod
     namespace: argo-rollouts
   syncPolicy:
     automated:

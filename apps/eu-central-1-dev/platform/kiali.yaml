@@ -20,7 +20,7 @@ spec:
       targetRevision: HEAD
       ref: values
   destination:
-    name: eu-central-1-dev-eu-central-1
+    name: eu-central-1-dev
     namespace: kiali
   syncPolicy:
     automated:
@@ -45,7 +45,7 @@ spec:
     targetRevision: HEAD
     path: manifests/kiali-extension/eu-central-1-dev
   destination:
-    name: eu-central-1-dev-eu-central-1
+    name: eu-central-1-dev
     namespace: kiali
   syncPolicy:
     automated:
