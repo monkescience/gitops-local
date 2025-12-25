@@ -4,6 +4,7 @@ metadata:
   name: dev-eu-central-1
   namespace: phasor
 spec:
+  shard: dev-eu-central-1
   requestedFreight:
     - origin:
         kind: Warehouse

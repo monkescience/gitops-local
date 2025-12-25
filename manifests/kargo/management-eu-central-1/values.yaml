@@ -6,6 +6,9 @@ global:
       type: RuntimeDefault
 
 controller:
+  # Default controller handles unassigned resources and management-specific resources
+  shardName: management-eu-central-1
+  isDefault: true
   globalCredentials:
     namespaces:
       - kargo

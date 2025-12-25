@@ -13,6 +13,7 @@ source "$LIB_DIR/registry.sh"
 source "$LIB_DIR/cluster.sh"
 source "$LIB_DIR/argocd.sh"
 source "$LIB_DIR/argocd-clusters.sh"
+source "$LIB_DIR/kargo-shards.sh"
 source "$LIB_DIR/istio-certs.sh"
 source "$LIB_DIR/stack.sh"
 source "$LIB_DIR/secrets.sh"
@@ -43,6 +44,8 @@ Commands:
 
   istio setup-certs         Generate and install Istio multi-cluster certs
   istio setup-remote        Setup Istio remote secrets for discovery
+
+  kargo setup-shards        Setup Kargo controller shards on workload clusters
 
   stack deploy [target]     Deploy GitOps stack
 
@@ -105,26 +108,29 @@ cmd_setup() {
   info "Starting setup..."
 
   if [[ "$target" == "all" ]]; then
-    header "Step 1/7: Creating clusters"
+    header "Step 1/8: Creating clusters"
     cluster_create all
 
-    header "Step 2/7: Setting up Istio certificates"
+    header "Step 2/8: Setting up Istio certificates"
     istio_setup_certs
 
-    header "Step 3/7: Bootstrapping ArgoCD on all clusters"
+    header "Step 3/8: Bootstrapping ArgoCD on all clusters"
     argocd_bootstrap_all
 
-    header "Step 4/7: Registering workload clusters with management ArgoCD (for Kargo)"
+    header "Step 4/8: Registering workload clusters with management ArgoCD (for Kargo)"
     argocd_register_clusters
 
-    header "Step 5/7: Setting up Istio remote secrets"
+    header "Step 5/8: Setting up Istio remote secrets"
     istio_setup_remote_secrets
 
-    header "Step 6/7: Deploying GitOps Stack"
+    header "Step 6/8: Deploying GitOps Stack"
     stack_deploy all
 
-    header "Step 7/7: Waiting for services to become ready"
+    header "Step 7/8: Waiting for services to become ready"
     wait_for_url "https://argocd.localhost" 300 5
+
+    header "Step 8/8: Setting up Kargo controller shards"
+    kargo_setup_shards
   else
     header "Step 1/2: Creating cluster"
     cluster_create "$target"
@@ -214,6 +220,12 @@ case "${1:-}" in
       setup-certs) istio_setup_certs ;;
       setup-remote) istio_setup_remote_secrets ;;
       *) error "Unknown istio command: ${2:-}"; echo "Usage: gitops istio <setup-certs|setup-remote>"; exit 1 ;;
+    esac
+    ;;
+  kargo)
+    case "${2:-}" in
+      setup-shards) kargo_setup_shards ;;
+      *) error "Unknown kargo command: ${2:-}"; echo "Usage: gitops kargo <setup-shards>"; exit 1 ;;
     esac
     ;;
   stack)

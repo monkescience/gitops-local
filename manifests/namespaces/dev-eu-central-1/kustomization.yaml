@@ -7,6 +7,7 @@ resources:
   - argocd.yaml
   - default.yaml
   - istio-system.yaml
+  - kargo.yaml
   - kube-public.yaml
   - kube-system.yaml
   - phasor.yaml
