@@ -26,7 +26,7 @@ alloy:
 
   extraEnv:
     - name: CLUSTER_NAME
-      value: monke-dev-eu-central-1
+      value: dev-eu-central-1
 
   resources:
     requests:
