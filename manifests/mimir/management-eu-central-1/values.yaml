@@ -32,10 +32,10 @@ ingester:
   replicas: 1
   resources:
     requests:
-      cpu: 100m
-      memory: 512Mi
+      cpu: 30m
+      memory: 448Mi
     limits:
-      memory: 512Mi
+      memory: 448Mi
   persistentVolume:
     enabled: true
     size: 10Gi
@@ -45,28 +45,28 @@ distributor:
   replicas: 1
   resources:
     requests:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 20m
+      memory: 128Mi
     limits:
-      memory: 256Mi
+      memory: 128Mi
 
 querier:
   replicas: 1
   resources:
     requests:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 20m
+      memory: 128Mi
     limits:
-      memory: 256Mi
+      memory: 128Mi
 
 query_frontend:
   replicas: 1
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 10m
+      memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi
 
 compactor:
   replicas: 0
@@ -82,10 +82,10 @@ alertmanager:
   replicas: 1
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 10m
+      memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi
 
 minio:
   enabled: false
@@ -98,10 +98,10 @@ nginx:
   replicas: 1
   resources:
     requests:
-      cpu: 50m
-      memory: 64Mi
+      cpu: 10m
+      memory: 32Mi
     limits:
-      memory: 64Mi
+      memory: 32Mi
 
 metaMonitoring:
   serviceMonitor:

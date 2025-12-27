@@ -68,16 +68,16 @@ gateway:
     allowPrivilegeEscalation: false
   resources:
     requests:
-      cpu: 50m
-      memory: 64Mi
+      cpu: 10m
+      memory: 32Mi
     limits:
-      memory: 64Mi
+      memory: 32Mi
 
 singleBinary:
   replicas: 1
   resources:
     requests:
-      cpu: 100m
+      cpu: 20m
       memory: 256Mi
     limits:
       memory: 256Mi

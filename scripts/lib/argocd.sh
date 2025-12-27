@@ -40,55 +40,9 @@ argocd_bootstrap() {
   echo "  Username: admin"
   echo "  Password: admin"
 
-  case "$cluster" in
-    management-eu-central-1)
-      echo ""
-      echo "Access ArgoCD UI (after Istio Gateway is deployed):"
-      echo "  https://argocd.localhost"
-      ;;
-    dev-eu-central-1)
-      echo ""
-      echo "Access ArgoCD UI (after Istio Gateway is deployed):"
-      echo "  https://argocd-dev.localhost"
-      ;;
-    prod-eu-central-1)
-      echo ""
-      echo "Access ArgoCD UI (after Istio Gateway is deployed):"
-      echo "  https://argocd-prod.localhost"
-      ;;
-  esac
-
-  echo ""
-  echo "Or use port-forward while waiting for full stack deployment:"
-  echo "  kubectl port-forward svc/argocd-server -n argocd 8080:443"
-  echo "  Then visit: https://localhost:8080"
-
   if [[ "$cluster" == "management-eu-central-1" ]]; then
     header "Sealed Secrets"
     echo "After sealed-secrets is deployed, backup the key with:"
     echo "  gitops secrets backup"
   fi
-}
-
-argocd_bootstrap_all() {
-  info "Bootstrapping ArgoCD on all clusters with immediate root app deployment..."
-
-  # Management: bootstrap ArgoCD + deploy root app immediately
-  # This allows management apps to start syncing while we bootstrap dev
-  argocd_bootstrap management-eu-central-1
-  info "Deploying root app on management cluster (apps will sync in background)..."
-  stack_deploy_single management-eu-central-1
-
-  # Dev: bootstrap ArgoCD + deploy root app immediately
-  # This allows dev apps to start syncing while we bootstrap prod
-  argocd_bootstrap dev-eu-central-1
-  info "Deploying root app on dev cluster (apps will sync in background)..."
-  stack_deploy_single dev-eu-central-1
-
-  # Prod: bootstrap ArgoCD + deploy root app
-  argocd_bootstrap prod-eu-central-1
-  info "Deploying root app on prod cluster (apps will sync in background)..."
-  stack_deploy_single prod-eu-central-1
-
-  success "ArgoCD bootstrapped and root apps deployed on all clusters"
 }

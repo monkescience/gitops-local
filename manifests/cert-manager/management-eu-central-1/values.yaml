@@ -6,21 +6,21 @@ serviceAccount:
   create: true
 resources:
   requests:
-    cpu: 50m
-    memory: 64Mi
+    cpu: 10m
+    memory: 32Mi
   limits:
-    memory: 64Mi
+    memory: 32Mi
 webhook:
   resources:
     requests:
-      cpu: 25m
+      cpu: 10m
       memory: 32Mi
     limits:
       memory: 32Mi
 cainjector:
   resources:
     requests:
-      cpu: 25m
+      cpu: 10m
       memory: 64Mi
     limits:
       memory: 64Mi

@@ -14,10 +14,10 @@ spec:
             - name: grafana
               resources:
                 requests:
-                  cpu: 100m
-                  memory: 256Mi
+                  cpu: 20m
+                  memory: 192Mi
                 limits:
-                  memory: 256Mi
+                  memory: 192Mi
   config:
     security:
       admin_user: admin

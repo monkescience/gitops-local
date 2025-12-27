@@ -8,7 +8,7 @@ deployment:
       cpu: 10m
       memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi
 
 server:
   web_fqdn: kiali.management.eu-central-1.localhost

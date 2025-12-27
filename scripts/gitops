@@ -85,19 +85,34 @@ cmd_setup() {
 
   info "Starting setup..."
 
-  header "Step 1/5: Creating clusters"
-  cluster_create all
+  # Interleaved setup: create cluster → certs → ArgoCD → root app
+  # This allows ArgoCD to sync in background while next cluster is created
 
-  header "Step 2/5: Setting up Istio certificates"
-  istio_setup_certs
+  header "Step 1/3: Setting up management cluster"
+  cluster_create_single management-eu-central-1
+  istio_setup_certs_single management-eu-central-1
+  argocd_bootstrap management-eu-central-1
+  stack_deploy_single management-eu-central-1
+  info "Management cluster apps syncing in background..."
 
-  header "Step 3/5: Bootstrapping ArgoCD and deploying root apps"
-  argocd_bootstrap_all
+  header "Step 2/3: Setting up dev cluster"
+  cluster_create_single dev-eu-central-1
+  istio_setup_certs_single dev-eu-central-1
+  argocd_bootstrap dev-eu-central-1
+  stack_deploy_single dev-eu-central-1
+  info "Dev cluster apps syncing in background..."
 
-  header "Step 4/5: Waiting for services to become ready"
+  header "Step 3/3: Setting up prod cluster"
+  cluster_create_single prod-eu-central-1
+  istio_setup_certs_single prod-eu-central-1
+  argocd_bootstrap prod-eu-central-1
+  stack_deploy_single prod-eu-central-1
+  info "Prod cluster apps syncing in background..."
+
+  header "Waiting for services to become ready"
   wait_for_url "https://argocd.management.eu-central-1.localhost:8443" 300 5
 
-  header "Step 5/5: Setting up Kargo controller shards"
+  header "Setting up Kargo controller shards"
   kargo_setup_shards
 
   header "Setup Complete!"

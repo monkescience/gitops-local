@@ -14,10 +14,10 @@ controller:
       enabled: true
   resources:
     requests:
-      cpu: 400m
-      memory: 1024Mi
+      cpu: 50m
+      memory: 512Mi
     limits:
-      memory: 1024Mi
+      memory: 512Mi
 
 repoServer:
   replicas: 1
@@ -27,10 +27,10 @@ repoServer:
       enabled: true
   resources:
     requests:
-      cpu: 50m
-      memory: 256Mi
+      cpu: 10m
+      memory: 128Mi
     limits:
-      memory: 256Mi
+      memory: 128Mi
   volumes:
     - name: gitops
       hostPath:
@@ -51,10 +51,10 @@ server:
       enabled: true
   resources:
     requests:
-      cpu: 50m
-      memory: 256Mi
+      cpu: 10m
+      memory: 128Mi
     limits:
-      memory: 256Mi
+      memory: 128Mi
 
 dex:
   enabled: false
@@ -67,7 +67,7 @@ applicationSet:
       enabled: true
   resources:
     requests:
-      cpu: 50m
+      cpu: 10m
       memory: 64Mi
     limits:
       memory: 64Mi
@@ -79,7 +79,7 @@ notifications:
       enabled: true
   resources:
     requests:
-      cpu: 50m
+      cpu: 10m
       memory: 64Mi
     limits:
       memory: 64Mi

@@ -12,10 +12,10 @@ pilot:
     PILOT_ENABLE_ALPHA_GATEWAY_API: "true"
   resources:
     requests:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 10m
+      memory: 128Mi
     limits:
-      memory: 256Mi
+      memory: 128Mi
 
 meshConfig:
   accessLogFile: /dev/stdout

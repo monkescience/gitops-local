@@ -90,26 +90,31 @@ install_certs_in_cluster() {
   success "Istio certificates installed in cluster '$cluster_name'"
 }
 
+istio_setup_certs_single() {
+  local cluster=$1
+
+  # Generate root CA if it doesn't exist
+  if [[ ! -f "$CERTS_DIR/root-cert.pem" ]]; then
+    generate_root_ca
+  fi
+
+  if cluster_exists "$cluster"; then
+    if [[ ! -f "$CERTS_DIR/$cluster/ca-cert.pem" ]]; then
+      generate_cluster_ca "$cluster"
+    else
+      info "Using existing intermediate CA for '$cluster'"
+    fi
+    install_certs_in_cluster "$cluster"
+  else
+    warn "Cluster '$cluster' not running, skipping cert installation"
+  fi
+}
+
 istio_setup_certs() {
   header "Setting up Istio Certificates"
 
-  if [[ ! -f "$CERTS_DIR/root-cert.pem" ]]; then
-    generate_root_ca
-  else
-    info "Using existing root CA from $CERTS_DIR"
-  fi
-
   for cluster in "${CLUSTERS[@]}"; do
-    if cluster_exists "$cluster"; then
-      if [[ ! -f "$CERTS_DIR/$cluster/ca-cert.pem" ]]; then
-        generate_cluster_ca "$cluster"
-      else
-        info "Using existing intermediate CA for '$cluster'"
-      fi
-      install_certs_in_cluster "$cluster"
-    else
-      warn "Cluster '$cluster' not running, skipping cert installation"
-    fi
+    istio_setup_certs_single "$cluster"
   done
 
   kubectl config use-context "kind-management-eu-central-1"
