@@ -6,7 +6,7 @@ serviceAccount:
 loki:
   auth_enabled: false
   commonConfig:
-    replication_factor: 1
+    replication_factor: 2
 
   podSecurityContext:
     fsGroup: 10001
@@ -24,16 +24,23 @@ loki:
     allowPrivilegeEscalation: false
 
   storage:
-    type: filesystem
-    filesystem:
-      chunks_directory: /var/loki/chunks
-      rules_directory: /var/loki/rules
+    type: s3
+    s3:
+      endpoint: minio.minio.svc.cluster.local:9000
+      bucketNames:
+        chunks: loki
+        ruler: loki
+        admin: loki
+      accessKeyId: minioadmin
+      secretAccessKey: minioadmin
+      insecure: true
+      s3ForcePathStyle: true
 
   schemaConfig:
     configs:
       - from: 1970-01-01
         store: tsdb
-        object_store: filesystem
+        object_store: s3
         schema: v13
         index:
           prefix: index_
@@ -43,8 +50,6 @@ loki:
     tsdb_shipper:
       active_index_directory: /var/loki/tsdb-index
       cache_location: /var/loki/tsdb-cache
-    filesystem:
-      directory: /var/loki/chunks
 
   query_scheduler:
     max_outstanding_requests_per_tenant: 32768
@@ -74,7 +79,7 @@ gateway:
       memory: 32Mi
 
 singleBinary:
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       cpu: 20m
@@ -84,7 +89,7 @@ singleBinary:
   persistence:
     enabled: true
     storageClass: standard
-    size: 10Gi
+    size: 5Gi  # Reduced - data now in S3
 
 # Disable scalable components for SingleBinary mode
 read:

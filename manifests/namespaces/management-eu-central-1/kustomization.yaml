@@ -6,6 +6,7 @@ resources:
   - argocd.yaml
   - cert-manager.yaml
   - default.yaml
+  - minio.yaml
   - grafana.yaml
   - istio-system.yaml
   - kargo.yaml

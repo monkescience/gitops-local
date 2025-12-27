@@ -7,7 +7,7 @@ global:
 
 pilot:
   autoscaleEnabled: false
-  replicaCount: 1
+  replicaCount: 2
   env:
     PILOT_ENABLE_ALPHA_GATEWAY_API: "true"
   resources:

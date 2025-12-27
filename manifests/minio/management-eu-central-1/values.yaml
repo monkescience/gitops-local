@@ -1,0 +1,58 @@
+mode: standalone
+
+rootUser: minioadmin
+rootPassword: minioadmin
+
+buckets:
+  - name: mimir
+    policy: none
+    purge: false
+  - name: loki
+    policy: none
+    purge: false
+  - name: tempo
+    policy: none
+    purge: false
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 256Mi
+  limits:
+    memory: 256Mi
+
+persistence:
+  enabled: true
+  storageClass: standard
+  size: 20Gi
+
+replicas: 1
+
+service:
+  type: ClusterIP
+  port: 9000
+
+consoleService:
+  type: ClusterIP
+  port: 9001
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+podSecurityContext:
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+metrics:
+  serviceMonitor:
+    enabled: true

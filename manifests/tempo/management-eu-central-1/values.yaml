@@ -1,9 +1,14 @@
 tempo:
   storage:
     trace:
-      backend: local
-      local:
-        path: /var/tempo/traces
+      backend: s3
+      s3:
+        endpoint: minio.minio.svc.cluster.local:9000
+        bucket: tempo
+        access_key: minioadmin
+        secret_key: minioadmin
+        insecure: true
+        forcepathstyle: true
       wal:
         path: /var/tempo/wal
 

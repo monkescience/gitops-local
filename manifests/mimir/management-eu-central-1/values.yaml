@@ -7,17 +7,30 @@ mimir:
     ingester:
       push_grpc_method_enabled: true
       ring:
-        replication_factor: 1
+        replication_factor: 2
+    common:
+      storage:
+        backend: s3
+        s3:
+          endpoint: minio.minio.svc.cluster.local:9000
+          bucket_name: mimir
+          access_key_id: minioadmin
+          secret_access_key: minioadmin
+          insecure: true
     blocks_storage:
-      backend: filesystem
+      backend: s3
+      s3:
+        bucket_name: mimir
     ruler:
       rule_path: /data/ruler-tmp
     ruler_storage:
-      backend: filesystem
-      filesystem:
-        dir: /data/ruler-storage
+      backend: s3
+      s3:
+        bucket_name: mimir
     alertmanager_storage:
-      backend: filesystem
+      backend: s3
+      s3:
+        bucket_name: mimir
     limits:
       ruler_max_rules_per_rule_group: 30
 
@@ -29,7 +42,7 @@ kafka:
 ingester:
   zoneAwareReplication:
     enabled: false
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       cpu: 30m
@@ -42,7 +55,7 @@ ingester:
     storageClass: standard
 
 distributor:
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       cpu: 20m
@@ -51,7 +64,7 @@ distributor:
       memory: 128Mi
 
 querier:
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       cpu: 20m
@@ -60,7 +73,7 @@ querier:
       memory: 128Mi
 
 query_frontend:
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       cpu: 10m
@@ -69,17 +82,29 @@ query_frontend:
       memory: 64Mi
 
 compactor:
-  replicas: 0
+  replicas: 1
+  resources:
+    requests:
+      cpu: 20m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
 
 store_gateway:
-  replicas: 0
+  replicas: 1
+  resources:
+    requests:
+      cpu: 20m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
 
 ruler:
   enabled: true
 
 alertmanager:
   enabled: true
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       cpu: 10m
@@ -95,7 +120,7 @@ rollout_operator:
 
 nginx:
   enabled: true
-  replicas: 1
+  replicas: 2
   resources:
     requests:
       cpu: 10m
