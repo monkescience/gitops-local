@@ -8,6 +8,11 @@ metadata:
     topology.istio.io/network: network1
 spec:
   gatewayClassName: istio
+  infrastructure:
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: cross-cluster-config
   listeners:
     - name: tls-passthrough
       port: 15443
