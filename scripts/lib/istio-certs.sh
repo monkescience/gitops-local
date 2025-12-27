@@ -91,7 +91,7 @@ install_certs_in_cluster() {
 }
 
 istio_setup_certs() {
-  header "Setting up Istio Multi-Cluster Certificates"
+  header "Setting up Istio Certificates"
 
   if [[ ! -f "$CERTS_DIR/root-cert.pem" ]]; then
     generate_root_ca

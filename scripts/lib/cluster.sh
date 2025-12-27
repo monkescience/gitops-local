@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Cluster management commands for multi-cluster setup
+# Cluster management commands
 
 CLUSTERS=("management-eu-central-1" "dev-eu-central-1" "prod-eu-central-1")
 
@@ -35,7 +35,6 @@ cluster_create_single() {
   kubectl config use-context "kind-${cluster_name}"
   kubectl wait --for=condition=Ready nodes --all --timeout=300s
 
-  network_connect_cluster "$cluster_name"
   success "Kind cluster '$cluster_name' created successfully"
 }
 
@@ -43,16 +42,10 @@ cluster_create() {
   local target=${1:-all}
 
   if [[ "$target" == "all" ]]; then
-    network_create
     for cluster in "${CLUSTERS[@]}"; do
       cluster_create_single "$cluster"
     done
-
-    echo ""
-    info "All clusters created. Summary:"
-    for cluster in "${CLUSTERS[@]}"; do
-      echo "  - $cluster: $(get_cluster_ip_on_network "$cluster")"
-    done
+    success "All clusters created"
   else
     local valid=false
     for cluster in "${CLUSTERS[@]}"; do
@@ -68,7 +61,6 @@ cluster_create() {
       exit 1
     fi
 
-    network_create
     cluster_create_single "$target"
   fi
 }
@@ -91,16 +83,10 @@ cluster_delete() {
 
   header "Kind GitOps Stack - Teardown"
 
-  if [[ "$target" == "all" ]]; then
-    echo "This will delete ALL Kind clusters:"
-    for cluster in "${CLUSTERS[@]}"; do
-      echo "  - $cluster"
-    done
-    echo ""
-    echo "and the Docker network '$NETWORK_NAME'."
-  else
-    echo "This will delete the Kind cluster '$target'"
-  fi
+  echo "This will delete ALL Kind clusters:"
+  for cluster in "${CLUSTERS[@]}"; do
+    echo "  - $cluster"
+  done
   echo ""
 
   read -p "Are you sure? (y/n) " -n 1 -r
@@ -112,14 +98,11 @@ cluster_delete() {
 
   echo ""
 
-  if [[ "$target" == "all" ]]; then
-    for cluster in "${CLUSTERS[@]}"; do
-      cluster_delete_single "$cluster"
-    done
-    network_delete
-  else
-    cluster_delete_single "$target"
-  fi
+  for cluster in "${CLUSTERS[@]}"; do
+    cluster_delete_single "$cluster"
+  done
+
+  success "All clusters deleted"
 }
 
 cluster_status() {
@@ -127,9 +110,7 @@ cluster_status() {
 
   for cluster in "${CLUSTERS[@]}"; do
     if cluster_exists "$cluster"; then
-      local ip
-      ip=$(get_cluster_ip_on_network "$cluster")
-      echo -e "${GREEN}✓${NC} $cluster (IP: ${ip:-unknown})"
+      echo -e "${GREEN}✓${NC} $cluster"
     else
       echo -e "${RED}✗${NC} $cluster (not running)"
     fi

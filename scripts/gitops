@@ -20,7 +20,7 @@ export PROJECT_ROOT
 
 usage() {
   cat <<EOF
-Usage: gitops <command> [subcommand] [target]
+Usage: gitops <command> [subcommand]
 
 Multi-cluster GitOps local development environment.
 
@@ -30,22 +30,14 @@ Clusters:
   prod-eu-central-1         Production workload cluster
 
 Commands:
-  setup [target]            Full setup (clusters + argocd + register + stack)
-  teardown [target]         Delete clusters and resources
+  setup                     Full setup (all clusters + stack)
+  teardown                  Delete all clusters and resources
 
-  cluster create [target]   Create Kind cluster(s)
-  cluster delete [target]   Delete Kind cluster(s)
   cluster status            Show cluster status
 
-  argocd bootstrap [target] Bootstrap ArgoCD on cluster(s)
+  istio setup-certs         Regenerate Istio certificates
 
-  istio setup-certs         Generate and install Istio certificates
-
-  kargo setup-shards        Setup Kargo controller shards on workload clusters
-
-  stack deploy [target]     Deploy GitOps stack
-
-  context <cluster>         Switch kubectl context
+  context <cluster>         Switch kubectl context (management, dev, prod)
 
   secrets backup            Backup sealed secrets key
   secrets restore           Restore sealed secrets key from backup
@@ -53,11 +45,8 @@ Commands:
 
   help                      Show this help message
 
-Targets: all (default), management, dev, prod
-
 Examples:
   gitops setup              # Complete setup of all clusters
-  gitops setup management   # Setup management cluster only
   gitops teardown           # Delete all clusters
   gitops cluster status     # Show status of all clusters
   gitops context dev        # Switch to dev cluster context
@@ -65,8 +54,6 @@ EOF
 }
 
 cmd_setup() {
-  local target=${1:-all}
-
   header "Multi-Cluster GitOps Stack - Complete Setup"
 
   info "Checking prerequisites..."
@@ -84,13 +71,8 @@ cmd_setup() {
   success "helm $HELM_VERSION"
 
   header "Resource Requirements"
-  if [[ "$target" == "all" ]]; then
-    echo "  - CPU: 6 cores recommended (3 clusters)"
-    echo "  - RAM: 16 GB recommended"
-  else
-    echo "  - CPU: 4 cores recommended"
-    echo "  - RAM: 8 GB recommended"
-  fi
+  echo "  - CPU: 6 cores recommended (3 clusters)"
+  echo "  - RAM: 16 GB recommended"
   echo "  - Disk: 30 GB free space"
   echo "  - Time: 15-20 minutes"
 
@@ -103,37 +85,20 @@ cmd_setup() {
 
   info "Starting setup..."
 
-  if [[ "$target" == "all" ]]; then
-    header "Step 1/5: Creating clusters"
-    cluster_create all
+  header "Step 1/5: Creating clusters"
+  cluster_create all
 
-    header "Step 2/5: Setting up Istio certificates"
-    istio_setup_certs
+  header "Step 2/5: Setting up Istio certificates"
+  istio_setup_certs
 
-    header "Step 3/5: Bootstrapping ArgoCD and deploying root apps"
-    argocd_bootstrap_all
+  header "Step 3/5: Bootstrapping ArgoCD and deploying root apps"
+  argocd_bootstrap_all
 
-    header "Step 4/5: Waiting for services to become ready"
-    wait_for_url "https://argocd.localhost" 300 5
+  header "Step 4/5: Waiting for services to become ready"
+  wait_for_url "https://argocd.management.eu-central-1.localhost:8443" 300 5
 
-    header "Step 5/5: Setting up Kargo controller shards"
-    kargo_setup_shards
-  else
-    header "Step 1/2: Creating cluster"
-    cluster_create "$target"
-
-    if [[ "$target" == "management" ]]; then
-      header "Step 2/2: Bootstrapping ArgoCD"
-      argocd_bootstrap
-      stack_deploy management
-
-      header "Waiting for services to become ready"
-      wait_for_url "https://argocd.localhost" 300 5
-    else
-      info "Workload cluster '$target' created."
-      echo "Run 'gitops setup' on management cluster first, then re-run setup for this cluster."
-    fi
-  fi
+  header "Step 5/5: Setting up Kargo controller shards"
+  kargo_setup_shards
 
   header "Setup Complete!"
   echo "The stack is deploying in the background."
@@ -144,30 +109,18 @@ cmd_setup() {
   echo "  Cluster status:    gitops cluster status"
 
   header "Service Access (after deployment completes)"
-  echo "ArgoCD (Management):"
-  echo "  URL:      https://argocd.localhost"
-  echo "  Username: admin"
-  echo "  Password: admin"
+  echo "All services use admin/admin credentials."
   echo ""
-  echo "ArgoCD (Dev):"
-  echo "  URL:      https://argocd-dev.localhost"
-  echo "  Username: admin"
-  echo "  Password: admin"
-  echo ""
-  echo "ArgoCD (Prod):"
-  echo "  URL:      https://argocd-prod.localhost"
-  echo "  Username: admin"
-  echo "  Password: admin"
-  echo ""
-  echo "Grafana:"
-  echo "  URL:      https://grafana.localhost"
-  echo "  Username: admin"
-  echo "  Password: admin"
-  echo ""
-  echo "Kargo:"
-  echo "  URL:      https://kargo.localhost"
-  echo "  Username: admin"
-  echo "  Password: admin"
+  printf "%-12s %-12s %s\n" "Service" "Cluster" "URL"
+  printf "%-12s %-12s %s\n" "-------" "-------" "---"
+  printf "%-12s %-12s %s\n" "ArgoCD" "management" "https://argocd.management.eu-central-1.localhost:8443"
+  printf "%-12s %-12s %s\n" "ArgoCD" "dev" "https://argocd.dev.eu-central-1.localhost:9443"
+  printf "%-12s %-12s %s\n" "ArgoCD" "prod" "https://argocd.prod.eu-central-1.localhost:10443"
+  printf "%-12s %-12s %s\n" "Grafana" "management" "https://grafana.management.eu-central-1.localhost:8443"
+  printf "%-12s %-12s %s\n" "Kargo" "management" "https://kargo.management.eu-central-1.localhost:8443"
+  printf "%-12s %-12s %s\n" "Kiali" "management" "https://kiali.management.eu-central-1.localhost:8443"
+  printf "%-12s %-12s %s\n" "Kiali" "dev" "https://kiali.dev.eu-central-1.localhost:9443"
+  printf "%-12s %-12s %s\n" "Kiali" "prod" "https://kiali.prod.eu-central-1.localhost:10443"
   echo ""
   echo "Note: Browser will show certificate warning (self-signed)."
   echo "      Click 'Advanced' -> 'Proceed' to continue."
@@ -176,47 +129,21 @@ cmd_setup() {
 # Main command dispatcher
 case "${1:-}" in
   setup)
-    cmd_setup "${2:-all}"
+    cmd_setup
     ;;
   teardown)
-    cluster_delete "${2:-all}"
+    cluster_delete all
     ;;
   cluster)
     case "${2:-}" in
-      create) cluster_create "${3:-all}" ;;
-      delete) cluster_delete "${3:-all}" ;;
       status) cluster_status ;;
-      *) error "Unknown cluster command: ${2:-}"; echo "Usage: gitops cluster <create|delete|status> [target]"; exit 1 ;;
-    esac
-    ;;
-  argocd)
-    case "${2:-}" in
-      bootstrap)
-        if [[ "${3:-}" == "all" ]]; then
-          argocd_bootstrap_all
-        else
-          argocd_bootstrap "${3:-management-eu-central-1}"
-        fi
-        ;;
-      *) error "Unknown argocd command: ${2:-}"; echo "Usage: gitops argocd bootstrap [target]"; exit 1 ;;
+      *) error "Unknown cluster command: ${2:-}"; echo "Usage: gitops cluster status"; exit 1 ;;
     esac
     ;;
   istio)
     case "${2:-}" in
       setup-certs) istio_setup_certs ;;
       *) error "Unknown istio command: ${2:-}"; echo "Usage: gitops istio setup-certs"; exit 1 ;;
-    esac
-    ;;
-  kargo)
-    case "${2:-}" in
-      setup-shards) kargo_setup_shards ;;
-      *) error "Unknown kargo command: ${2:-}"; echo "Usage: gitops kargo <setup-shards>"; exit 1 ;;
-    esac
-    ;;
-  stack)
-    case "${2:-}" in
-      deploy) stack_deploy "${3:-all}" ;;
-      *) error "Unknown stack command: ${2:-}"; echo "Usage: gitops stack deploy [target]"; exit 1 ;;
     esac
     ;;
   context)
