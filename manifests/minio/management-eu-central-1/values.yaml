@@ -37,21 +37,29 @@ consoleService:
   port: 9001
 
 securityContext:
+  enabled: true
   runAsUser: 1000
   runAsGroup: 1000
   fsGroup: 1000
-
-podSecurityContext:
   runAsNonRoot: true
   seccompProfile:
     type: RuntimeDefault
 
 containerSecurityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
   capabilities:
     drop:
       - ALL
+
+makeBucketJob:
+  securityContext:
+    enabled: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
 
 metrics:
   serviceMonitor:
