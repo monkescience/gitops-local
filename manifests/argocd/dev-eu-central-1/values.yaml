@@ -15,9 +15,9 @@ controller:
   resources:
     requests:
       cpu: 50m
-      memory: 512Mi
+      memory: 1Gi
     limits:
-      memory: 512Mi
+      memory: 1Gi
 
 repoServer:
   replicas: 1
@@ -28,9 +28,9 @@ repoServer:
   resources:
     requests:
       cpu: 10m
-      memory: 128Mi
+      memory: 256Mi
     limits:
-      memory: 128Mi
+      memory: 256Mi
   volumes:
     - name: gitops
       hostPath:
