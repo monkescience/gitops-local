@@ -9,7 +9,7 @@ spec:
       namespace: istio-system
       sectionName: https
   hostnames:
-    - grafana.localhost
+    - grafana.management.eu-central-1.localhost
   rules:
     - backendRefs:
         - name: grafana-service

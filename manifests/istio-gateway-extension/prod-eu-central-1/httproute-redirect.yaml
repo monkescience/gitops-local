@@ -9,7 +9,7 @@ spec:
       namespace: istio-system
       sectionName: http
   hostnames:
-    - "*.localhost"
+    - "*.prod.eu-central-1.localhost"
   rules:
     - filters:
         - type: RequestRedirect

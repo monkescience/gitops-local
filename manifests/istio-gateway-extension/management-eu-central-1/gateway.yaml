@@ -14,18 +14,18 @@ spec:
     - name: http
       port: 80
       protocol: HTTP
-      hostname: "*.localhost"
+      hostname: "*.management.eu-central-1.localhost"
       allowedRoutes:
         namespaces:
           from: All
     - name: https
       port: 443
       protocol: HTTPS
-      hostname: "*.localhost"
+      hostname: "*.management.eu-central-1.localhost"
       tls:
         mode: Terminate
         certificateRefs:
-          - name: localhost-wildcard-tls
+          - name: management-wildcard-tls
             kind: Secret
       allowedRoutes:
         namespaces:

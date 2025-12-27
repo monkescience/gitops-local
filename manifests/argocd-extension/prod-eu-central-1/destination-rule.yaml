@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: argocd-server-locality
+  namespace: argocd
+spec:
+  host: argocd-server.argocd.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      http:
+        h2UpgradePolicy: UPGRADE
+    loadBalancer:
+      simple: ROUND_ROBIN
+      localityLbSetting:
+        enabled: true
+        failover:
+          - from: eu-central-1
+            to: eu-central-1
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 5s
+      baseEjectionTime: 30s

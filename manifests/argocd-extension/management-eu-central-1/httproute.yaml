@@ -9,7 +9,7 @@ spec:
       namespace: istio-system
       sectionName: https
   hostnames:
-    - argocd.localhost
+    - argocd.management.eu-central-1.localhost
   rules:
     - backendRefs:
         - name: argocd-server
