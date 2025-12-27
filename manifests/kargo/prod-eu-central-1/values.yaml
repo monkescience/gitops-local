@@ -17,9 +17,7 @@ controller:
 
 # Kubeconfig secret to access management cluster for Kargo CRDs
 kubeconfigSecrets:
-  kargo:
-    name: kargo-management-kubeconfig
-    key: kubeconfig
+  kargo: kargo-management-kubeconfig
 
 # Disable API - only management has the API
 api:

@@ -66,7 +66,7 @@ metadata:
   namespace: ${KARGO_NAMESPACE}
 type: Opaque
 stringData:
-  kubeconfig: |
+  kubeconfig.yaml: |
     apiVersion: v1
     kind: Config
     clusters:
