@@ -21,16 +21,19 @@ mimir:
       backend: s3
       s3:
         bucket_name: mimir
+      storage_prefix: blocks
     ruler:
       rule_path: /data/ruler-tmp
     ruler_storage:
       backend: s3
       s3:
         bucket_name: mimir
+      storage_prefix: ruler
     alertmanager_storage:
       backend: s3
       s3:
         bucket_name: mimir
+      storage_prefix: alertmanager
     limits:
       ruler_max_rules_per_rule_group: 30
 
