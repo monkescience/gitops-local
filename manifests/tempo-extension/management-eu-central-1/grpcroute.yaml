@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: tempo-otlp-grpc
+  namespace: tempo
+spec:
+  parentRefs:
+    - name: istio-gateway
+      namespace: istio-system
+      sectionName: observability
+  rules:
+    - backendRefs:
+        - name: tempo
+          port: 4317

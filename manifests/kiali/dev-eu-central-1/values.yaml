@@ -1,0 +1,24 @@
+auth:
+  strategy: anonymous
+
+deployment:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
+
+server:
+  web_fqdn: kiali.dev.eu-central-1.localhost
+
+external_services:
+  prometheus:
+    url: http://alloy.alloy.svc.cluster.local:9090
+  grafana:
+    enabled: false
+  tracing:
+    enabled: false
+  istio:
+    root_namespace: istio-system

@@ -1,53 +1,52 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mimir
+  name: kiali
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "60"
+    argocd.argoproj.io/sync-wave: "72"
 spec:
   project: platform
   sources:
-    - repoURL: https://grafana.github.io/helm-charts
-      chart: mimir-distributed
-      targetRevision: 6.0.5
+    - repoURL: https://kiali.org/helm-charts
+      chart: kiali-server
+      targetRevision: 2.19.0
       helm:
         valueFiles:
-          - $values/manifests/mimir/management-eu-central-1/values.yaml
+          - $values/manifests/kiali/prod-eu-central-1/values.yaml
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: mimir
+    namespace: kiali
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - ServerSideApply=true
       - ApplyOutOfSyncOnly=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mimir-extension
+  name: kiali-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "61"
+    argocd.argoproj.io/sync-wave: "73"
 spec:
   project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
-    path: manifests/mimir-extension/management-eu-central-1
+    path: manifests/kiali-extension/prod-eu-central-1
   destination:
     server: https://kubernetes.default.svc
-    namespace: mimir
+    namespace: kiali
   syncPolicy:
     automated:
       prune: true

@@ -1,10 +1,9 @@
 profile: ambient
 
 global:
-  meshID: mesh1
+  meshID: prod-eu-central-1
   multiCluster:
     clusterName: prod-eu-central-1
-  network: network1
 
 pilot:
   autoscaleEnabled: false

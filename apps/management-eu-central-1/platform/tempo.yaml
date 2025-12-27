@@ -35,3 +35,28 @@ spec:
       jqPathExpressions:
         - .spec.volumeClaimTemplates[]?.apiVersion
         - .spec.volumeClaimTemplates[]?.kind
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tempo-extension
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "63"
+spec:
+  project: platform
+  source:
+    repoURL: file:///gitops
+    targetRevision: HEAD
+    path: manifests/tempo-extension/management-eu-central-1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: tempo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true

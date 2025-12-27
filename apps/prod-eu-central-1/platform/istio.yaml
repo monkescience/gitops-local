@@ -141,28 +141,3 @@ spec:
       selfHeal: true
     syncOptions:
       - ApplyOutOfSyncOnly=true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: istio-cross-cluster
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-  annotations:
-    argocd.argoproj.io/sync-wave: "31"
-spec:
-  project: platform
-  source:
-    repoURL: file:///gitops
-    targetRevision: HEAD
-    path: manifests/istio-extension/prod-eu-central-1
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: istio-system
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - ApplyOutOfSyncOnly=true
