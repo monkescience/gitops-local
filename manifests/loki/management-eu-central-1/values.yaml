@@ -1,4 +1,4 @@
-deploymentMode: SingleBinary
+deploymentMode: SimpleScalable
 
 serviceAccount:
   create: true
@@ -38,7 +38,7 @@ loki:
 
   schemaConfig:
     configs:
-      - from: 1970-01-01
+      - from: "1970-01-01"
         store: tsdb
         object_store: s3
         schema: v13
@@ -71,6 +71,7 @@ gateway:
       drop:
         - ALL
     allowPrivilegeEscalation: false
+  replicas: 2
   resources:
     requests:
       cpu: 10m
@@ -78,27 +79,42 @@ gateway:
     limits:
       memory: 32Mi
 
-singleBinary:
+read:
   replicas: 2
   resources:
     requests:
-      cpu: 20m
-      memory: 256Mi
+      cpu: 10m
+      memory: 128Mi
     limits:
-      memory: 256Mi
+      memory: 128Mi
+
+write:
+  replicas: 2
   persistence:
     enabled: true
     storageClass: standard
-    size: 5Gi  # Reduced - data now in S3
-
-# Disable scalable components for SingleBinary mode
-read:
-  replicas: 0
-
-write:
-  replicas: 0
+    size: 1Gi
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
 
 backend:
+  replicas: 2
+  persistence:
+    enabled: true
+    storageClass: standard
+    size: 1Gi
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+singleBinary:
   replicas: 0
 
 chunksCache:
