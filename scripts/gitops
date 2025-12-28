@@ -57,24 +57,25 @@ cmd_setup() {
   header "Multi-Cluster GitOps Stack - Complete Setup"
 
   info "Checking prerequisites..."
-  require_command kind "brew install kind"
+  require_command k3d "brew install k3d"
   require_command kubectl "brew install kubectl"
   require_command helm "brew install helm"
   require_command yq "brew install yq"
+  require_command jq "brew install jq"
   require_command openssl "Should be pre-installed on macOS"
 
-  KIND_VERSION=$(kind version | head -1 | awk '{print $2}')
+  K3D_VERSION=$(k3d version | head -1 | awk '{print $3}')
   KUBECTL_VERSION=$(kubectl version --client -o yaml | grep gitVersion | awk '{print $2}')
   HELM_VERSION=$(helm version --short | cut -d'+' -f1)
-  success "kind $KIND_VERSION"
+  success "k3d $K3D_VERSION"
   success "kubectl $KUBECTL_VERSION"
   success "helm $HELM_VERSION"
 
   header "Resource Requirements"
-  echo "  - CPU: 6 cores recommended (3 clusters)"
-  echo "  - RAM: 16 GB recommended"
-  echo "  - Disk: 30 GB free space"
-  echo "  - Time: 15-20 minutes"
+  echo "  - CPU: 4 cores recommended (3 clusters)"
+  echo "  - RAM: 12 GB recommended"
+  echo "  - Disk: 25 GB free space"
+  echo "  - Time: 10-15 minutes"
 
   read -p "Do you want to continue? (y/n) " -n 1 -r
   echo ""
@@ -108,6 +109,9 @@ cmd_setup() {
   argocd_bootstrap prod-eu-central-1
   stack_deploy_single prod-eu-central-1
   info "Prod cluster apps syncing in background..."
+
+  header "Configuring cross-cluster networking"
+  ensure_cross_cluster_network
 
   header "Waiting for services to become ready"
   wait_for_url "https://argocd.management.eu-central-1.localhost:8443" 300 5

@@ -5,21 +5,21 @@ CLUSTERS=("management-eu-central-1" "dev-eu-central-1" "prod-eu-central-1")
 
 cluster_exists() {
   local cluster_name=$1
-  kind get clusters 2>/dev/null | grep -q "^${cluster_name}$"
+  k3d cluster list -o json 2>/dev/null | jq -e --arg name "$cluster_name" '.[] | select(.name == $name)' >/dev/null 2>&1
 }
 
 cluster_create_single() {
   local cluster_name=$1
 
-  info "Creating Kind cluster '$cluster_name'..."
+  info "Creating k3d cluster '$cluster_name'..."
 
   if cluster_exists "$cluster_name"; then
     warn "Cluster '$cluster_name' already exists, skipping"
     return 0
   fi
 
-  local template="$PROJECT_ROOT/kind-cluster-${cluster_name}.yaml.tmpl"
-  local config="$PROJECT_ROOT/kind-cluster-${cluster_name}.yaml"
+  local template="$PROJECT_ROOT/k3d-cluster-${cluster_name}.yaml.tmpl"
+  local config="$PROJECT_ROOT/k3d-cluster-${cluster_name}.yaml"
 
   if [[ ! -f "$template" ]]; then
     error "Cluster template not found: $template"
@@ -29,13 +29,13 @@ cluster_create_single() {
   export PROJECT_ROOT
   envsubst < "$template" > "$config"
 
-  kind create cluster --config "$config"
+  k3d cluster create --config "$config"
 
   info "Waiting for cluster '$cluster_name' to be ready..."
-  kubectl config use-context "kind-${cluster_name}"
+  kubectl config use-context "k3d-${cluster_name}"
   kubectl wait --for=condition=Ready nodes --all --timeout=300s
 
-  success "Kind cluster '$cluster_name' created successfully"
+  success "k3d cluster '$cluster_name' created successfully"
 }
 
 cluster_create() {
@@ -68,10 +68,10 @@ cluster_create() {
 cluster_delete_single() {
   local cluster_name=$1
 
-  info "Deleting Kind cluster '$cluster_name'..."
+  info "Deleting k3d cluster '$cluster_name'..."
 
   if cluster_exists "$cluster_name"; then
-    kind delete cluster --name "$cluster_name"
+    k3d cluster delete "$cluster_name"
     success "Cluster '$cluster_name' deleted successfully"
   else
     warn "Cluster '$cluster_name' not found. Nothing to delete."
@@ -81,9 +81,9 @@ cluster_delete_single() {
 cluster_delete() {
   local target=${1:-all}
 
-  header "Kind GitOps Stack - Teardown"
+  header "k3d GitOps Stack - Teardown"
 
-  echo "This will delete ALL Kind clusters:"
+  echo "This will delete ALL k3d clusters:"
   for cluster in "${CLUSTERS[@]}"; do
     echo "  - $cluster"
   done
@@ -98,9 +98,8 @@ cluster_delete() {
 
   echo ""
 
-  for cluster in "${CLUSTERS[@]}"; do
-    cluster_delete_single "$cluster"
-  done
+  info "Deleting all k3d clusters in parallel..."
+  k3d cluster delete "${CLUSTERS[@]}" 2>/dev/null || true
 
   success "All clusters deleted"
 }
@@ -132,6 +131,31 @@ switch_context() {
     exit 1
   fi
 
-  kubectl config use-context "kind-${cluster_name}"
-  success "Switched to context 'kind-${cluster_name}'"
+  kubectl config use-context "k3d-${cluster_name}"
+  success "Switched to context 'k3d-${cluster_name}'"
+}
+
+ensure_cross_cluster_network() {
+  local management_network="k3d-management-eu-central-1"
+
+  if ! docker network inspect "$management_network" >/dev/null 2>&1; then
+    warn "Management network not found, skipping cross-cluster setup"
+    return 0
+  fi
+
+  info "Connecting clusters to shared network for inter-cluster communication..."
+
+  for cluster in "dev-eu-central-1" "prod-eu-central-1"; do
+    if cluster_exists "$cluster"; then
+      for container in "k3d-${cluster}-server-0" "k3d-${cluster}-agent-0" "k3d-${cluster}-serverlb"; do
+        if docker ps --format '{{.Names}}' | grep -q "^${container}$"; then
+          if ! docker network inspect "$management_network" --format '{{range .Containers}}{{.Name}} {{end}}' | grep -q "$container"; then
+            docker network connect "$management_network" "$container" 2>/dev/null || true
+          fi
+        fi
+      done
+    fi
+  done
+
+  success "Cross-cluster network configured"
 }

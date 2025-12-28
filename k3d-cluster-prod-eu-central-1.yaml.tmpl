@@ -1,0 +1,45 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: prod-eu-central-1
+servers: 1
+agents: 1
+image: rancher/k3s:v1.35.0-k3s1
+ports:
+  - port: 10080:80
+    nodeFilters:
+      - loadbalancer
+  - port: 10443:443
+    nodeFilters:
+      - loadbalancer
+volumes:
+  - volume: ${PROJECT_ROOT}:/gitops
+    nodeFilters:
+      - all
+options:
+  k3d:
+    wait: true
+    timeout: "300s"
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik,metrics-server
+        nodeFilters:
+          - server:*
+    nodeLabels:
+      - label: topology.kubernetes.io/region=eu-central-1
+        nodeFilters:
+          - server:*
+          - agent:*
+      - label: topology.kubernetes.io/zone=eu-central-1a
+        nodeFilters:
+          - server:0
+      - label: topology.kubernetes.io/zone=eu-central-1b
+        nodeFilters:
+          - agent:0
+      - label: environment=prod
+        nodeFilters:
+          - server:*
+          - agent:*
+  kubeconfig:
+    updateDefaultKubeconfig: true
+    switchCurrentContext: false

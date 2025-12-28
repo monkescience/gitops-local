@@ -10,7 +10,7 @@ argocd_bootstrap() {
 
   info "Bootstrapping ArgoCD on $cluster cluster..."
 
-  kubectl config use-context "kind-$cluster"
+  kubectl config use-context "k3d-$cluster"
 
   # Restore sealed secrets key if backup exists (only on management)
   if [[ "$cluster" == "management-eu-central-1" ]]; then

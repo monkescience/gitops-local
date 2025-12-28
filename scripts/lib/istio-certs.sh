@@ -74,7 +74,7 @@ install_certs_in_cluster() {
 
   info "Installing Istio certificates in cluster '$cluster_name'..."
 
-  kubectl config use-context "kind-${cluster_name}"
+  kubectl config use-context "k3d-${cluster_name}"
 
   ensure_namespace istio-system
 
@@ -117,7 +117,7 @@ istio_setup_certs() {
     istio_setup_certs_single "$cluster"
   done
 
-  kubectl config use-context "kind-management-eu-central-1"
+  kubectl config use-context "k3d-management-eu-central-1"
 
   success "Istio certificates configured for all clusters"
 }
