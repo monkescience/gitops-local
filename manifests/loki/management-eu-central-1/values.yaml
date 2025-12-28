@@ -92,7 +92,7 @@ write:
   replicas: 2
   persistence:
     enabled: true
-    storageClass: standard
+    storageClass: local-path
     size: 1Gi
   resources:
     requests:
@@ -105,7 +105,7 @@ backend:
   replicas: 2
   persistence:
     enabled: true
-    storageClass: standard
+    storageClass: local-path
     size: 1Gi
   resources:
     requests:

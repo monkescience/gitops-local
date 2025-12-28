@@ -41,7 +41,7 @@ tempo:
 
 persistence:
   enabled: true
-  storageClassName: standard
+  storageClassName: local-path
   size: 10Gi
 
 resources:
