@@ -2,6 +2,7 @@ cni:
   ambient:
     enabled: true
   logLevel: info
+  cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
 
 resources:
   requests:
