@@ -21,17 +21,5 @@ nodes:
       - |
         kind: InitConfiguration
         nodeRegistration:
-          taints: []
           kubeletExtraArgs:
             node-labels: "topology.kubernetes.io/region=eu-central-1,topology.kubernetes.io/zone=eu-central-1a,environment=dev"
-  - role: worker
-    image: kindest/node:v1.35.0
-    extraMounts:
-      - hostPath: ${PROJECT_ROOT}
-        containerPath: /gitops
-    kubeadmConfigPatches:
-      - |
-        kind: JoinConfiguration
-        nodeRegistration:
-          kubeletExtraArgs:
-            node-labels: "topology.kubernetes.io/region=eu-central-1,topology.kubernetes.io/zone=eu-central-1b,environment=dev"

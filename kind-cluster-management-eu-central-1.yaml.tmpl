@@ -26,11 +26,15 @@ nodes:
     extraMounts:
       - hostPath: ${PROJECT_ROOT}
         containerPath: /gitops
+  - role: worker
+    image: kindest/node:v1.35.0
+    extraMounts:
+      - hostPath: ${PROJECT_ROOT}
+        containerPath: /gitops
     kubeadmConfigPatches:
       - |
-        kind: InitConfiguration
+        kind: JoinConfiguration
         nodeRegistration:
-          taints: []
           kubeletExtraArgs:
             node-labels: "topology.kubernetes.io/region=eu-central-1,topology.kubernetes.io/zone=eu-central-1a"
   - role: worker
