@@ -10,7 +10,7 @@ wait_for_kargo_shard_sa() {
 
   info "Waiting for Kargo shard ServiceAccount token..."
 
-  kubectl config use-context "k3d-management-eu-central-1" >/dev/null 2>&1
+  kubectl config use-context "kind-management-eu-central-1" >/dev/null 2>&1
 
   while [[ $elapsed -lt $timeout ]]; do
     if kubectl get secret "${KARGO_SA_NAME}-token" -n "${KARGO_NAMESPACE}" >/dev/null 2>&1; then
@@ -29,12 +29,12 @@ wait_for_kargo_shard_sa() {
 }
 
 get_kargo_shard_token() {
-  kubectl config use-context "k3d-management-eu-central-1" >/dev/null 2>&1
+  kubectl config use-context "kind-management-eu-central-1" >/dev/null 2>&1
   kubectl get secret "${KARGO_SA_NAME}-token" -n "${KARGO_NAMESPACE}" -o jsonpath='{.data.token}' | base64 -d
 }
 
 get_management_ca() {
-  kubectl config use-context "k3d-management-eu-central-1" >/dev/null 2>&1
+  kubectl config use-context "kind-management-eu-central-1" >/dev/null 2>&1
   kubectl get secret "${KARGO_SA_NAME}-token" -n "${KARGO_NAMESPACE}" -o jsonpath='{.data.ca\.crt}' | base64 -d
 }
 
@@ -54,7 +54,7 @@ create_shard_kubeconfig_secret() {
   token=$(get_kargo_shard_token)
   ca_cert=$(get_management_ca)
 
-  kubectl config use-context "k3d-${cluster_name}"
+  kubectl config use-context "kind-${cluster_name}"
 
   ensure_namespace "${KARGO_NAMESPACE}"
 
@@ -92,7 +92,7 @@ EOF
 kargo_setup_shards() {
   header "Setting up Kargo Controller Shards"
 
-  kubectl config use-context "k3d-management-eu-central-1"
+  kubectl config use-context "kind-management-eu-central-1"
   if ! kubectl get namespace "${KARGO_NAMESPACE}" >/dev/null 2>&1; then
     error "Kargo namespace not found on management. Deploy Kargo first."
     exit 1
@@ -108,7 +108,7 @@ kargo_setup_shards() {
     fi
   done
 
-  kubectl config use-context "k3d-management-eu-central-1"
+  kubectl config use-context "kind-management-eu-central-1"
 
   success "Kargo shard setup complete"
 

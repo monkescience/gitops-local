@@ -23,7 +23,7 @@ resources:
 
 persistence:
   enabled: true
-  storageClass: local-path
+  storageClass: standard
   size: 20Gi
 
 replicas: 1

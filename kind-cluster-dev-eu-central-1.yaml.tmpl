@@ -21,6 +21,7 @@ nodes:
       - |
         kind: InitConfiguration
         nodeRegistration:
+          taints: []
           kubeletExtraArgs:
             node-labels: "topology.kubernetes.io/region=eu-central-1,topology.kubernetes.io/zone=eu-central-1a,environment=dev"
   - role: worker

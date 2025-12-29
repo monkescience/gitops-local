@@ -5,17 +5,17 @@ stack_deploy_single() {
 
   case "$cluster" in
     management-eu-central-1)
-      kubectl config use-context "k3d-management-eu-central-1"
+      kubectl config use-context "kind-management-eu-central-1"
       kubectl apply -f "$PROJECT_ROOT/apps/management-eu-central-1.yaml"
       success "Root ArgoCD application 'management-eu-central-1' created on management cluster"
       ;;
     dev-eu-central-1)
-      kubectl config use-context "k3d-dev-eu-central-1"
+      kubectl config use-context "kind-dev-eu-central-1"
       kubectl apply -f "$PROJECT_ROOT/apps/dev-eu-central-1.yaml"
       success "Root ArgoCD application 'dev-eu-central-1' created on dev cluster"
       ;;
     prod-eu-central-1)
-      kubectl config use-context "k3d-prod-eu-central-1"
+      kubectl config use-context "kind-prod-eu-central-1"
       kubectl apply -f "$PROJECT_ROOT/apps/prod-eu-central-1.yaml"
       success "Root ArgoCD application 'prod-eu-central-1' created on prod cluster"
       ;;
