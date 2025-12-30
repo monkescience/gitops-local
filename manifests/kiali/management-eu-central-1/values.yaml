@@ -18,13 +18,13 @@ external_services:
     url: http://mimir-gateway.mimir.svc.cluster.local:80/prometheus
   grafana:
     enabled: true
-    in_cluster_url: http://grafana-service.grafana.svc.cluster.local:3000
-    url: https://grafana.management.eu-central-1.localhost:8443
+    internal_url: http://grafana-service.grafana.svc.cluster.local:3000
+    external_url: https://grafana.management.eu-central-1.localhost:8443
   tracing:
     enabled: true
     provider: tempo
-    in_cluster_url: http://tempo.tempo.svc.cluster.local:3200
-    url: https://grafana.management.eu-central-1.localhost:8443
+    internal_url: http://tempo.tempo.svc.cluster.local:3200
+    external_url: https://grafana.management.eu-central-1.localhost:8443
     use_grpc: false
   istio:
     root_namespace: istio-system
