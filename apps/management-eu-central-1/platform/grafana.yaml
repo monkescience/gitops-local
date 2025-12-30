@@ -39,7 +39,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: grafana-extension
+  name: grafana-operator-extension
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -50,7 +50,7 @@ spec:
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
-    path: manifests/grafana-extension/management-eu-central-1
+    path: manifests/grafana-operator-extension/management-eu-central-1
   destination:
     server: https://kubernetes.default.svc
     namespace: grafana

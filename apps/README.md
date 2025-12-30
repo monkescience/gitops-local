@@ -136,7 +136,7 @@ Visualization and UI.
 | Wave | Component | Description |
 |------|-----------|-------------|
 | 800 | grafana-operator | Grafana operator (management only) |
-| 801 | grafana-extension | Grafana instance, datasources, configuration |
+| 801 | grafana-operator-extension | Grafana instance, datasources, configuration |
 | 810 | kiali | Istio service mesh UI |
 | 811 | kiali-extension | Kiali configuration |
 | 820 | gitops-mixin | Grafana dashboards and Prometheus alerts (management only) |
