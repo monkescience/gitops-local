@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "60"
+    argocd.argoproj.io/sync-wave: "610"
 spec:
   project: platform
   sources:
@@ -43,7 +43,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "61"
+    argocd.argoproj.io/sync-wave: "611"
 spec:
   project: platform
   source:

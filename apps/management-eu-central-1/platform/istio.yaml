@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "25"
+    argocd.argoproj.io/sync-wave: "400"
 spec:
   project: platform
   source:
@@ -38,7 +38,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "26"
+    argocd.argoproj.io/sync-wave: "410"
 spec:
   project: platform
   sources:
@@ -75,7 +75,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "27"
+    argocd.argoproj.io/sync-wave: "420"
 spec:
   project: platform
   sources:
@@ -112,7 +112,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "28"
+    argocd.argoproj.io/sync-wave: "430"
 spec:
   project: platform
   sources:
@@ -149,7 +149,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "30"
+    argocd.argoproj.io/sync-wave: "440"
 spec:
   project: platform
   source:
