@@ -98,8 +98,8 @@ cluster_delete() {
 
   echo ""
 
-  for cluster in "${CLUSTERS[@]}"; do
-    cluster_delete_single "$cluster"
+  for ((i=${#CLUSTERS[@]}-1; i>=0; i--)); do
+    cluster_delete_single "${CLUSTERS[$i]}"
   done
 
   success "All clusters deleted"
