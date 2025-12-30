@@ -7,7 +7,7 @@ mimir:
     ingester:
       push_grpc_method_enabled: true
       ring:
-        replication_factor: 2
+        replication_factor: 1
     common:
       storage:
         backend: s3
@@ -45,7 +45,7 @@ kafka:
 ingester:
   zoneAwareReplication:
     enabled: false
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 30m
@@ -58,7 +58,7 @@ ingester:
     storageClass: standard
 
 distributor:
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 20m
@@ -67,7 +67,7 @@ distributor:
       memory: 128Mi
 
 querier:
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 20m
@@ -76,7 +76,7 @@ querier:
       memory: 128Mi
 
 query_frontend:
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 10m
@@ -107,7 +107,7 @@ ruler:
 
 alertmanager:
   enabled: true
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 10m
@@ -123,7 +123,7 @@ rollout_operator:
 
 nginx:
   enabled: true
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 10m

@@ -6,7 +6,7 @@ serviceAccount:
 loki:
   auth_enabled: false
   commonConfig:
-    replication_factor: 2
+    replication_factor: 1
 
   podSecurityContext:
     fsGroup: 10001
@@ -71,7 +71,7 @@ gateway:
       drop:
         - ALL
     allowPrivilegeEscalation: false
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 10m
@@ -80,7 +80,7 @@ gateway:
       memory: 32Mi
 
 read:
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 10m
@@ -89,7 +89,7 @@ read:
       memory: 128Mi
 
 write:
-  replicas: 2
+  replicas: 1
   persistence:
     enabled: true
     storageClass: standard
@@ -97,12 +97,12 @@ write:
   resources:
     requests:
       cpu: 10m
-      memory: 128Mi
+      memory: 192Mi
     limits:
-      memory: 128Mi
+      memory: 192Mi
 
 backend:
-  replicas: 2
+  replicas: 1
   persistence:
     enabled: true
     storageClass: standard
@@ -110,9 +110,9 @@ backend:
   resources:
     requests:
       cpu: 10m
-      memory: 128Mi
+      memory: 192Mi
     limits:
-      memory: 128Mi
+      memory: 192Mi
 
 singleBinary:
   replicas: 0
