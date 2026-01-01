@@ -256,40 +256,6 @@ prometheus.relabel "cadvisor" {
   forward_to = [prometheus.relabel.metrics_service.receiver]
 }
 
-discovery.relabel "kube_state_metrics" {
-  targets = discovery.kubernetes.services.targets
-  rule {
-    source_labels = ["__meta_kubernetes_service_label_app_kubernetes_io_name"]
-    regex         = "kube-state-metrics"
-    action        = "keep"
-  }
-  rule {
-    source_labels = ["__meta_kubernetes_service_port_name"]
-    regex         = "http"
-    action        = "keep"
-  }
-}
-
-prometheus.scrape "kube_state_metrics" {
-  job_name        = "kube-state-metrics"
-  targets         = discovery.relabel.kube_state_metrics.output
-  scrape_interval = "60s"
-  honor_labels    = true
-  clustering {
-    enabled = true
-  }
-  forward_to = [prometheus.relabel.kube_state_metrics.receiver]
-}
-
-prometheus.relabel "kube_state_metrics" {
-  rule {
-    source_labels = ["__name__"]
-    regex         = "up|kube_configmap_info|kube_configmap_metadata_resource_version|kube_cronjob.*|kube_daemonset.*|kube_deployment_metadata_generation|kube_deployment_spec_replicas|kube_deployment_status_condition|kube_deployment_status_observed_generation|kube_deployment_status_replicas_available|kube_deployment_status_replicas_updated|kube_horizontalpodautoscaler_spec_max_replicas|kube_horizontalpodautoscaler_spec_min_replicas|kube_horizontalpodautoscaler_status_current_replicas|kube_horizontalpodautoscaler_status_desired_replicas|kube_job.*|kube_namespace_status_phase|kube_node.*|kube_persistentvolume_status_phase|kube_persistentvolumeclaim_access_mode|kube_persistentvolumeclaim_info|kube_persistentvolumeclaim_labels|kube_persistentvolumeclaim_resource_requests_storage_bytes|kube_persistentvolumeclaim_status_phase|kube_pod_completion_time|kube_pod_container_info|kube_pod_container_resource_limits|kube_pod_container_resource_requests|kube_pod_container_status_last_terminated_reason|kube_pod_container_status_last_terminated_timestamp|kube_pod_container_status_restarts_total|kube_pod_container_status_waiting_reason|kube_pod_info|kube_pod_owner|kube_pod_restart_policy|kube_pod_spec_volumes_persistentvolumeclaims_info|kube_pod_start_time|kube_pod_status_phase|kube_pod_status_reason|kube_replicaset.*|kube_resourcequota|kube_secret_metadata_resource_version|kube_statefulset.*"
-    action        = "keep"
-  }
-  forward_to = [prometheus.relabel.metrics_service.receiver]
-}
-
 prometheus.exporter.unix "node" {
   procfs_path = "/host/proc"
   sysfs_path  = "/host/sys"

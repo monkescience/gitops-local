@@ -55,3 +55,4 @@ prometheus:
   monitor:
     enabled: true
     jobLabel: app.kubernetes.io/name
+    honorLabels: true
