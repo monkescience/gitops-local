@@ -80,9 +80,9 @@ query_frontend:
   resources:
     requests:
       cpu: 10m
-      memory: 64Mi
+      memory: 128Mi
     limits:
-      memory: 64Mi
+      memory: 128Mi
 
 compactor:
   replicas: 1
