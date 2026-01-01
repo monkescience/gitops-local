@@ -3,11 +3,14 @@ kind: Application
 metadata:
   name: kargo
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "510"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kargo
   project: platform
   sources:
     - repoURL: ghcr.io/akuity/kargo-charts
@@ -19,9 +22,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: kargo
   syncPolicy:
     automated:
       prune: true
@@ -40,19 +40,19 @@ kind: Application
 metadata:
   name: kargo-extension
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "511"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kargo
   project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
     path: manifests/kargo-extension/management-eu-central-1
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: kargo
   syncPolicy:
     automated:
       prune: true

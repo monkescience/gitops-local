@@ -3,19 +3,19 @@ kind: Application
 metadata:
   name: phasor-kargo
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: phasor
   project: services
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
     path: manifests/phasor-kargo/management-eu-central-1
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: phasor
   syncPolicy:
     automated:
       prune: true

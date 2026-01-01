@@ -3,11 +3,14 @@ kind: Application
 metadata:
   name: argocd
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "300"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
   project: platform
   sources:
     - repoURL: https://argoproj.github.io/argo-helm
@@ -19,9 +22,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
   syncPolicy:
     automated:
       prune: true
@@ -40,19 +40,19 @@ kind: Application
 metadata:
   name: argocd-extension
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "301"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
   project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
     path: manifests/argocd-extension/management-eu-central-1
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
   syncPolicy:
     automated:
       prune: true

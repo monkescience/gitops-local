@@ -3,11 +3,14 @@ kind: Application
 metadata:
   name: kiali
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "810"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kiali
   project: platform
   sources:
     - repoURL: https://kiali.org/helm-charts
@@ -19,9 +22,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: kiali
   syncPolicy:
     automated:
       prune: true
@@ -40,19 +40,19 @@ kind: Application
 metadata:
   name: kiali-extension
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "811"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kiali
   project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
     path: manifests/kiali-extension/prod-eu-central-1
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: kiali
   syncPolicy:
     automated:
       prune: true

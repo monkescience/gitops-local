@@ -3,19 +3,25 @@ kind: Application
 metadata:
   name: istio-base
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "400"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: istiod-default-validator
+      jsonPointers:
+        - /webhooks/0/failurePolicy
   project: platform
   source:
     repoURL: https://istio-release.storage.googleapis.com/charts
     chart: base
     targetRevision: 1.28.2
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: istio-system
   syncPolicy:
     automated:
       prune: true
@@ -35,11 +41,14 @@ kind: Application
 metadata:
   name: istio-cni
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "410"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
   project: platform
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
@@ -51,9 +60,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: istio-system
   syncPolicy:
     automated:
       prune: true
@@ -72,11 +78,20 @@ kind: Application
 metadata:
   name: istiod
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "420"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: istio-validator-istio-system
+      jsonPointers:
+        - /webhooks/0/failurePolicy
   project: platform
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
@@ -88,9 +103,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: istio-system
   syncPolicy:
     automated:
       prune: true
@@ -109,11 +121,14 @@ kind: Application
 metadata:
   name: ztunnel
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "430"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
   project: platform
   sources:
     - repoURL: https://istio-release.storage.googleapis.com/charts
@@ -125,9 +140,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: istio-system
   syncPolicy:
     automated:
       prune: true
@@ -146,19 +158,19 @@ kind: Application
 metadata:
   name: istio-gateway
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "440"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
   project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
     path: manifests/istio-gateway-extension/dev-eu-central-1
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: istio-system
   syncPolicy:
     automated:
       prune: true

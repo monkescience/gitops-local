@@ -3,11 +3,14 @@ kind: Application
 metadata:
   name: metrics-server
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "200"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
   project: platform
   sources:
     - repoURL: https://kubernetes-sigs.github.io/metrics-server
@@ -19,9 +22,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: kube-system
   syncPolicy:
     automated:
       prune: true

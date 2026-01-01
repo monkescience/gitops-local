@@ -3,19 +3,19 @@ kind: Application
 metadata:
   name: gateway-api
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "10"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
   project: platform
   source:
     repoURL: https://github.com/kubernetes-sigs/gateway-api.git
     targetRevision: v1.4.1
     path: config/crd/standard
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: kube-system
   syncPolicy:
     automated:
       prune: true

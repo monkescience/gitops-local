@@ -3,11 +3,14 @@ kind: Application
 metadata:
   name: cert-manager
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "100"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
   project: platform
   sources:
     - repoURL: https://charts.jetstack.io
@@ -19,9 +22,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: cert-manager
   syncPolicy:
     automated:
       prune: true
@@ -41,19 +41,19 @@ kind: Application
 metadata:
   name: cert-manager-extension
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "101"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
   project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
     path: manifests/cert-manager-extension/dev-eu-central-1
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: cert-manager
   syncPolicy:
     automated:
       prune: true

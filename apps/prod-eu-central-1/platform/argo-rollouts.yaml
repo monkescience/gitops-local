@@ -3,11 +3,14 @@ kind: Application
 metadata:
   name: argo-rollouts
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "500"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-rollouts
   project: platform
   sources:
     - repoURL: https://argoproj.github.io/argo-helm
@@ -19,9 +22,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argo-rollouts
   syncPolicy:
     automated:
       prune: true

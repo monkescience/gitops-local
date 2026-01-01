@@ -3,19 +3,19 @@ kind: Application
 metadata:
   name: admission-policies
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "30"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
   project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
     path: manifests/admission-policies/dev-eu-central-1
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
   syncPolicy:
     automated:
       prune: true

@@ -3,11 +3,14 @@ kind: Application
 metadata:
   name: gitops-mixin
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "820"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: grafana
   project: platform
   sources:
     - repoURL: ghcr.io/monkescience/helm-charts
@@ -19,9 +22,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: grafana
   syncPolicy:
     automated:
       prune: true

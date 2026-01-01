@@ -3,11 +3,14 @@ kind: Application
 metadata:
   name: loki
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "610"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: loki
   project: platform
   sources:
     - repoURL: https://grafana.github.io/helm-charts
@@ -19,9 +22,6 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: loki
   syncPolicy:
     automated:
       prune: true
@@ -40,19 +40,19 @@ kind: Application
 metadata:
   name: loki-extension
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "611"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: loki
   project: platform
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
     path: manifests/loki-extension/management-eu-central-1
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: loki
   syncPolicy:
     automated:
       prune: true
