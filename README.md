@@ -19,14 +19,14 @@ This repository provides a three-cluster setup that mimics production GitOps inf
                     ┌────────────────┴────────────────┐
                     │                                 │
                     ▼                                 ▼
-     ┌──────────────────────────┐    ┌──────────────────────────┐
-     │    dev-eu-central-1      │    │    prod-eu-central-1     │
-     │                          │    │                          │
-     │  ArgoCD, Istio,          │    │  ArgoCD, Istio,          │
-     │  Argo Rollouts, Kiali    │    │  Argo Rollouts, Kiali    │
-     │                          │    │                          │
+     ┌──────────────────────────┐    ┌───────────────────────────┐
+     │    dev-eu-central-1      │    │    prod-eu-central-1      │
+     │                          │    │                           │
+     │  ArgoCD, Istio,          │    │  ArgoCD, Istio,           │
+     │  Argo Rollouts, Kiali    │    │  Argo Rollouts, Kiali     │
+     │                          │    │                           │
      │  https://*.localhost:9443│    │  https://*.localhost:10443│
-     └──────────────────────────┘    └──────────────────────────┘
+     └──────────────────────────┘    └───────────────────────────┘
 ```
 
 Dev and Prod clusters send telemetry to the Management cluster's observability stack.
