@@ -75,9 +75,9 @@ gateway:
   resources:
     requests:
       cpu: 10m
-      memory: 32Mi
+      memory: 64Mi
     limits:
-      memory: 32Mi
+      memory: 64Mi
 
 read:
   replicas: 1
@@ -96,10 +96,10 @@ write:
     size: 1Gi
   resources:
     requests:
-      cpu: 10m
-      memory: 192Mi
+      cpu: 20m
+      memory: 256Mi
     limits:
-      memory: 192Mi
+      memory: 256Mi
 
 backend:
   replicas: 1
@@ -110,9 +110,9 @@ backend:
   resources:
     requests:
       cpu: 10m
-      memory: 192Mi
+      memory: 256Mi
     limits:
-      memory: 192Mi
+      memory: 256Mi
 
 singleBinary:
   replicas: 0

@@ -16,6 +16,12 @@ data:
               effect: NoSchedule
           containers:
             - name: istio-proxy
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 128Mi
+                limits:
+                  memory: 128Mi
               ports:
                 - containerPort: 80
                   hostPort: 80

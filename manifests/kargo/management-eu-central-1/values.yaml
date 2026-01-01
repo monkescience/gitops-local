@@ -29,10 +29,10 @@ controller:
       mountPath: /gitops
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 10m
+      memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi
 
 api:
   tls:
@@ -43,39 +43,39 @@ api:
     tokenTTL: 24h
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 10m
+      memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi
 
 garbageCollector:
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 10m
+      memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi
 
 externalWebhooksServer:
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 10m
+      memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi
 
 managementController:
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 10m
+      memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi
 
 webhooksServer:
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 10m
+      memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi

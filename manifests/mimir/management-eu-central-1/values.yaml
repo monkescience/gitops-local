@@ -48,10 +48,10 @@ ingester:
   replicas: 1
   resources:
     requests:
-      cpu: 30m
-      memory: 448Mi
+      cpu: 40m
+      memory: 512Mi
     limits:
-      memory: 448Mi
+      memory: 512Mi
   persistentVolume:
     enabled: true
     size: 10Gi
@@ -61,7 +61,7 @@ distributor:
   replicas: 1
   resources:
     requests:
-      cpu: 20m
+      cpu: 30m
       memory: 128Mi
     limits:
       memory: 128Mi
@@ -79,7 +79,7 @@ query_frontend:
   replicas: 1
   resources:
     requests:
-      cpu: 10m
+      cpu: 20m
       memory: 128Mi
     limits:
       memory: 128Mi
@@ -88,13 +88,22 @@ compactor:
   replicas: 1
   resources:
     requests:
-      cpu: 20m
-      memory: 128Mi
+      cpu: 10m
+      memory: 64Mi
     limits:
-      memory: 128Mi
+      memory: 64Mi
 
 store_gateway:
   replicas: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
+
+ruler:
+  enabled: true
   resources:
     requests:
       cpu: 20m
@@ -102,8 +111,22 @@ store_gateway:
     limits:
       memory: 128Mi
 
-ruler:
-  enabled: true
+query_scheduler:
+  replicas: 2
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
+
+overrides_exporter:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
 
 alertmanager:
   enabled: true
