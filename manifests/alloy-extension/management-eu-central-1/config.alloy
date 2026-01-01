@@ -59,51 +59,6 @@ logging {
   format = "logfmt"
 }
 
-discovery.relabel "alloy" {
-  targets = discovery.kubernetes.pods.targets
-  rule {
-    source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
-    regex         = "alloy.*"
-    action        = "keep"
-  }
-  rule {
-    source_labels = ["__meta_kubernetes_pod_container_port_name"]
-    regex         = "http-metrics"
-    action        = "keep"
-  }
-  rule {
-    source_labels = ["__meta_kubernetes_namespace"]
-    target_label  = "namespace"
-  }
-  rule {
-    source_labels = ["__meta_kubernetes_pod_name"]
-    target_label  = "pod"
-  }
-  rule {
-    source_labels = ["__meta_kubernetes_pod_container_name"]
-    target_label  = "container"
-  }
-}
-
-prometheus.scrape "alloy" {
-  job_name        = "alloy"
-  targets         = discovery.relabel.alloy.output
-  scrape_interval = "60s"
-  forward_to      = [prometheus.relabel.alloy.receiver]
-  clustering {
-    enabled = true
-  }
-}
-
-prometheus.relabel "alloy" {
-  rule {
-    source_labels = ["__name__"]
-    regex         = "up|alloy_build_info|cluster_node_peers"
-    action        = "keep"
-  }
-  forward_to = [prometheus.relabel.metrics_service.receiver]
-}
-
 prometheus.scrape "kubelet" {
   job_name          = "kubelet"
   targets           = discovery.kubernetes.nodes.targets
