@@ -274,6 +274,7 @@ prometheus.scrape "kube_state_metrics" {
   job_name        = "kube-state-metrics"
   targets         = discovery.relabel.kube_state_metrics.output
   scrape_interval = "60s"
+  honor_labels    = true
   clustering {
     enabled = true
   }
