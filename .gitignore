@@ -11,6 +11,3 @@ k3d-cluster-*.yaml
 
 # Sealed Secrets master key backup
 .sealed-secrets-key.yaml
-
-
-CLAUDE.md
