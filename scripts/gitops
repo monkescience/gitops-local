@@ -71,9 +71,9 @@ cmd_setup() {
   success "helm $HELM_VERSION"
 
   header "Resource Requirements"
-  echo "  - CPU: 6 cores recommended (3 clusters)"
-  echo "  - RAM: 16 GB recommended"
-  echo "  - Disk: 30 GB free space"
+  echo "  - CPU: 6 cores recommended"
+  echo "  - RAM: 20 GB recommended"
+  echo "  - Disk: 40 GB free space"
   echo "  - Time: 15-20 minutes"
 
   read -p "Do you want to continue? (y/n) " -n 1 -r
