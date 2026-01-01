@@ -14,7 +14,7 @@ spec:
             - name: grafana
               resources:
                 requests:
-                  cpu: 20m
+                  cpu: 50m
                   memory: 256Mi
                 limits:
                   memory: 256Mi
