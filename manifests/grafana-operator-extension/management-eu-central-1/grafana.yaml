@@ -15,9 +15,9 @@ spec:
               resources:
                 requests:
                   cpu: 20m
-                  memory: 192Mi
+                  memory: 256Mi
                 limits:
-                  memory: 192Mi
+                  memory: 256Mi
   config:
     security:
       admin_user: admin
