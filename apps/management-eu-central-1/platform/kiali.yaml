@@ -22,7 +22,7 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-#  syncPolicy:
+  syncPolicy:
 #    automated:
 #      prune: true
 #      selfHeal: true
