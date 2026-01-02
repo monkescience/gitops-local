@@ -7,3 +7,5 @@ data:
   gitconfig: |
     [safe]
       directory = *
+    [receive]
+      denyCurrentBranch = updateInstead
