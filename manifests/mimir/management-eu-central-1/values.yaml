@@ -98,6 +98,8 @@ compactor:
       memory: 64Mi
 
 store_gateway:
+  zoneAwareReplication:
+    enabled: false
   replicas: 1
   resources:
     requests:
