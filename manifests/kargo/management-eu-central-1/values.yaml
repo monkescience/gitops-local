@@ -13,20 +13,22 @@ controller:
     namespaces:
       - kargo
   env:
-    - name: GIT_CONFIG_COUNT
-      value: "1"
-    - name: GIT_CONFIG_KEY_0
-      value: safe.directory
-    - name: GIT_CONFIG_VALUE_0
-      value: "*"
+    - name: GIT_CONFIG_GLOBAL
+      value: /etc/gitconfig
   volumes:
     - name: gitops
       hostPath:
         path: /gitops
         type: Directory
+    - name: gitconfig
+      configMap:
+        name: kargo-gitconfig
   volumeMounts:
     - name: gitops
       mountPath: /gitops
+    - name: gitconfig
+      mountPath: /etc/gitconfig
+      subPath: gitconfig
   resources:
     requests:
       cpu: 10m

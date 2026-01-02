@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kargo-gitconfig
+  namespace: kargo
+data:
+  gitconfig: |
+    [safe]
+      directory = *
