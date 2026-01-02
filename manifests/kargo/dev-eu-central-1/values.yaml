@@ -8,6 +8,21 @@ global:
 # Shard controller configuration - connects to management cluster for Kargo data
 controller:
   shardName: dev-eu-central-1
+  env:
+    - name: GIT_CONFIG_COUNT
+      value: "1"
+    - name: GIT_CONFIG_KEY_0
+      value: safe.directory
+    - name: GIT_CONFIG_VALUE_0
+      value: /gitops
+  volumes:
+    - name: gitops
+      hostPath:
+        path: /gitops
+        type: Directory
+  volumeMounts:
+    - name: gitops
+      mountPath: /gitops
   resources:
     requests:
       cpu: 50m
