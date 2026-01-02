@@ -74,9 +74,9 @@ querier:
   resources:
     requests:
       cpu: 20m
-      memory: 128Mi
+      memory: 4096Mi
     limits:
-      memory: 128Mi
+      memory: 4096Mi
 
 query_frontend:
   replicas: 1
