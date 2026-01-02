@@ -51,7 +51,8 @@ prometheus.relabel "metrics_service" {
 }
 
 mimir.rules.kubernetes "rules" {
-  address = "http://host.docker.internal:8080/mimir-ruler"
+  address                = "http://host.docker.internal:8080/mimir-ruler"
+  mimir_namespace_prefix = sys.env("CLUSTER_NAME")
 }
 
 logging {
