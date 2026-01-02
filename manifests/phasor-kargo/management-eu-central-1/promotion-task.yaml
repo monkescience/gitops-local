@@ -5,19 +5,32 @@ metadata:
   namespace: phasor
 spec:
   vars:
+    - name: gitRepo
+      value: file:///gitops
     - name: chart
       value: oci://ghcr.io/monkescience/helm-charts/phasor
+    - name: workDir
+      value: ./repo
   steps:
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: main
+            path: ${{ vars.workDir }}
     - uses: yaml-update
       config:
-        path: /gitops/apps/${{ ctx.stage }}/services/phasor.yaml
+        path: ${{ vars.workDir }}/apps/${{ ctx.stage }}/services/phasor.yaml
         updates:
           - key: spec.sources.0.targetRevision
             value: ${{ chartFrom( vars.chart ).Version }}
     - uses: git-commit
       config:
         message: "chore(kargo): promote phasor chart to ${{ chartFrom( vars.chart ).Version }} (${{ ctx.stage }})"
-        path: /gitops
+        path: ${{ vars.workDir }}
+    - uses: git-push
+      config:
+        path: ${{ vars.workDir }}
     - uses: argocd-update
       config:
         apps:
