@@ -36,8 +36,9 @@ mimir:
       storage_prefix: alertmanager
     limits:
       ruler_max_rules_per_rule_group: 30
-      max_global_series_per_user: 500000
-      ingestion_rate: 100000
+      # ~200k series from 3 clusters, mostly kube-apiserver histogram buckets (~100k)
+      max_global_series_per_user: 300000
+      ingestion_rate: 20000
       ingestion_burst_size: 200000
 
 # Disable bundled Kafka
@@ -52,9 +53,9 @@ ingester:
   resources:
     requests:
       cpu: 40m
-      memory: 4096Mi
+      memory: 512Mi
     limits:
-      memory: 4096Mi
+      memory: 512Mi
   persistentVolume:
     enabled: true
     size: 10Gi
@@ -74,9 +75,9 @@ querier:
   resources:
     requests:
       cpu: 20m
-      memory: 4096Mi
+      memory: 256Mi
     limits:
-      memory: 4096Mi
+      memory: 256Mi
 
 query_frontend:
   replicas: 1
