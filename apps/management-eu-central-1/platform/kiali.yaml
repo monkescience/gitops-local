@@ -22,10 +22,10 @@ spec:
     - repoURL: file:///gitops
       targetRevision: HEAD
       ref: values
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: true
     retry:
       limit: 5
       backoff:
@@ -54,8 +54,8 @@ spec:
     targetRevision: HEAD
     path: manifests/kiali-extension/management-eu-central-1
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+#    automated:
+#      prune: true
+#      selfHeal: true
     syncOptions:
       - ApplyOutOfSyncOnly=true
