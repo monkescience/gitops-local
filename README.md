@@ -56,7 +56,7 @@ Dev and Prod clusters send telemetry to the Management cluster's observability s
 
 **Resource Requirements:**
 - CPU: 6 cores
-- RAM: 20 GB
+- RAM: 24 GB
 - Disk: 40 GB free space
 
 ## Commands

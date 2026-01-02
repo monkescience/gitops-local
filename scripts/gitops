@@ -72,7 +72,7 @@ cmd_setup() {
 
   header "Resource Requirements"
   echo "  - CPU: 6 cores recommended"
-  echo "  - RAM: 20 GB recommended"
+  echo "  - RAM: 24 GB recommended"
   echo "  - Disk: 40 GB free space"
   echo "  - Time: 15-20 minutes"
 

@@ -61,7 +61,7 @@ The setup command checks for these tools:
 ## Resource Requirements
 
 - **CPU**: 6 cores recommended
-- **RAM**: 20 GB recommended
+- **RAM**: 24 GB recommended
 - **Disk**: 40 GB free space
 - **Time**: 15-20 minutes for full setup
 
