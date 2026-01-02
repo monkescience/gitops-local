@@ -14,11 +14,15 @@ controller:
       - kargo
   env:
     - name: GIT_CONFIG_COUNT
-      value: "1"
+      value: "2"
     - name: GIT_CONFIG_KEY_0
       value: safe.directory
     - name: GIT_CONFIG_VALUE_0
       value: /gitops
+    - name: GIT_CONFIG_KEY_1
+      value: safe.directory
+    - name: GIT_CONFIG_VALUE_1
+      value: /gitops/.git
   volumes:
     - name: gitops
       hostPath:
