@@ -53,9 +53,9 @@ ingester:
   resources:
     requests:
       cpu: 40m
-      memory: 512Mi
+      memory: 768Mi
     limits:
-      memory: 512Mi
+      memory: 768Mi
   persistentVolume:
     enabled: true
     size: 10Gi
