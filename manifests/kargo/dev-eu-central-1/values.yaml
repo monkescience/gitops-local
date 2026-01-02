@@ -10,15 +10,11 @@ controller:
   shardName: dev-eu-central-1
   env:
     - name: GIT_CONFIG_COUNT
-      value: "2"
+      value: "1"
     - name: GIT_CONFIG_KEY_0
       value: safe.directory
     - name: GIT_CONFIG_VALUE_0
-      value: /gitops
-    - name: GIT_CONFIG_KEY_1
-      value: safe.directory
-    - name: GIT_CONFIG_VALUE_1
-      value: /gitops/.git
+      value: "*"
   volumes:
     - name: gitops
       hostPath:
