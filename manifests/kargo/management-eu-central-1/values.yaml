@@ -9,6 +9,9 @@ controller:
   # Default controller handles unassigned resources and management-specific resources
   shardName: management-eu-central-1
   isDefault: true
+  # Argo Rollouts is only on dev/prod clusters, not management
+  rollouts:
+    integrationEnabled: false
   globalCredentials:
     namespaces:
       - kargo
@@ -39,6 +42,9 @@ controller:
 api:
   tls:
     enabled: false
+  # Argo Rollouts is only on dev/prod clusters, not management
+  rollouts:
+    integrationEnabled: false
   adminAccount:
     passwordHash: $2a$12$J3u7V0B2zYhsDsaxtaBXEOChOEbMcTJwhljitJOsQ3JTwRaaH4r.u # admin
     tokenSigningKey: 98daba3e93922ec98232bbdd1836e3d51f994b62ba4e485a7c70b81094263cc1

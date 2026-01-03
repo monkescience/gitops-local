@@ -8,6 +8,23 @@ global:
 # Shard controller configuration - connects to management cluster for Kargo data
 controller:
   shardName: dev-eu-central-1
+  argocd:
+    integrationEnabled: true
+  rollouts:
+    integrationEnabled: true
+  initContainers:
+    - name: wait-for-rollouts-crds
+      image: bitnami/kubectl:latest
+      command:
+        - sh
+        - -c
+        - |
+          echo "Waiting for Argo Rollouts CRDs..."
+          until kubectl get crd analysistemplates.argoproj.io >/dev/null 2>&1; do
+            echo "CRD not found, retrying in 5s..."
+            sleep 5
+          done
+          echo "Argo Rollouts CRDs are available"
   env:
     - name: GIT_CONFIG_GLOBAL
       value: /etc/gitconfig
