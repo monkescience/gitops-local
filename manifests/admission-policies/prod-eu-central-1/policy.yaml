@@ -11,47 +11,43 @@ spec:
         operations: ["CREATE", "UPDATE"]
         resources: ["pods"]
   validations:
-    # CPU request required
     - expression: >-
         object.spec.containers.all(c,
-          has(c.resources) &&
-          has(c.resources.requests) &&
-          'cpu' in c.resources.requests)
+          has(c.resources) ?
+            (has(c.resources.requests) ? 'cpu' in c.resources.requests : false)
+          : false)
       message: "All containers must have cpu requests defined"
       reason: Invalid
-    # No CPU limits allowed
     - expression: >-
         object.spec.containers.all(c,
-          !has(c.resources) ||
-          !has(c.resources.limits) ||
-          !('cpu' in c.resources.limits))
+          has(c.resources) ?
+            (has(c.resources.limits) ? !('cpu' in c.resources.limits) : true)
+          : true)
       message: "Containers must not have cpu limits defined"
       reason: Invalid
-    # Memory request required
     - expression: >-
         object.spec.containers.all(c,
-          has(c.resources) &&
-          has(c.resources.requests) &&
-          'memory' in c.resources.requests)
+          has(c.resources) ?
+            (has(c.resources.requests) ? 'memory' in c.resources.requests : false)
+          : false)
       message: "All containers must have memory requests defined"
       reason: Invalid
-    # Memory limit required
     - expression: >-
         object.spec.containers.all(c,
-          has(c.resources) &&
-          has(c.resources.limits) &&
-          'memory' in c.resources.limits)
+          has(c.resources) ?
+            (has(c.resources.limits) ? 'memory' in c.resources.limits : false)
+          : false)
       message: "All containers must have memory limits defined"
       reason: Invalid
-    # Memory request must equal limit
     - expression: >-
         object.spec.containers.all(c,
-          !has(c.resources) ||
-          !has(c.resources.requests) ||
-          !has(c.resources.limits) ||
-          !('memory' in c.resources.requests) ||
-          !('memory' in c.resources.limits) ||
-          c.resources.requests['memory'] == c.resources.limits['memory'])
+          has(c.resources) ?
+            (has(c.resources.requests) && has(c.resources.limits) ?
+              ('memory' in c.resources.requests && 'memory' in c.resources.limits ?
+                c.resources.requests['memory'] == c.resources.limits['memory']
+              : true)
+            : true)
+          : true)
       message: "Memory request must equal memory limit"
       reason: Invalid
 ---
