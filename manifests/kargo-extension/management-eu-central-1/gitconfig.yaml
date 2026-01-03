@@ -1,3 +1,5 @@
+# NOTE: After changing this ConfigMap, manually restart the Kargo controller:
+#   kubectl rollout restart deploy/kargo-controller -n kargo --context kind-management-eu-central-1
 apiVersion: v1
 kind: ConfigMap
 metadata:
