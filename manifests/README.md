@@ -67,6 +67,7 @@ Each component has environment-specific subdirectories containing Helm values ov
 | argo-rollouts | Canary and blue-green deployments (dev/prod only) |
 | kargo | Progressive delivery controller |
 | kargo-extension | Kargo projects and configuration (management only) |
+| kargo-phasor | Kargo pipeline for phasor promotion (management only) |
 
 ### Observability Storage
 
@@ -102,7 +103,6 @@ Each component has environment-specific subdirectories containing Helm values ov
 | Component | Description |
 |-----------|-------------|
 | phasor | Example application deployment |
-| phasor-kargo | Kargo pipeline for phasor promotion |
 
 ## How Values Are Used
 

@@ -9,10 +9,14 @@ apps/
 ├── management-eu-central-1/
 │   └── platform/          # Platform components for management cluster
 ├── dev-eu-central-1/
-│   └── platform/          # Platform components for dev cluster
+│   ├── platform/          # Platform components for dev cluster
+│   └── services/          # Application services (ApplicationSets)
 └── prod-eu-central-1/
-    └── platform/          # Platform components for prod cluster
+    ├── platform/          # Platform components for prod cluster
+    └── services/          # Application services (ApplicationSets)
 ```
+
+Note: The management cluster has no `services/` folder - it only runs platform components. Services are deployed to dev/prod clusters and promoted via Kargo.
 
 ## Sync Wave Strategy
 
@@ -175,5 +179,173 @@ syncPolicy:
 | gitops-mixin | Yes | No | No |
 | argo-rollouts | No | Yes | Yes |
 | kargo-extension | Yes | No | No |
+| kargo-phasor | Yes | No | No |
+| services/ folder | No | Yes | Yes |
 
 Dev and Prod clusters send telemetry to the Management cluster's observability stack.
+
+## Services Pattern (ApplicationSet + Kargo)
+
+Services use a different pattern than platform components. Instead of static Applications, they use ApplicationSets combined with Kargo for progressive delivery.
+
+### How It Works
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│ Management Cluster                                                      │
+│                                                                         │
+│  ┌──────────────┐    ┌─────────────┐    ┌─────────────────────────────┐ │
+│  │  Warehouse   │───▶│   Stages    │───▶│     PromotionTask           │ │
+│  │              │    │             │    │                             │ │
+│  │ Watches OCI  │    │ dev → prod  │    │ 1. git-clone                │ │
+│  │ registry for │    │             │    │ 2. yaml-update version.yaml │ │
+│  │ new versions │    │ Auto: dev   │    │ 3. git-commit               │ │
+│  │              │    │ Manual: prod│    │ 4. git-push                 │ │
+│  └──────────────┘    └─────────────┘    │ 5. argocd-update            │ │
+│                                         └─────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────┘
+                                   │
+                                   │ Updates version.yaml
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│ Dev/Prod Clusters                                                       │
+│                                                                         │
+│  ┌───────────────────┐         ┌──────────────────────────────────────┐ │
+│  │  ApplicationSet   │────────▶│  Generated Application               │ │
+│  │                   │         │                                      │ │
+│  │  Git generator    │         │  targetRevision: "{{ version }}"     │ │
+│  │  reads version.yaml         │  from version.yaml                   │ │
+│  └───────────────────┘         └──────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### File Structure
+
+```
+apps/{cluster}/services/
+└── phasor.yaml              # ApplicationSet (not Application)
+
+manifests/phasor/{cluster}/
+├── version.yaml             # Chart version (managed by Kargo)
+└── values.yaml              # Helm values overrides
+
+manifests/kargo-phasor/management-eu-central-1/
+├── warehouse.yaml           # Watches OCI registry for new chart versions
+├── project.yaml             # Kargo project definition
+├── project-config.yaml      # Auto-promotion policies
+├── stage-dev-eu-central-1.yaml
+├── stage-prod-eu-central-1.yaml
+└── promotion-task.yaml      # Steps to update version.yaml and sync
+```
+
+### ApplicationSet Template
+
+Services use ApplicationSet with a Git file generator to read the version:
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: phasor
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: file:///gitops
+        revision: HEAD
+        files:
+          - path: manifests/phasor/dev-eu-central-1/version.yaml
+  template:
+    metadata:
+      annotations:
+        argocd.argoproj.io/sync-wave: "0"
+        kargo.akuity.io/authorized-stage: phasor:dev-eu-central-1  # Allows Kargo to trigger sync
+      name: phasor
+      namespace: argocd
+    spec:
+      sources:
+        - repoURL: ghcr.io/monkescience/helm-charts
+          chart: phasor
+          targetRevision: "{{ version }}"  # From version.yaml
+          helm:
+            valueFiles:
+              - $values/manifests/phasor/dev-eu-central-1/values.yaml
+        - repoURL: file:///gitops
+          ref: values
+```
+
+### Version File
+
+The version.yaml file is simple - just the chart version:
+
+```yaml
+version: 0.4.0
+```
+
+Kargo updates this file during promotion, triggering the ApplicationSet to regenerate the Application with the new version.
+
+### Promotion Flow
+
+1. **New chart published** → Warehouse detects it and creates Freight
+2. **Dev stage** → Auto-promotes (ProjectConfig: `autoPromotionEnabled: true`)
+3. **PromotionTask runs**:
+   - Clones gitops repo
+   - Updates `manifests/phasor/dev-eu-central-1/version.yaml`
+   - Commits and pushes
+   - Triggers ArgoCD sync
+4. **Prod stage** → Requires manual approval in Kargo UI
+5. **After approval** → Same PromotionTask updates prod version.yaml
+
+### Adding a New Service
+
+1. Create the ApplicationSet in `apps/{cluster}/services/`:
+   ```yaml
+   # apps/dev-eu-central-1/services/my-service.yaml
+   apiVersion: argoproj.io/v1alpha1
+   kind: ApplicationSet
+   metadata:
+     name: my-service
+   spec:
+     generators:
+       - git:
+           repoURL: file:///gitops
+           files:
+             - path: manifests/my-service/dev-eu-central-1/version.yaml
+     template:
+       metadata:
+         annotations:
+           kargo.akuity.io/authorized-stage: my-service:dev-eu-central-1
+       # ... rest of template
+   ```
+
+2. Create version and values files:
+   ```bash
+   mkdir -p manifests/my-service/{dev,prod}-eu-central-1
+   echo "version: 1.0.0" > manifests/my-service/dev-eu-central-1/version.yaml
+   echo "version: 1.0.0" > manifests/my-service/prod-eu-central-1/version.yaml
+   touch manifests/my-service/{dev,prod}-eu-central-1/values.yaml
+   ```
+
+3. Create Kargo pipeline in `manifests/kargo-{service}/management-eu-central-1/`:
+   - warehouse.yaml (watch your chart registry)
+   - project.yaml
+   - project-config.yaml (auto-promotion policies)
+   - stage-dev-eu-central-1.yaml
+   - stage-prod-eu-central-1.yaml
+   - promotion-task.yaml
+
+4. Add the Kargo pipeline Application in `apps/management-eu-central-1/platform/`:
+   ```yaml
+   # apps/management-eu-central-1/platform/kargo-my-service.yaml
+   apiVersion: argoproj.io/v1alpha1
+   kind: Application
+   metadata:
+     name: kargo-my-service
+     annotations:
+       argocd.argoproj.io/sync-wave: "512"
+   spec:
+     project: platform
+     source:
+       repoURL: file:///gitops
+       path: manifests/kargo-my-service/management-eu-central-1
+   ```
