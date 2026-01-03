@@ -14,6 +14,7 @@ spec:
     - expression: >-
         object.spec.containers.all(c,
           has(c.resources) &&
+          has(c.resources.requests) &&
           'cpu' in c.resources.requests
         )
       message: "All containers must have cpu requests defined"
@@ -21,6 +22,7 @@ spec:
     - expression: >-
         object.spec.containers.all(c,
           !has(c.resources) ||
+          !has(c.resources.limits) ||
           !('cpu' in c.resources.limits)
         )
       message: "Containers must not have cpu limits defined"
@@ -28,6 +30,7 @@ spec:
     - expression: >-
         object.spec.containers.all(c,
           has(c.resources) &&
+          has(c.resources.requests) &&
           'memory' in c.resources.requests
         )
       message: "All containers must have memory requests defined"
@@ -35,6 +38,7 @@ spec:
     - expression: >-
         object.spec.containers.all(c,
           has(c.resources) &&
+          has(c.resources.limits) &&
           'memory' in c.resources.limits
         )
       message: "All containers must have memory limits defined"
@@ -42,6 +46,8 @@ spec:
     - expression: >-
         object.spec.containers.all(c,
           has(c.resources) &&
+          has(c.resources.requests) &&
+          has(c.resources.limits) &&
           'memory' in c.resources.requests &&
           'memory' in c.resources.limits &&
           c.resources.requests['memory'] == c.resources.limits['memory']
