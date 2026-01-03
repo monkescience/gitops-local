@@ -3,7 +3,7 @@ kind: ValidatingAdmissionPolicy
 metadata:
   name: require-resource-constraints
 spec:
-  failurePolicy: Ignore
+  failurePolicy: Fail
   matchConstraints:
     resourceRules:
       - apiGroups: [""]
@@ -15,38 +15,38 @@ spec:
         object.spec.containers.all(c,
           has(c.resources) &&
           has(c.resources.requests) &&
-          has(c.resources.requests.cpu))
+          'cpu' in c.resources.requests)
       message: "All containers must have cpu requests defined"
       reason: Invalid
     - expression: >-
         object.spec.containers.all(c,
           !has(c.resources) ||
           !has(c.resources.limits) ||
-          !has(c.resources.limits.cpu))
+          !('cpu' in c.resources.limits))
       message: "Containers must not have cpu limits defined"
       reason: Invalid
     - expression: >-
         object.spec.containers.all(c,
           has(c.resources) &&
           has(c.resources.requests) &&
-          has(c.resources.requests.memory))
+          'memory' in c.resources.requests)
       message: "All containers must have memory requests defined"
       reason: Invalid
     - expression: >-
         object.spec.containers.all(c,
           has(c.resources) &&
           has(c.resources.limits) &&
-          has(c.resources.limits.memory))
+          'memory' in c.resources.limits)
       message: "All containers must have memory limits defined"
       reason: Invalid
     - expression: >-
         object.spec.containers.all(c,
-          has(c.resources) &&
-          has(c.resources.requests) &&
-          has(c.resources.limits) &&
-          has(c.resources.requests.memory) &&
-          has(c.resources.limits.memory) &&
-          c.resources.requests.memory == c.resources.limits.memory)
+          !has(c.resources) ||
+          !has(c.resources.requests) ||
+          !has(c.resources.limits) ||
+          !('memory' in c.resources.requests) ||
+          !('memory' in c.resources.limits) ||
+          c.resources.requests['memory'] == c.resources.limits['memory'])
       message: "Memory request must equal memory limit"
       reason: Invalid
 ---
