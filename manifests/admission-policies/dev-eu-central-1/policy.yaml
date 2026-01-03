@@ -12,42 +12,26 @@ spec:
         resources: ["pods"]
   validations:
     - expression: >-
-        object.spec.containers.all(c,
-          has(c.resources) ?
-            (has(c.resources.requests) ? 'cpu' in c.resources.requests : false)
-          : false)
+        object.spec.containers.all(c, c.?resources.?requests['cpu'].hasValue())
       message: "All containers must have cpu requests defined"
       reason: Invalid
     - expression: >-
-        object.spec.containers.all(c,
-          has(c.resources) ?
-            (has(c.resources.limits) ? !('cpu' in c.resources.limits) : true)
-          : true)
+        object.spec.containers.all(c, !c.?resources.?limits['cpu'].hasValue())
       message: "Containers must not have cpu limits defined"
       reason: Invalid
     - expression: >-
-        object.spec.containers.all(c,
-          has(c.resources) ?
-            (has(c.resources.requests) ? 'memory' in c.resources.requests : false)
-          : false)
+        object.spec.containers.all(c, c.?resources.?requests['memory'].hasValue())
       message: "All containers must have memory requests defined"
       reason: Invalid
     - expression: >-
-        object.spec.containers.all(c,
-          has(c.resources) ?
-            (has(c.resources.limits) ? 'memory' in c.resources.limits : false)
-          : false)
+        object.spec.containers.all(c, c.?resources.?limits['memory'].hasValue())
       message: "All containers must have memory limits defined"
       reason: Invalid
     - expression: >-
         object.spec.containers.all(c,
-          has(c.resources) ?
-            (has(c.resources.requests) && has(c.resources.limits) ?
-              ('memory' in c.resources.requests && 'memory' in c.resources.limits ?
-                c.resources.requests['memory'] == c.resources.limits['memory']
-              : true)
-            : true)
-          : true)
+          c.?resources.?requests['memory'].optMap(req,
+            c.?resources.?limits['memory'].optMap(lim, req == lim)
+          ).orValue(optional.of(true)).orValue(true))
       message: "Memory request must equal memory limit"
       reason: Invalid
 ---
