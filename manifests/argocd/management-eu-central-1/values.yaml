@@ -28,9 +28,9 @@ repoServer:
   resources:
     requests:
       cpu: 30m
-      memory: 192Mi
+      memory: 256Mi
     limits:
-      memory: 192Mi
+      memory: 256Mi
   volumes:
     - name: gitops
       hostPath:
