@@ -17,4 +17,3 @@ spec:
       steps:
         - task:
             name: promote-phasor
-  verification: {}
