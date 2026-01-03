@@ -12,26 +12,40 @@ spec:
         resources: ["pods"]
   validations:
     - expression: >-
-        object.spec.containers.all(c, c.?resources.?requests['cpu'].hasValue())
+        object.spec.containers.all(c,
+          has(c.resources) &&
+          'cpu' in c.resources.requests
+        )
       message: "All containers must have cpu requests defined"
       reason: Invalid
     - expression: >-
-        object.spec.containers.all(c, !c.?resources.?limits['cpu'].hasValue())
+        object.spec.containers.all(c,
+          !has(c.resources) ||
+          !('cpu' in c.resources.limits)
+        )
       message: "Containers must not have cpu limits defined"
       reason: Invalid
     - expression: >-
-        object.spec.containers.all(c, c.?resources.?requests['memory'].hasValue())
+        object.spec.containers.all(c,
+          has(c.resources) &&
+          'memory' in c.resources.requests
+        )
       message: "All containers must have memory requests defined"
       reason: Invalid
     - expression: >-
-        object.spec.containers.all(c, c.?resources.?limits['memory'].hasValue())
+        object.spec.containers.all(c,
+          has(c.resources) &&
+          'memory' in c.resources.limits
+        )
       message: "All containers must have memory limits defined"
       reason: Invalid
     - expression: >-
         object.spec.containers.all(c,
-          c.?resources.?requests['memory'].optMap(req,
-            c.?resources.?limits['memory'].optMap(lim, req == lim)
-          ).orValue(optional.of(true)).orValue(true))
+          has(c.resources) &&
+          'memory' in c.resources.requests &&
+          'memory' in c.resources.limits &&
+          c.resources.requests['memory'] == c.resources.limits['memory']
+        )
       message: "Memory request must equal memory limit"
       reason: Invalid
 ---
