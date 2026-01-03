@@ -20,8 +20,8 @@ controller:
         - -c
         - |
           echo "Waiting for Argo Rollouts CRDs..."
-          until kubectl get crd analysistemplates.argoproj.io >/dev/null 2>&1; do
-            echo "CRD not found, retrying in 5s..."
+          until kubectl get analysistemplates --all-namespaces >/dev/null 2>&1; do
+            echo "AnalysisTemplates API not available, retrying in 5s..."
             sleep 5
           done
           echo "Argo Rollouts CRDs are available"
