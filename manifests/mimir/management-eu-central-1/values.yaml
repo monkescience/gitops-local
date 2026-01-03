@@ -150,6 +150,14 @@ minio:
 rollout_operator:
   enabled: false
 
+gateway:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      memory: 32Mi
+
 nginx:
   enabled: true
   replicas: 1
