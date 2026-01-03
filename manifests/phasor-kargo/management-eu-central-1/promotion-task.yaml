@@ -20,9 +20,9 @@ spec:
             path: ${{ vars.workDir }}
     - uses: yaml-update
       config:
-        path: ${{ vars.workDir }}/apps/${{ ctx.stage }}/services/phasor.yaml
+        path: ${{ vars.workDir }}/manifests/phasor/${{ ctx.stage }}/version.yaml
         updates:
-          - key: spec.sources.0.targetRevision
+          - key: version
             value: ${{ chartFrom( vars.chart ).Version }}
     - uses: git-commit
       config:

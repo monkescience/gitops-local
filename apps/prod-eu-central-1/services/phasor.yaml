@@ -1,31 +1,42 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
   name: phasor
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"
-    kargo.akuity.io/authorized-stage: phasor:prod-eu-central-1
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: phasor
-  project: services
-  sources:
-    - repoURL: ghcr.io/monkescience/helm-charts
-      chart: phasor
-      targetRevision: 0.3.0
-      helm:
-        valueFiles:
-          - $values/manifests/phasor/prod-eu-central-1/values.yaml
-    - repoURL: file:///gitops
-      targetRevision: HEAD
-      ref: values
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - ApplyOutOfSyncOnly=true
+  generators:
+    - git:
+        repoURL: file:///gitops
+        revision: HEAD
+        files:
+          - path: manifests/phasor/prod-eu-central-1/version.yaml
+  template:
+    metadata:
+      annotations:
+        argocd.argoproj.io/sync-wave: "0"
+        kargo.akuity.io/authorized-stage: phasor:prod-eu-central-1
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+      name: phasor
+      namespace: argocd
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: phasor
+      project: services
+      sources:
+        - repoURL: ghcr.io/monkescience/helm-charts
+          chart: phasor
+          targetRevision: "{{ version }}"
+          helm:
+            valueFiles:
+              - $values/manifests/phasor/prod-eu-central-1/values.yaml
+        - repoURL: file:///gitops
+          targetRevision: HEAD
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
