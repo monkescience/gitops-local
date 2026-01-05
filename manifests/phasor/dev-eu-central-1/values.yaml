@@ -6,6 +6,16 @@ backend:
       level: "debug"
       format: "json"
       add_source: true
+  rollout:
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: istio-gateway
+          namespace: istio-system
+          sectionName: https
+      hostnames:
+        - phasor.dev.eu-central-1.localhost
+      pathPrefix: /api
 
 frontend:
   replicaCount: 1

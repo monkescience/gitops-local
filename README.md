@@ -86,6 +86,8 @@ All services use `admin` / `admin` credentials.
 | Kiali (management) | https://kiali.management.eu-central-1.localhost:8443 |
 | Kiali (dev) | https://kiali.dev.eu-central-1.localhost:9443 |
 | Kiali (prod) | https://kiali.prod.eu-central-1.localhost:10443 |
+| Argo Rollouts (dev) | https://argo-rollouts.dev.eu-central-1.localhost:9443 |
+| Argo Rollouts (prod) | https://argo-rollouts.prod.eu-central-1.localhost:10443 |
 
 Note: Browser will show a certificate warning (self-signed). Click "Advanced" -> "Proceed" to continue.
 

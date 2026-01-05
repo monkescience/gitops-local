@@ -6,6 +6,9 @@ controller:
       memory: 128Mi
     limits:
       memory: 256Mi
+  trafficRouterPlugins:
+    - name: argoproj-labs/gatewayAPI
+      location: https://github.com/argoproj-labs/rollouts-plugin-trafficrouter-gatewayapi/releases/download/v0.10.0/gatewayapi-plugin-linux-arm64
 
 dashboard:
   enabled: true
