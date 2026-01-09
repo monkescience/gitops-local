@@ -134,3 +134,7 @@ lokiCanary:
 monitoring:
   serviceMonitor:
     enabled: true
+    relabelings:
+      - action: replace
+        replacement: management-eu-central-1
+        targetLabel: cluster
