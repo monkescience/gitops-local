@@ -17,9 +17,3 @@ nodes:
     extraMounts:
       - hostPath: ${PROJECT_ROOT}
         containerPath: /gitops
-    kubeadmConfigPatches:
-      - |
-        kind: InitConfiguration
-        nodeRegistration:
-          kubeletExtraArgs:
-            node-labels: "topology.kubernetes.io/region=eu-central-1,topology.kubernetes.io/zone=eu-central-1a,environment=dev"
