@@ -138,6 +138,8 @@ cmd_setup() {
   printf "%-12s %-12s %s\n" "Kiali" "prod" "https://kiali.prod.eu-central-1.localhost:10443"
   printf "%-12s %-12s %s\n" "Rollouts" "dev" "https://argo-rollouts.dev.eu-central-1.localhost:9443"
   printf "%-12s %-12s %s\n" "Rollouts" "prod" "https://argo-rollouts.prod.eu-central-1.localhost:10443"
+  printf "%-12s %-12s %s\n" "Phasor" "dev" "https://phasor.dev.eu-central-1.localhost:9443"
+  printf "%-12s %-12s %s\n" "Phasor" "prod" "https://phasor.prod.eu-central-1.localhost:10443"
   echo ""
   echo "Note: Browser will show certificate warning (self-signed)."
   echo "      Click 'Advanced' -> 'Proceed' to continue."
