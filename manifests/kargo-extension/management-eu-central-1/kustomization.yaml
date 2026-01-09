@@ -5,4 +5,3 @@ resources:
   - gitconfig.yaml
   - httproute.yaml
   - rbac.yaml
-  - secret.yaml
