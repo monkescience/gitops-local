@@ -26,12 +26,6 @@ All operations are performed through the main `gitops` script:
 | `./scripts/gitops cluster status` | Show status of all clusters |
 | `./scripts/gitops context <cluster>` | Switch kubectl context (management, dev, prod) |
 
-### Istio Certificates
-
-| Command | Description |
-|---------|-------------|
-| `./scripts/gitops istio setup-certs` | Regenerate Istio mTLS certificates for all clusters |
-
 ### Sealed Secrets
 
 | Command | Description |
@@ -56,7 +50,6 @@ The setup command checks for these tools:
 | kubectl | `brew install kubectl` |
 | helm | `brew install helm` |
 | yq | `brew install yq` |
-| openssl | Pre-installed on macOS |
 
 ## Resource Requirements
 
@@ -75,16 +68,9 @@ The `lib/` directory contains modular bash libraries sourced by the main script:
 | `network.sh` | Network and DNS configuration utilities |
 | `cluster.sh` | Kind cluster creation, deletion, and status checking |
 | `argocd.sh` | ArgoCD bootstrap on clusters |
-| `istio-certs.sh` | Istio mTLS certificate generation with shared root CA |
 | `kargo-shards.sh` | Kargo controller shard configuration for multi-cluster |
 | `stack.sh` | Stack deployment (creates root ArgoCD Application) |
 | `secrets.sh` | Sealed Secrets encryption key backup and restore |
-
-## Additional Scripts
-
-| Script | Description |
-|--------|-------------|
-| `seal-kargo-secret.sh` | Manual utility for sealing Kargo secrets |
 
 ## Examples
 

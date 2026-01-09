@@ -67,7 +67,6 @@ Dev and Prod clusters send telemetry to the Management cluster's observability s
 | `./scripts/gitops teardown` | Delete all clusters |
 | `./scripts/gitops cluster status` | Show cluster status |
 | `./scripts/gitops context <cluster>` | Switch kubectl context |
-| `./scripts/gitops istio setup-certs` | Regenerate Istio certificates |
 | `./scripts/gitops secrets backup` | Backup sealed secrets key |
 | `./scripts/gitops secrets restore` | Restore sealed secrets key |
 | `./scripts/gitops secrets status` | Show sealed secrets status |

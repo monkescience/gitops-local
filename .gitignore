@@ -7,7 +7,6 @@
 # Generated files
 kind-cluster-*.yaml
 k3d-cluster-*.yaml
-.istio-certs/
 
 # Sealed Secrets master key backup
 .sealed-secrets-key.yaml
