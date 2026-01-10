@@ -9,7 +9,7 @@ spec:
     parametersRef:
       group: ""
       kind: ConfigMap
-      name: istio-config
+      name: istio-gateway-config
   listeners:
     - name: http
       port: 80
