@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-alloy
+  namespace: tempo
+spec:
+  rules:
+    - from:
+        - source:
+            namespaces:
+              - alloy

@@ -1,0 +1,15 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-alloy-scrape
+  namespace: argocd
+spec:
+  rules:
+    - from:
+        - source:
+            namespaces:
+              - alloy
+      to:
+        - operation:
+            ports:
+              - "8083"

@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-within-namespace
+  namespace: argo-rollouts
+spec:
+  rules:
+    - from:
+        - source:
+            namespaces:
+              - argo-rollouts

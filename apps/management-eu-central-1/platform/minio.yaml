@@ -35,3 +35,28 @@ spec:
     syncOptions:
       - ServerSideApply=true
       - ApplyOutOfSyncOnly=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio-extension
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "601"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: minio
+  project: platform
+  source:
+    repoURL: file:///gitops
+    targetRevision: HEAD
+    path: manifests/minio-extension/management-eu-central-1
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
