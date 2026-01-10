@@ -5,3 +5,4 @@ resources:
   - config-map-istio-gateway-config.yaml
   - gateway-istio.yaml
   - http-route-http-to-https-redirect.yaml
+  - telemetry-mesh-default.yaml
