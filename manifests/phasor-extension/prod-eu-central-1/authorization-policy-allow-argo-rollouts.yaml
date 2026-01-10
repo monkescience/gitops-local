@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-argo-rollouts
+  namespace: phasor
+spec:
+  rules:
+    - from:
+        - source:
+            namespaces:
+              - argo-rollouts

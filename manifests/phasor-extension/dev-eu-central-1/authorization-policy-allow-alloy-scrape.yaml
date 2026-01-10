@@ -1,0 +1,16 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-alloy-scrape
+  namespace: phasor
+spec:
+  rules:
+    - from:
+        - source:
+            namespaces:
+              - alloy
+      to:
+        - operation:
+            ports:
+              - "8080"
+              - "8081"
