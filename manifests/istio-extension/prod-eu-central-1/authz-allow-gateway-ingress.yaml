@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-gateway-ingress
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: gateway
+  rules:
+    - {}
