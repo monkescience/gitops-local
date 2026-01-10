@@ -29,6 +29,9 @@ data:
                 - containerPort: 443
                   hostPort: 443
                   protocol: TCP
+                - containerPort: 30317
+                  hostPort: 30317
+                  protocol: TCP
   service: |
     spec:
       type: ClusterIP

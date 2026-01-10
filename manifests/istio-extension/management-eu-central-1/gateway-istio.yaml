@@ -36,3 +36,9 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: otlp-grpc
+      port: 30317
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All

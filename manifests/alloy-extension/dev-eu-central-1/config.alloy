@@ -33,7 +33,7 @@ loki.write "loki" {
 
 otelcol.exporter.otlp "tempo" {
   client {
-    endpoint = "host.docker.internal:8080"
+    endpoint = "host.docker.internal:30317"
     tls {
       insecure = true
     }

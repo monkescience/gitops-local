@@ -7,7 +7,7 @@ spec:
   parentRefs:
     - name: istio
       namespace: istio-system
-      sectionName: observability
+      sectionName: otlp-grpc
   rules:
     - backendRefs:
         - name: tempo
