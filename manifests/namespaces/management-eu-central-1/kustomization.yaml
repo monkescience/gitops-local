@@ -2,20 +2,20 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - alloy.yaml
-  - argocd.yaml
-  - cert-manager.yaml
-  - default.yaml
-  - minio.yaml
-  - grafana.yaml
-  - istio-system.yaml
-  - kargo.yaml
-  - kiali.yaml
-  - kube-public.yaml
-  - kube-state-metrics.yaml
-  - kube-system.yaml
-  - loki.yaml
-  - mimir.yaml
-  - phasor.yaml
-  - sealed-secrets.yaml
-  - tempo.yaml
+  - namespace-alloy.yaml
+  - namespace-argocd.yaml
+  - namespace-cert-manager.yaml
+  - namespace-default.yaml
+  - namespace-minio.yaml
+  - namespace-grafana.yaml
+  - namespace-istio-system.yaml
+  - namespace-kargo.yaml
+  - namespace-kiali.yaml
+  - namespace-kube-public.yaml
+  - namespace-kube-state-metrics.yaml
+  - namespace-kube-system.yaml
+  - namespace-loki.yaml
+  - namespace-mimir.yaml
+  - namespace-phasor.yaml
+  - namespace-sealed-secrets.yaml
+  - namespace-tempo.yaml

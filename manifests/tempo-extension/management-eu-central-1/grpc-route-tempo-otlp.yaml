@@ -1,11 +1,11 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: GRPCRoute
 metadata:
-  name: tempo-otlp-grpc
+  name: tempo-otlp
   namespace: tempo
 spec:
   parentRefs:
-    - name: istio-gateway
+    - name: istio
       namespace: istio-system
       sectionName: observability
   rules:

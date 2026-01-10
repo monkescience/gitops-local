@@ -5,7 +5,7 @@ metadata:
   namespace: loki
 spec:
   parentRefs:
-    - name: istio-gateway
+    - name: istio
       namespace: istio-system
       sectionName: observability
   rules:

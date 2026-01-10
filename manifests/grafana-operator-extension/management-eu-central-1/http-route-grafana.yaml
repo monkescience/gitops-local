@@ -1,16 +1,16 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: kiali
-  namespace: kiali
+  name: grafana
+  namespace: grafana
 spec:
   parentRefs:
-    - name: istio-gateway
+    - name: istio
       namespace: istio-system
       sectionName: https
   hostnames:
-    - kiali.prod.eu-central-1.localhost
+    - grafana.management.eu-central-1.localhost
   rules:
     - backendRefs:
-        - name: kiali
-          port: 20001
+        - name: grafana-service
+          port: 3000

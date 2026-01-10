@@ -5,11 +5,11 @@ metadata:
   namespace: argo-rollouts
 spec:
   parentRefs:
-    - name: istio-gateway
+    - name: istio
       namespace: istio-system
       sectionName: https
   hostnames:
-    - argo-rollouts.prod.eu-central-1.localhost
+    - argo-rollouts.dev.eu-central-1.localhost
   rules:
     - backendRefs:
         - name: argo-rollouts-dashboard

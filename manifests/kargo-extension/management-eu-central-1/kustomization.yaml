@@ -2,14 +2,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - authz-allow-alloy.yaml
-  - authz-allow-istio-gateway.yaml
-  - authz-allow-within-namespace.yaml
-  - clusterrole-shard.yaml
-  - clusterrolebinding-shard.yaml
-  - gitconfig.yaml
-  - httproute.yaml
-  - role-secrets.yaml
-  - rolebinding-secrets.yaml
-  - secret-shard-token.yaml
-  - serviceaccount-shard.yaml
+  - authorization-policy-allow-alloy-scrape.yaml
+  - authorization-policy-allow-istio-gateway.yaml
+  - authorization-policy-allow-within-namespace.yaml
+  - cluster-role-kargo-controller-shard.yaml
+  - cluster-role-binding-kargo-controller-shard.yaml
+  - config-map-kargo-gitconfig.yaml
+  - http-route-kargo.yaml
+  - role-kargo-controller-secrets.yaml
+  - role-binding-kargo-controller-secrets.yaml
+  - secret-kargo-controller-shard-token.yaml
+  - service-account-kargo-controller-shard.yaml

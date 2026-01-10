@@ -1,19 +1,18 @@
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
-  name: mimir-datasource
+  name: loki
 spec:
   instanceSelector:
     matchLabels:
       app.kubernetes.io/name: grafana
   datasource:
-    name: Mimir
-    uid: mimir
-    type: prometheus
+    name: Loki
+    uid: loki
+    type: loki
     access: proxy
-    url: http://mimir-gateway.mimir.svc.cluster.local:80/prometheus
-    isDefault: true
+    url: http://loki-gateway.loki.svc.cluster.local:80
+    isDefault: false
     editable: false
     jsonData:
-      timeInterval: 5s
-      httpMethod: POST
+      maxLines: 1000

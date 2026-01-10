@@ -5,11 +5,11 @@ metadata:
   namespace: istio-system
 spec:
   parentRefs:
-    - name: istio-gateway
+    - name: istio
       namespace: istio-system
       sectionName: http
   hostnames:
-    - "*.management.eu-central-1.localhost"
+    - "*.dev.eu-central-1.localhost"
   rules:
     - filters:
         - type: RequestRedirect

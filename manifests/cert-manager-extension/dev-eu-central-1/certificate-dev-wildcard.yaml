@@ -1,14 +1,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: prod-wildcard
+  name: dev-wildcard
   namespace: istio-system
 spec:
-  secretName: prod-wildcard-tls
+  secretName: dev-wildcard-tls
   dnsNames:
-    - "prod.eu-central-1.localhost"
-    - "*.prod.eu-central-1.localhost"
+    - "dev.eu-central-1.localhost"
+    - "*.dev.eu-central-1.localhost"
   issuerRef:
-    name: localhost-ca-issuer
+    name: localhost-ca
     kind: ClusterIssuer
     group: cert-manager.io

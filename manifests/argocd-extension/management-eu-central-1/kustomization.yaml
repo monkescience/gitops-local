@@ -2,10 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - authz-allow-alloy.yaml
-  - authz-allow-istio-gateway.yaml
-  - authz-allow-within-namespace.yaml
-  - httproute.yaml
-  - secret.yaml
-  - project-platform.yaml
-  - project-services.yaml
+  - authorization-policy-allow-alloy-scrape.yaml
+  - authorization-policy-allow-istio-gateway.yaml
+  - authorization-policy-allow-within-namespace.yaml
+  - http-route-argocd.yaml
+  - secret-phasor-repository.yaml
+  - app-project-platform.yaml
+  - app-project-services.yaml

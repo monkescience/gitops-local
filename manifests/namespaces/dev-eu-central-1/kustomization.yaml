@@ -2,15 +2,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - alloy.yaml
-  - argo-rollouts.yaml
-  - argocd.yaml
-  - cert-manager.yaml
-  - default.yaml
-  - istio-system.yaml
-  - kargo.yaml
-  - kiali.yaml
-  - kube-public.yaml
-  - kube-state-metrics.yaml
-  - kube-system.yaml
-  - phasor.yaml
+  - namespace-alloy.yaml
+  - namespace-argo-rollouts.yaml
+  - namespace-argocd.yaml
+  - namespace-cert-manager.yaml
+  - namespace-default.yaml
+  - namespace-istio-system.yaml
+  - namespace-kargo.yaml
+  - namespace-kiali.yaml
+  - namespace-kube-public.yaml
+  - namespace-kube-state-metrics.yaml
+  - namespace-kube-system.yaml
+  - namespace-phasor.yaml

@@ -5,7 +5,7 @@ metadata:
   namespace: kiali
 spec:
   parentRefs:
-    - name: istio-gateway
+    - name: istio
       namespace: istio-system
       sectionName: https
   hostnames:

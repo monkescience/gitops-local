@@ -9,6 +9,6 @@ spec:
     - "management.eu-central-1.localhost"
     - "*.management.eu-central-1.localhost"
   issuerRef:
-    name: localhost-ca-issuer
+    name: localhost-ca
     kind: ClusterIssuer
     group: cert-manager.io
