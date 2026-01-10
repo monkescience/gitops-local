@@ -7,4 +7,5 @@ resources:
   - authz-allow-within-namespace.yaml
   - httproute.yaml
   - secret.yaml
-  - projects.yaml
+  - project-platform.yaml
+  - project-services.yaml

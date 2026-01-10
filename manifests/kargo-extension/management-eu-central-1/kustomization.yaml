@@ -5,6 +5,11 @@ resources:
   - authz-allow-alloy.yaml
   - authz-allow-istio-gateway.yaml
   - authz-allow-within-namespace.yaml
+  - clusterrole-shard.yaml
+  - clusterrolebinding-shard.yaml
   - gitconfig.yaml
   - httproute.yaml
-  - rbac.yaml
+  - role-secrets.yaml
+  - rolebinding-secrets.yaml
+  - secret-shard-token.yaml
+  - serviceaccount-shard.yaml

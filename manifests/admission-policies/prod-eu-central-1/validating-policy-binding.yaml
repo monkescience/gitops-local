@@ -1,0 +1,9 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: require-resource-constraints-binding
+spec:
+  policyName: require-resource-constraints
+  validationActions:
+    - Audit
+  matchResources: {}

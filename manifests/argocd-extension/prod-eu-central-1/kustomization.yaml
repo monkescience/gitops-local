@@ -6,4 +6,5 @@ resources:
   - authz-allow-istio-gateway.yaml
   - authz-allow-within-namespace.yaml
   - httproute.yaml
-  - projects.yaml
+  - project-platform.yaml
+  - project-services.yaml
