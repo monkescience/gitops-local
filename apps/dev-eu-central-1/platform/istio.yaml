@@ -156,7 +156,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio-gateway
+  name: istio-extension
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "440"
@@ -170,7 +170,7 @@ spec:
   source:
     repoURL: file:///gitops
     targetRevision: HEAD
-    path: manifests/istio-gateway-extension/dev-eu-central-1
+    path: manifests/istio-extension/dev-eu-central-1
   syncPolicy:
     automated:
       prune: true
