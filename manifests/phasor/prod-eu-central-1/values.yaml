@@ -21,7 +21,7 @@ frontend:
   replicaCount: 2
   config:
     environment: "prod-eu-central-1"
-    backend_url: "http://phasor-prod-backend/instance/info"
+    backend_url: "http://phasor-backend/instance/info"
     log_config:
       level: "warn"
       format: "json"
