@@ -392,15 +392,17 @@ loki.process "pod_logs" {
   forward_to = [loki.write.loki.receiver]
 }
 
-loki.source.journal "node_logs" {
-  path = "/var/log/journal"
-
-  labels = {
-    job = "node/journal",
-  }
-
-  forward_to = [loki.write.loki.receiver]
-}
+// Node journal logs - disabled for Kind clusters (no systemd journal).
+// Enable this block for EKS/AKS/GKE where nodes have /var/log/journal.
+// loki.source.journal "node_logs" {
+//   path = "/var/log/journal"
+//
+//   labels = {
+//     job = "node/journal",
+//   }
+//
+//   forward_to = [loki.write.loki.receiver]
+// }
 
 loki.source.kubernetes_events "cluster_events" {
   job_name   = "integrations/kubernetes/eventhandler"

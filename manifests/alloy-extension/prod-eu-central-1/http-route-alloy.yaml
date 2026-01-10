@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: alloy
+  namespace: alloy
+spec:
+  parentRefs:
+    - name: istio
+      namespace: istio-system
+      sectionName: https
+  hostnames:
+    - alloy.prod.eu-central-1.localhost
+  rules:
+    - backendRefs:
+        - name: alloy
+          port: 12345
