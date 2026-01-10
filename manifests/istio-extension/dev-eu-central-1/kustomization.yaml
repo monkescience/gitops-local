@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - authorization-policy-allow-gateway-ingress.yaml
-  - authorization-policy-default-deny.yaml
   - config-map-istio-gateway-config.yaml
   - gateway-istio.yaml
   - http-route-http-to-https-redirect.yaml

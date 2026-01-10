@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - authorization-policy-allow-istio-gateway.yaml
-  - authorization-policy-allow-within-namespace.yaml
   - http-route-grafana.yaml
   - grafana-grafana.yaml
   - grafana-datasource-loki.yaml
