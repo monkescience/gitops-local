@@ -10,4 +10,4 @@ spec:
       autoPromotionEnabled: true
     - stageSelector:
         name: prod-eu-central-1
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
