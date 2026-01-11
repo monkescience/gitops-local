@@ -31,8 +31,13 @@ spec:
         namespaces:
           from: All
     - name: observability
-      port: 80
-      protocol: HTTP
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: management-wildcard-tls
+            kind: Secret
       allowedRoutes:
         namespaces:
           from: All

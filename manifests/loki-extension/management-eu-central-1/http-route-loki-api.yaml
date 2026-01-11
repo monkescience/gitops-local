@@ -14,3 +14,22 @@ spec:
     - backendRefs:
         - name: loki-gateway
           port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: loki-api-internal
+  namespace: loki
+spec:
+  parentRefs:
+    - name: istio
+      namespace: istio-system
+      sectionName: observability
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /loki
+      backendRefs:
+        - name: loki-gateway
+          port: 80

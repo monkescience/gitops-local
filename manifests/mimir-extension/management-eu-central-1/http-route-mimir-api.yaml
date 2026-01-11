@@ -31,3 +31,41 @@ spec:
     - backendRefs:
         - name: mimir-ruler
           port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mimir-api-internal
+  namespace: mimir
+spec:
+  parentRefs:
+    - name: istio
+      namespace: istio-system
+      sectionName: observability
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /mimir
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: mimir-gateway
+          port: 80
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /mimir-ruler
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: mimir-ruler
+          port: 8080
