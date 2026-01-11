@@ -14,9 +14,11 @@ discovery.kubernetes "pods" {
   role = "pod"
 }
 
+// Telemetry endpoints use host.docker.internal for Docker/Kind local setup.
+// In production, use proper hostnames: https://mimir.observability.example.com
 prometheus.remote_write "mimir" {
   endpoint {
-    url                    = "https://mimir.management.eu-central-1.localhost:8443/api/v1/push"
+    url                    = "https://host.docker.internal:8443/mimir/api/v1/push"
     name                   = "mimir"
     send_native_histograms = true
     tls_config {
@@ -27,7 +29,7 @@ prometheus.remote_write "mimir" {
 
 loki.write "loki" {
   endpoint {
-    url = "https://loki.management.eu-central-1.localhost:8443/loki/api/v1/push"
+    url = "https://host.docker.internal:8443/loki/api/v1/push"
     tls_config {
       insecure_skip_verify = true
     }
@@ -39,7 +41,7 @@ loki.write "loki" {
 
 otelcol.exporter.otlphttp "tempo" {
   client {
-    endpoint = "https://tempo.management.eu-central-1.localhost:8443"
+    endpoint = "https://host.docker.internal:8443/tempo"
     tls {
       insecure_skip_verify = true
     }
@@ -57,7 +59,7 @@ prometheus.relabel "metrics_service" {
 }
 
 mimir.rules.kubernetes "rules" {
-  address                = "https://mimir-ruler.management.eu-central-1.localhost:8443"
+  address                = "https://host.docker.internal:8443/mimir-ruler"
   mimir_namespace_prefix = sys.env("CLUSTER_NAME")
   tls_config {
     insecure_skip_verify = true
