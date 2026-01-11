@@ -16,6 +16,9 @@ backend:
       hostnames:
         - phasor.prod.eu-central-1.localhost
       pathPrefix: /api
+    httpRouteInternal:
+      enabled: true
+      waypoint: waypoint
 
 frontend:
   replicaCount: 2
