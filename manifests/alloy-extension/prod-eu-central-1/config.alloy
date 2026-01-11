@@ -16,26 +16,32 @@ discovery.kubernetes "pods" {
 
 prometheus.remote_write "mimir" {
   endpoint {
-    url                    = "http://host.docker.internal:8080/mimir/api/v1/push"
+    url                    = "https://mimir.management.eu-central-1.localhost:8443/api/v1/push"
     name                   = "mimir"
     send_native_histograms = true
+    tls_config {
+      insecure_skip_verify = true
+    }
   }
 }
 
 loki.write "loki" {
   endpoint {
-    url = "http://host.docker.internal:8080/loki/api/v1/push"
+    url = "https://loki.management.eu-central-1.localhost:8443/loki/api/v1/push"
+    tls_config {
+      insecure_skip_verify = true
+    }
   }
   external_labels = {
     cluster = sys.env("CLUSTER_NAME"),
   }
 }
 
-otelcol.exporter.otlp "tempo" {
+otelcol.exporter.otlphttp "tempo" {
   client {
-    endpoint = "host.docker.internal:30317"
+    endpoint = "https://tempo.management.eu-central-1.localhost:8443"
     tls {
-      insecure = true
+      insecure_skip_verify = true
     }
   }
 }
@@ -51,8 +57,11 @@ prometheus.relabel "metrics_service" {
 }
 
 mimir.rules.kubernetes "rules" {
-  address                = "http://host.docker.internal:8080/mimir-ruler"
+  address                = "https://mimir-ruler.management.eu-central-1.localhost:8443"
   mimir_namespace_prefix = sys.env("CLUSTER_NAME")
+  tls_config {
+    insecure_skip_verify = true
+  }
 }
 
 logging {
@@ -613,7 +622,7 @@ otelcol.processor.batch "batch_processor" {
   output {
     metrics = [otelcol.exporter.prometheus.metrics_converter.input]
     logs    = [otelcol.exporter.loki.logs_converter.input]
-    traces  = [otelcol.exporter.otlp.tempo.input]
+    traces  = [otelcol.exporter.otlphttp.tempo.input]
   }
 }
 
