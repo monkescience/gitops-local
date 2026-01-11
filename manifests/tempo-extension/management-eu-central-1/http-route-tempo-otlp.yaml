@@ -1,14 +1,16 @@
 apiVersion: gateway.networking.k8s.io/v1
-kind: GRPCRoute
+kind: HTTPRoute
 metadata:
-  name: tempo-otlp
+  name: tempo-otlp-http
   namespace: tempo
 spec:
   parentRefs:
     - name: istio
       namespace: istio-system
-      sectionName: otlp-grpc
+      sectionName: https
+  hostnames:
+    - tempo.management.eu-central-1.localhost
   rules:
     - backendRefs:
         - name: tempo
-          port: 4317
+          port: 4318

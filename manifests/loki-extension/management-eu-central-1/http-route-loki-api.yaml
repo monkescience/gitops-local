@@ -7,12 +7,10 @@ spec:
   parentRefs:
     - name: istio
       namespace: istio-system
-      sectionName: observability
+      sectionName: https
+  hostnames:
+    - loki.management.eu-central-1.localhost
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /loki
-      backendRefs:
+    - backendRefs:
         - name: loki-gateway
           port: 80
