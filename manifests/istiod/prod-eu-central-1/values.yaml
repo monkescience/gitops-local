@@ -30,5 +30,8 @@ meshConfig:
   extensionProviders:
     - name: otel-tracing
       opentelemetry:
-        port: 4317
+        port: 4318
         service: alloy.alloy.svc.cluster.local
+        http:
+          path: /v1/traces
+          timeout: 5s
