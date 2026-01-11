@@ -1,5 +1,5 @@
 backend:
-  replicaCount: 3
+  replicaCount: 2
   config:
     environment: "prod-eu-central-1"
     log_config:
