@@ -33,7 +33,8 @@ argocd_bootstrap() {
   # Bootstrap: AppProjects must exist before platform apps can sync.
   # ArgoCD will continue managing this via argocd-extension after initial sync.
   info "Creating ArgoCD AppProjects (bootstrap)..."
-  kubectl apply -f "$PROJECT_ROOT/manifests/argocd-extension/$cluster/projects.yaml"
+  kubectl apply -f "$PROJECT_ROOT/manifests/argocd-extension/$cluster/app-project-platform.yaml"
+  kubectl apply -f "$PROJECT_ROOT/manifests/argocd-extension/$cluster/app-project-services.yaml"
   success "ArgoCD AppProjects created"
 
   header "ArgoCD Credentials"
