@@ -5,6 +5,7 @@ metadata:
   namespace: phasor
 spec:
   shard: prod-eu-central-1
+  autoPromotion: true
   requestedFreight:
     - origin:
         kind: Warehouse
