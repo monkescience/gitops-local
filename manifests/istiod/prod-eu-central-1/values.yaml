@@ -1,5 +1,9 @@
 profile: ambient
 
+gateways:
+  seccompProfile:
+    type: RuntimeDefault
+
 global:
   meshID: prod-eu-central-1
   multiCluster:
