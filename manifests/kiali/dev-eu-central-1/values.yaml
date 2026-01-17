@@ -29,10 +29,17 @@ external_services:
       insecure_skip_verify: true
   grafana:
     enabled: true
+    internal_url: https://host.docker.internal:8443/grafana
     external_url: https://grafana.management.eu-central-1.localhost:8443
+    auth:
+      insecure_skip_verify: true
   tracing:
     enabled: true
     provider: tempo
+    internal_url: https://host.docker.internal:8443/tempo-query
     external_url: https://grafana.management.eu-central-1.localhost:8443
+    auth:
+      insecure_skip_verify: true
+    use_grpc: false
   istio:
     root_namespace: istio-system
