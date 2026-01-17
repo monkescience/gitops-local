@@ -1,21 +1,32 @@
 # Mixins for workload clusters (no observability stack)
 # Rules are synced to Mimir via Alloy's mimir.rules.kubernetes
+# Dashboards are disabled - Grafana Operator only runs in management cluster
 mixins:
   kubernetes:
     namespace: alloy
+    dashboards:
+      enabled: false
     windows:
       enabled: false
   nodeExporter:
     namespace: alloy
+    dashboards:
+      enabled: false
     platforms:
       darwin: false
       aix: false
   resourceOptimization:
     namespace: alloy
+    dashboards:
+      enabled: false
   argocd:
     namespace: argocd
+    dashboards:
+      enabled: false
   alloy:
     namespace: alloy
+    dashboards:
+      enabled: false
   # Disabled - these only run in management cluster
   loki:
     enabled: false
