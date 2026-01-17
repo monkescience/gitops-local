@@ -4,8 +4,12 @@ metadata:
   name: istio-gateway-config
   namespace: istio-system
 data:
+  # Local setup: Recreate strategy required because hostPort can only be bound
+  # once per node. RollingUpdate would deadlock with a single control-plane node.
   deployment: |
     spec:
+      strategy:
+        type: Recreate
       template:
         spec:
           nodeSelector:
