@@ -1,7 +1,8 @@
 global:
   securityContext:
-    runAsNonRoot: true
-    runAsUser: 1001
+    # Run as root required for hostPath volume write access on macOS Docker bind mounts
+    runAsNonRoot: false
+    runAsUser: 0
     seccompProfile:
       type: RuntimeDefault
 

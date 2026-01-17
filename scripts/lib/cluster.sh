@@ -35,12 +35,6 @@ cluster_create_single() {
   kubectl config use-context "kind-${cluster_name}"
   kubectl wait --for=condition=Ready nodes --all --timeout=300s
 
-  # Fix /gitops permissions for Kargo write access (allows non-root containers)
-  if [[ "$cluster_name" == "dev-eu-central-1" || "$cluster_name" == "prod-eu-central-1" ]]; then
-    info "Setting /gitops permissions for Kargo..."
-    docker exec "${cluster_name}-control-plane" chmod -R 777 /gitops
-  fi
-
   success "Kind cluster '$cluster_name' created successfully"
 }
 
