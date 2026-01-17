@@ -1,70 +1,127 @@
-tempo:
-  multitenancyEnabled: true
-  # Allow querying multiple tenants with pipe-separated X-Scope-OrgID header
-  query_frontend:
-    multi_tenant_queries_enabled: true
+global:
+  clusterDomain: cluster.local
 
+tempo:
+  structuredConfig:
+    multitenancy_enabled: true
+    query_frontend:
+      multi_tenant_queries_enabled: true
+
+traces:
+  otlp:
+    grpc:
+      enabled: true
+    http:
+      enabled: true
+
+serviceAccount:
+  create: true
+
+ingester:
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: standard
+  config:
+    replication_factor: 1
   resources:
     requests:
       cpu: 10m
-      memory: 512Mi
+      memory: 256Mi
     limits:
-      memory: 512Mi
+      memory: 256Mi
 
-  storage:
-    trace:
-      backend: s3
-      s3:
-        endpoint: minio.minio.svc.cluster.local:9000
-        bucket: tempo
-        access_key: minioadmin
-        secret_key: minioadmin
-        insecure: true
-        forcepathstyle: true
-      wal:
-        path: /var/tempo/wal
+distributor:
+  replicas: 1
+  config:
+    log_received_spans:
+      enabled: false
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
 
-  receivers:
-    otlp:
-      protocols:
-        grpc:
-          endpoint: "0.0.0.0:4317"
-        http:
-          endpoint: "0.0.0.0:4318"
+compactor:
+  replicas: 1
+  config:
+    compaction:
+      block_retention: 48h
+  resources:
+    requests:
+      cpu: 10m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
 
-  metricsGenerator:
+querier:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
+queryFrontend:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      memory: 128Mi
+
+metricsGenerator:
+  enabled: true
+  replicas: 1
+  config:
+    storage:
+      remote_write:
+        - url: http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push
+          headers:
+            X-Scope-OrgID: management-eu-central-1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
+storage:
+  trace:
+    backend: s3
+    s3:
+      endpoint: minio.minio.svc.cluster.local:9000
+      bucket: tempo
+      access_key: minioadmin
+      secret_key: minioadmin
+      insecure: true
+      forcepathstyle: true
+
+overrides:
+  defaults:
+    metrics_generator:
+      processors:
+        - service-graphs
+        - span-metrics
+        - local-blocks
+
+gateway:
+  enabled: true
+  replicas: 1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      memory: 64Mi
+
+memcached:
+  enabled: false
+
+metaMonitoring:
+  serviceMonitor:
     enabled: true
-    remoteWriteUrl: "http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push"
-    remoteWriteHeaders:
-      X-Scope-OrgID: management-eu-central-1
-
-  overrides:
-    defaults:
-      metrics_generator:
-        processors:
-          - service-graphs
-          - span-metrics
-          - local-blocks
-
-  securityContext:
-    allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: true
-    capabilities:
-      drop:
-        - ALL
-
-persistence:
-  enabled: true
-  storageClassName: standard
-  size: 10Gi
-
-securityContext:
-  runAsNonRoot: true
-  runAsUser: 10001
-  runAsGroup: 10001
-  fsGroup: 10001
-  seccompProfile:
-    type: RuntimeDefault
-
-serviceMonitor:
-  enabled: true

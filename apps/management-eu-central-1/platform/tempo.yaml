@@ -20,8 +20,8 @@ spec:
   project: platform
   sources:
     - repoURL: https://grafana.github.io/helm-charts
-      chart: tempo
-      targetRevision: 1.24.1
+      chart: tempo-distributed
+      targetRevision: 1.42.1
       helm:
         valueFiles:
           - $values/manifests/tempo/management-eu-central-1/values.yaml
