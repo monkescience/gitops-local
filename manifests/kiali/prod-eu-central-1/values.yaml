@@ -25,7 +25,7 @@ external_services:
       cluster: prod-eu-central-1
     custom_headers:
       X-Scope-OrgID: prod-eu-central-1
-    tls_config:
+    auth:
       insecure_skip_verify: true
   grafana:
     enabled: true
