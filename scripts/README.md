@@ -72,6 +72,14 @@ The `lib/` directory contains modular bash libraries sourced by the main script:
 | `stack.sh` | Stack deployment (creates root ArgoCD Application) |
 | `secrets.sh` | Sealed Secrets encryption key backup and restore |
 
+## Implementation Notes
+
+### Kargo Permissions
+
+Dev and prod clusters run Kargo as root (UID 0). This is required because Kargo needs write access to the `/gitops` hostPath volume for git commits during promotions, and macOS Docker bind mounts don't allow permission changes from inside containers.
+
+The management cluster runs Kargo as non-root (UID 1001) since it only needs read access to the git repository.
+
 ## Examples
 
 ```bash
