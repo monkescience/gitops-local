@@ -119,13 +119,6 @@ overrides:
 gateway:
   enabled: true
   replicas: 1
-  podSecurityContext:
-    fsGroup: 101
-    runAsNonRoot: true
-    runAsUser: 101
-    runAsGroup: 101
-    seccompProfile:
-      type: RuntimeDefault
   resources:
     requests:
       cpu: 10m
