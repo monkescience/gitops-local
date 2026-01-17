@@ -5,5 +5,8 @@ resources:
   - http-route-grafana.yaml
   - grafana-grafana.yaml
   - grafana-datasource-loki.yaml
+  - grafana-datasource-loki-management.yaml
+  - grafana-datasource-loki-dev.yaml
+  - grafana-datasource-loki-prod.yaml
   - grafana-datasource-mimir.yaml
   - grafana-datasource-tempo.yaml

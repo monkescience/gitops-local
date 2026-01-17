@@ -1,18 +1,16 @@
-# Multi-tenant datasource for cross-cluster queries in dashboards and alerts.
-# Note: Logs Drilldown does not work with multi-tenant datasources.
-# Use the single-tenant datasources (loki-management, loki-dev, loki-prod) for Explore.
+# Single-tenant datasource for Logs Drilldown compatibility
 # See: https://github.com/grafana/loki/issues/19218
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
 metadata:
-  name: loki
+  name: loki-management
 spec:
   instanceSelector:
     matchLabels:
       app.kubernetes.io/name: grafana
   datasource:
-    name: Loki
-    uid: loki
+    name: Loki (management-eu-central-1)
+    uid: loki-management
     type: loki
     access: proxy
     url: http://loki-gateway.loki.svc.cluster.local:80
@@ -22,4 +20,4 @@ spec:
       maxLines: 1000
       httpHeaderName1: X-Scope-OrgID
     secureJsonData:
-      httpHeaderValue1: management-eu-central-1|dev-eu-central-1|prod-eu-central-1
+      httpHeaderValue1: management-eu-central-1
