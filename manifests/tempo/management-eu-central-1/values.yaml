@@ -1,5 +1,8 @@
 tempo:
   multitenancyEnabled: true
+  # Allow querying multiple tenants with pipe-separated X-Scope-OrgID header
+  query_frontend:
+    multi_tenant_queries_enabled: true
 
   resources:
     requests:

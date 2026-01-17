@@ -5,6 +5,8 @@ serviceAccount:
 
 loki:
   auth_enabled: true
+  tenant_federation:
+    enabled: true
   commonConfig:
     replication_factor: 1
 

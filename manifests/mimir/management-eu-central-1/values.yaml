@@ -2,6 +2,8 @@
 mimir:
   structuredConfig:
     multitenancy_enabled: true
+    tenant_federation:
+      enabled: true
     ingest_storage:
       enabled: false
     ingester:
