@@ -1,0 +1,25 @@
+# Mixins for workload clusters (no observability stack)
+# Rules are synced to Mimir via Alloy's mimir.rules.kubernetes
+mixins:
+  kubernetes:
+    namespace: alloy
+    windows:
+      enabled: false
+  nodeExporter:
+    namespace: alloy
+    platforms:
+      darwin: false
+      aix: false
+  resourceOptimization:
+    namespace: alloy
+  argocd:
+    namespace: argocd
+  alloy:
+    namespace: alloy
+  # Disabled - these only run in management cluster
+  loki:
+    enabled: false
+  mimir:
+    enabled: false
+  tempo:
+    enabled: false
