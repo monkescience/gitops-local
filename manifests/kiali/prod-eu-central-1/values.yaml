@@ -15,7 +15,14 @@ server:
 
 external_services:
   prometheus:
-    url: http://alloy.alloy.svc.cluster.local:9090
+    url: https://host.docker.internal:8443/mimir/prometheus
+    query_scope:
+      cluster: prod-eu-central-1
+    custom_headers:
+      # Skip TLS verification via custom CA would be better in production
+      X-Scope-OrgID: anonymous
+    tls_config:
+      insecure_skip_verify: true
   grafana:
     enabled: true
     external_url: https://grafana.management.eu-central-1.localhost:8443
