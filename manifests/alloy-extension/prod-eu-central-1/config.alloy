@@ -21,6 +21,9 @@ prometheus.remote_write "mimir" {
     url                    = "https://host.docker.internal:8443/mimir/api/v1/push"
     name                   = "mimir"
     send_native_histograms = true
+    headers = {
+      "X-Scope-OrgID" = sys.env("CLUSTER_NAME"),
+    }
     tls_config {
       insecure_skip_verify = true
     }
@@ -30,6 +33,7 @@ prometheus.remote_write "mimir" {
 loki.write "loki" {
   endpoint {
     url = "https://host.docker.internal:8443/loki/api/v1/push"
+    tenant_id = sys.env("CLUSTER_NAME")
     tls_config {
       insecure_skip_verify = true
     }
@@ -42,6 +46,9 @@ loki.write "loki" {
 otelcol.exporter.otlphttp "tempo" {
   client {
     endpoint = "https://host.docker.internal:8443/tempo"
+    headers = {
+      "X-Scope-OrgID" = sys.env("CLUSTER_NAME"),
+    }
     tls {
       insecure_skip_verify = true
     }
@@ -60,6 +67,7 @@ prometheus.relabel "metrics_service" {
 
 mimir.rules.kubernetes "rules" {
   address                = "https://host.docker.internal:8443/mimir-ruler"
+  tenant_id              = sys.env("CLUSTER_NAME")
   mimir_namespace_prefix = sys.env("CLUSTER_NAME")
   tls_config {
     insecure_skip_verify = true

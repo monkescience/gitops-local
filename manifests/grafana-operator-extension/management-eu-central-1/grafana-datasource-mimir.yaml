@@ -17,3 +17,6 @@ spec:
     jsonData:
       timeInterval: 5s
       httpMethod: POST
+      httpHeaderName1: X-Scope-OrgID
+    secureJsonData:
+      httpHeaderValue1: management-eu-central-1|dev-eu-central-1|prod-eu-central-1

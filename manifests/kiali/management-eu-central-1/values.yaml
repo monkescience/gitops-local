@@ -21,6 +21,8 @@ external_services:
     # Enable thanos_proxy for Mimir compatibility (provides missing config values)
     thanos_proxy:
       enabled: true
+    custom_headers:
+      X-Scope-OrgID: management-eu-central-1
   grafana:
     enabled: true
     internal_url: http://grafana-service.grafana.svc.cluster.local:3000

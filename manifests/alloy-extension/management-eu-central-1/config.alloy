@@ -19,12 +19,16 @@ prometheus.remote_write "mimir" {
     url                    = "http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push"
     name                   = "mimir"
     send_native_histograms = true
+    headers = {
+      "X-Scope-OrgID" = sys.env("CLUSTER_NAME"),
+    }
   }
 }
 
 loki.write "loki" {
   endpoint {
     url = "http://loki-gateway.loki.svc.cluster.local:80/loki/api/v1/push"
+    tenant_id = sys.env("CLUSTER_NAME")
   }
   external_labels = {
     cluster = sys.env("CLUSTER_NAME"),
@@ -34,6 +38,9 @@ loki.write "loki" {
 otelcol.exporter.otlp "tempo" {
   client {
     endpoint = "tempo.tempo.svc.cluster.local:4317"
+    headers = {
+      "X-Scope-OrgID" = sys.env("CLUSTER_NAME"),
+    }
     tls {
       insecure = true
     }
@@ -52,6 +59,7 @@ prometheus.relabel "metrics_service" {
 
 mimir.rules.kubernetes "rules" {
   address                = "http://mimir-ruler.mimir.svc.cluster.local:8080"
+  tenant_id              = sys.env("CLUSTER_NAME")
   mimir_namespace_prefix = sys.env("CLUSTER_NAME")
 }
 

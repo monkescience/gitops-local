@@ -24,7 +24,7 @@ external_services:
     query_scope:
       cluster: prod-eu-central-1
     custom_headers:
-      X-Scope-OrgID: anonymous
+      X-Scope-OrgID: prod-eu-central-1
     tls_config:
       insecure_skip_verify: true
   grafana:

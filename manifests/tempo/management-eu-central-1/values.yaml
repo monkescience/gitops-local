@@ -1,4 +1,6 @@
 tempo:
+  multitenancyEnabled: true
+
   resources:
     requests:
       cpu: 10m
@@ -30,6 +32,8 @@ tempo:
   metricsGenerator:
     enabled: true
     remoteWriteUrl: "http://mimir-gateway.mimir.svc.cluster.local:80/api/v1/push"
+    remoteWriteHeaders:
+      X-Scope-OrgID: management-eu-central-1
 
   overrides:
     defaults:

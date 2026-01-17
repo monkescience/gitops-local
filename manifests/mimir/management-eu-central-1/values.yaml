@@ -1,7 +1,7 @@
 # Disable new Kafka-based ingest storage (use classic architecture)
 mimir:
   structuredConfig:
-    multitenancy_enabled: false
+    multitenancy_enabled: true
     ingest_storage:
       enabled: false
     ingester:

@@ -15,6 +15,7 @@ spec:
     editable: false
     jsonData:
       httpMethod: GET
+      httpHeaderName1: X-Scope-OrgID
       tracesToLogsV2:
         datasourceUid: loki
         spanStartTimeShift: "-1h"
@@ -29,3 +30,5 @@ spec:
         datasourceUid: mimir
       nodeGraph:
         enabled: true
+    secureJsonData:
+      httpHeaderValue1: management-eu-central-1|dev-eu-central-1|prod-eu-central-1
