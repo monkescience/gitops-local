@@ -1,7 +1,7 @@
 global:
   securityContext:
-    runAsNonRoot: false
-    runAsUser: 0
+    runAsNonRoot: true
+    runAsUser: 1001
     seccompProfile:
       type: RuntimeDefault
 
