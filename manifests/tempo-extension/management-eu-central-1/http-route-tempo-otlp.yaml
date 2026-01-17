@@ -12,7 +12,7 @@ spec:
     - tempo.management.eu-central-1.localhost
   rules:
     - backendRefs:
-        - name: tempo
+        - name: tempo-distributor
           port: 4318
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -37,7 +37,7 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-        - name: tempo
+        - name: tempo-distributor
           port: 4318
 ---
 apiVersion: gateway.networking.k8s.io/v1
@@ -62,5 +62,5 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-        - name: tempo
-          port: 3200
+        - name: tempo-gateway
+          port: 80

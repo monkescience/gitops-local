@@ -11,7 +11,7 @@ spec:
     uid: tempo
     type: tempo
     access: proxy
-    url: http://tempo.tempo.svc.cluster.local:3200
+    url: http://tempo-gateway.tempo.svc.cluster.local:80
     editable: false
     jsonData:
       httpMethod: GET

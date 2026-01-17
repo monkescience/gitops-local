@@ -30,7 +30,7 @@ external_services:
   tracing:
     enabled: true
     provider: tempo
-    internal_url: http://tempo.tempo.svc.cluster.local:3200
+    internal_url: http://tempo-gateway.tempo.svc.cluster.local:80
     external_url: https://grafana.management.eu-central-1.localhost:8443
     use_grpc: false
   istio:

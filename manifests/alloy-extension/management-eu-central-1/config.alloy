@@ -37,7 +37,7 @@ loki.write "loki" {
 
 otelcol.exporter.otlp "tempo" {
   client {
-    endpoint = "tempo.tempo.svc.cluster.local:4317"
+    endpoint = "tempo-distributor.tempo.svc.cluster.local:4317"
     headers = {
       "X-Scope-OrgID" = sys.env("CLUSTER_NAME"),
     }
