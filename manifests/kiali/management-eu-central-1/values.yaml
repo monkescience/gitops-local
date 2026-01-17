@@ -16,6 +16,11 @@ server:
 external_services:
   prometheus:
     url: http://mimir-gateway.mimir.svc.cluster.local:80/prometheus
+    # Mimir doesn't implement /api/v1/status/config, use query endpoint for health check
+    health_check_url: http://mimir-gateway.mimir.svc.cluster.local:80/prometheus/api/v1/query?query=up
+    # Enable thanos_proxy for Mimir compatibility (provides missing config values)
+    thanos_proxy:
+      enabled: true
   grafana:
     enabled: true
     internal_url: http://grafana-service.grafana.svc.cluster.local:3000

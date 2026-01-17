@@ -16,10 +16,14 @@ server:
 external_services:
   prometheus:
     url: https://host.docker.internal:8443/mimir/prometheus
+    # Mimir doesn't implement /api/v1/status/config, use query endpoint for health check
+    health_check_url: https://host.docker.internal:8443/mimir/prometheus/api/v1/query?query=up
+    # Enable thanos_proxy for Mimir compatibility (provides missing config values)
+    thanos_proxy:
+      enabled: true
     query_scope:
       cluster: dev-eu-central-1
     custom_headers:
-      # Skip TLS verification via custom CA would be better in production
       X-Scope-OrgID: anonymous
     tls_config:
       insecure_skip_verify: true
