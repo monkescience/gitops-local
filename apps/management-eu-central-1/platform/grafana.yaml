@@ -15,7 +15,7 @@ spec:
   sources:
     - repoURL: https://grafana.github.io/helm-charts
       chart: grafana-operator
-      targetRevision: 5.21.3
+      targetRevision: 5.21.4
       helm:
         valueFiles:
           - $values/manifests/grafana-operator/management-eu-central-1/values.yaml
