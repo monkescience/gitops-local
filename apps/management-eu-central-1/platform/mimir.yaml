@@ -15,7 +15,7 @@ spec:
   sources:
     - repoURL: https://grafana.github.io/helm-charts
       chart: mimir-distributed
-      targetRevision: 6.0.5
+      targetRevision: 6.0.6
       helm:
         valueFiles:
           - $values/manifests/mimir/management-eu-central-1/values.yaml
