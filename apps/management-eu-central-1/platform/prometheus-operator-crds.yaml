@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: prometheus-operator-crds
-    targetRevision: 25.0.1
+    targetRevision: 28.0.1
   syncPolicy:
     automated:
       prune: true
