@@ -15,7 +15,7 @@ spec:
   sources:
     - repoURL: https://kubernetes-sigs.github.io/metrics-server
       chart: metrics-server
-      targetRevision: 3.13.0
+      targetRevision: 3.13.1
       helm:
         valueFiles:
           - $values/manifests/metrics-server/dev-eu-central-1/values.yaml
